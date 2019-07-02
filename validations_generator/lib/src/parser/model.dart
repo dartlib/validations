@@ -109,9 +109,6 @@ class ModelParser {
     fields.forEach((FieldElement field) {
       final list = [];
       for (ElementAnnotation annotation in field.metadata) {
-        // I have the annotation, but there seems to be no way to get
-        // the arguments to this annotation?
-
         /*
         final isValidatorAnnotation = annotationTypes.any(
             (TypeChecker typeChecker) =>
