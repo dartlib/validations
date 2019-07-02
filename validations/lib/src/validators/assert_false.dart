@@ -3,10 +3,10 @@ import '../validator_context.dart';
 
 class AssertFalseValidator extends ConstraintValidator {
   @override
-  final String message = 'Value is not false';
-
-  @override
   bool isValid(dynamic value, ValidatorContext context) {
     return value == false;
   }
+
+  @override
+  final message = () => 'Value is not false';
 }

@@ -9,6 +9,9 @@ environment:
 
 dependencies:
   validators: ^2.0.0
+  intl: ^0.15.0
+  meta: ^1.1.7
+  decimal: ^0.3.3
 
 dev_dependencies:
   pedantic: ^1.0.0

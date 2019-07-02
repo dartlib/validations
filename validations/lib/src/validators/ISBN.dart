@@ -1,4 +1,4 @@
-import 'package:validators/validators.dart';
+import 'package:validators/validators.dart' show isISBN;
 
 import '../../validations.dart';
 import '../constraint_validator.dart';
@@ -13,4 +13,7 @@ class ISBNValidator extends ConstraintValidator<ISBN> {
   bool isValid(dynamic value, ValidatorContext context) {
     return isISBN(value, version);
   }
+
+  @override
+  final message = (String value) => 'ISBN is invalid.';
 }

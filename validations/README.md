@@ -72,7 +72,7 @@ Something like that?
 A simple usage example:
 
 ```dart
-import 'package:validator/validator.dart';
+import 'package:validations/validations.dart';
 
 main() {
   var awesome = new Awesome();

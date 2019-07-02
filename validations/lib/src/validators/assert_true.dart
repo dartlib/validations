@@ -6,4 +6,7 @@ class AssertTrueValidator extends ConstraintValidator {
   bool isValid(dynamic value, ValidatorContext context) {
     return value == true;
   }
+
+  @override
+  final message = () => 'Value is not true';
 }

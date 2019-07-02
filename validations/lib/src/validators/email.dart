@@ -8,4 +8,7 @@ class EmailValidator extends ConstraintValidator {
   bool isValid(Object value, ValidatorContext context) {
     return isEmail(value);
   }
+
+  @override
+  final message = (String value) => 'Invalid email address';
 }

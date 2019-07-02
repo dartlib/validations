@@ -9,4 +9,7 @@ class CreditCardNumberValidator extends ConstraintValidator {
     // should already imply the value must be a string.
     return value is String && isCreditCard(value);
   }
+
+  @override
+  final message = () => 'Creditcard is invalid';
 }
