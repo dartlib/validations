@@ -7,7 +7,7 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_CarValidator implements Validator<Car> {
-  final validators = {
+  final Map<String, ConstraintValidator> validators = {
     'manufacturer': [NotNullValidator()],
     'licensePlate': [SizeValidator(min: 2, max: 14), NotNullValidator()],
     'seatCount': [
