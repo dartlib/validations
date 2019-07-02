@@ -152,7 +152,6 @@ class ModelParser {
   }
 
   dynamic _getValue(String k, DartObject v) {
-    print('${v.type.name}');
     final String type = v.type.name;
     if (type == 'bool') return literal(v.toBoolValue());
     if (type == 'String') {
