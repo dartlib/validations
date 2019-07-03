@@ -150,18 +150,17 @@ class ModelParser {
         });
 
         if (messageMethod != null) {
-          messageMethodParameters.add(
-            Parameter((builder) {
-              builder.name = 'validatedValue';
-              builder.type = refer('Object');
-            }),
-          );
+          final validatedValue = Parameter((builder) {
+            builder.name = 'validatedValue';
+            builder.type = refer('Object');
+          });
 
           classBuilder.methods.add(Method((builder) {
             builder.static = true;
             builder.name = messageMethod;
             builder.body = message;
-            builder.requiredParameters.addAll(messageMethodParameters);
+            builder.requiredParameters.addAll(messageMethodParameters.reversed);
+            builder.requiredParameters.add(validatedValue);
           }));
         }
 

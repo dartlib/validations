@@ -22,7 +22,7 @@ abstract class $_AllValidator implements Validator<All> {
   };
 
   static priceDecimalMaxMessage(
-          bool inclusive, String value, Object validatedValue) =>
+          String value, bool inclusive, Object validatedValue) =>
       'Price must not be higher than ${value}';
   static isRegisteredAssertTrueMessage(Object validatedValue) =>
       'All must be registered!';

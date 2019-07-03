@@ -27,13 +27,13 @@ abstract class $_TestValidator implements Validator<All> {
     ]
   };
 
-  static licensePlateSizeMessage(int min, int max, Object validatedValue) =>
+  static licensePlateSizeMessage(int max, int min, Object validatedValue) =>
       'The license plate ${validatedValue} must be between ${min} and ${max} characters long';
   static topSpeedDecimalMaxMessage(
-          bool inclusive, String value, Object validatedValue) =>
+          String value, bool inclusive, Object validatedValue) =>
       'The top speed ${validatedValue} is higher than ${value}';
   static priceDecimalMaxMessage(
-          bool inclusive, String value, Object validatedValue) =>
+          String value, bool inclusive, Object validatedValue) =>
       'Price must not be higher than ${value}';
   static isRegisteredAssertTrueMessage(Object validatedValue) =>
       'All must be registered!';

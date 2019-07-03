@@ -4,7 +4,7 @@ part 'all.gval.dart';
 
 class All {
   @NotNull()
-  final String manufacturer;
+  String manufacturer;
 
   @Size(
     min: 2,
@@ -13,36 +13,27 @@ class All {
         r'The license plate ${validatedValue} must be between ${min} and ${max} characters long',
   )
   @NotNull()
-  final String licensePlate;
+  String licensePlate;
 
   @Min(
     value: 2,
   )
-  final int seatCount;
+  int seatCount;
 
   @DecimalMax(
     value: '350',
     message: r'The top speed ${validatedValue} is higher than ${value}',
   )
-  final double topSpeed;
+  double topSpeed;
 
   @DecimalMax(
     value: '100000',
     message: r'Price must not be higher than ${value}',
   )
-  final double price;
+  double price;
 
   @AssertTrue(message: 'All must be registered!')
-  final bool isRegistered;
-
-  const All({
-    this.manufacturer,
-    this.licensePlate,
-    this.seatCount,
-    this.topSpeed,
-    this.price,
-    this.isRegistered,
-  });
+  bool isRegistered;
 }
 
 @GenValidator()
