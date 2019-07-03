@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'car.dart';
+part of 'all.dart';
 
 // **************************************************************************
 // ValidatorGenerator
 // **************************************************************************
 
-abstract class $_CarValidator implements Validator<Car> {
+abstract class $_AllValidator implements Validator<All> {
   final Map<String, List<ConstraintValidator>> validators = {
     'manufacturer': [NotNullValidator()],
     'licensePlate': [SizeValidator(min: 2, max: 14), NotNullValidator()],
-    'seatCount': [MinValidator(value: 2)..message = seatCountMinMessage],
+    'seatCount': [MinValidator(value: 2)],
     'topSpeed': [DecimalMaxValidator(inclusive: true, value: '350')],
     'price': [
       DecimalMaxValidator(inclusive: true, value: '100000')
@@ -21,11 +21,9 @@ abstract class $_CarValidator implements Validator<Car> {
     ]
   };
 
-  static seatCountMinMessage() =>
-      r'WORKS!!! There must be at least {value} seat(s)';
   static priceDecimalMaxMessage() => r'Price must not be higher than ${value}';
-  static isRegisteredAssertTrueMessage() => r'Car must be registered!';
-  Map<String, dynamic> props(Car instance) {
+  static isRegisteredAssertTrueMessage() => r'All must be registered!';
+  Map<String, dynamic> props(All instance) {
     return {
       'manufacturer': instance.manufacturer,
       'licensePlate': instance.licensePlate,

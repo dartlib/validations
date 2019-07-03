@@ -1,10 +1,8 @@
 import 'package:validations/validations.dart';
 
-part 'car.gval.dart';
+part 'all.gval.dart';
 
-const daMessage = r'WORKS!!! There must be at least {value} seat(s)';
-
-class Car {
+class All {
   @NotNull()
   final String manufacturer;
 
@@ -18,7 +16,6 @@ class Car {
 
   @Min(
     value: 2,
-    message: daMessage,
   )
   final int seatCount;
 
@@ -34,10 +31,10 @@ class Car {
   )
   final double price;
 
-  @AssertTrue(message: 'Car must be registered!')
+  @AssertTrue(message: 'All must be registered!')
   final bool isRegistered;
 
-  const Car({
+  const All({
     this.manufacturer,
     this.licensePlate,
     this.seatCount,
@@ -48,4 +45,4 @@ class Car {
 }
 
 @GenValidator()
-class CarValidator extends Validator<Car> with $_CarValidator {}
+class AllValidator extends Validator<All> with $_AllValidator {}
