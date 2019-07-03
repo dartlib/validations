@@ -31,11 +31,11 @@ abstract class $_TestCarValidator implements Validator<Car> {
 
   static licensePlateSizeMessage(int min, int max, Object validatedValue) =>
       'The license plate ${validatedValue} must be between ${min} and ${max} characters long';
-  static seatCountMinMessage(int value, Object validatedValue) =>
+  static seatCountMinMessage(num value, Object validatedValue) =>
       'Car must at least have ${value} seats available';
-  static seatCountMaxMessage(int value, Object validatedValue) =>
+  static seatCountMaxMessage(num value, Object validatedValue) =>
       'Car cannot have more than ${value} seats';
-  static topSpeedMaxMessage(int value, Object validatedValue) =>
+  static topSpeedMaxMessage(num value, Object validatedValue) =>
       'The top speed ${validatedValue} is higher than ${value}';
   static priceDecimalMaxMessage(
           String value, bool inclusive, Object validatedValue) =>

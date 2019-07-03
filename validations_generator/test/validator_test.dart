@@ -22,23 +22,30 @@ void main() {
       expect(validator.validate(car), isEmpty);
     });
 
-    test('Collects all misconfigurations.', () {
-      final validator = TestCarValidator();
+    try {
+      test('Collects all misconfigurations.', () {
+        final validator = TestCarValidator();
 
-      final car = Car();
+        final car = Car();
 
-      car.price = Decimal.parse('100.99');
-      car.isRegistered = false;
-      car.licensePlate = 'D';
-      car.manufacturer = null;
-      car.seatCount = 3;
-      car.topSpeed = 500;
+        car.price = Decimal.parse('100.99');
+        car.isRegistered = false;
+        car.licensePlate = 'D';
+        car.manufacturer = null;
+        car.seatCount = 3;
+        car.topSpeed = 500;
 
-      final errors = validator.validate(car);
+        final errors = validator.validate(car);
 
-      errors.forEach((error) => print(error));
+        // Problem now is what to do with optional parameters
+        // and passing their values to the message
 
-      expect(errors, isEmpty);
-    });
+        errors.forEach((error) => print(error));
+
+        expect(errors, isEmpty);
+      });
+    } catch (e, s) {
+      print(s);
+    }
   });
 }

@@ -21,7 +21,7 @@ abstract class $_CarValidator implements Validator<Car> {
     ]
   };
 
-  static seatCountMinMessage(int value, Object validatedValue) =>
+  static seatCountMinMessage(num value, Object validatedValue) =>
       'WORKS!!! There must be at least {value} seat(s)';
   static priceDecimalMaxMessage(
           String value, bool inclusive, Object validatedValue) =>
