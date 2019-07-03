@@ -1,22 +1,30 @@
+import 'package:meta/meta.dart';
+
 import '../../validations.dart';
 import '../constraint_validator.dart';
 import '../validator_context.dart';
 
 class SizeValidator extends ConstraintValidator<Size> {
-  final double max;
-  final double min;
+  final int max;
+  final int min;
 
   SizeValidator({
-    this.max,
-    this.min,
-  });
+    @required this.min,
+    @required this.max,
+  })  : assert(min != null),
+        assert(max != null),
+        super([min, max]);
 
   @override
-  bool isValid(dynamic value, ValidatorContext context) {
-    return min < value && value < max;
+  bool isValid(dynamic value, [ValidatorContext context]) {
+    if (value is String || value is List || value is Map) {
+      return min <= value.length && value.length <= max;
+    }
+
+    return false;
   }
 
   @override
-  Function message = (dynamic value, double max, double min) =>
-      '$value is not between $min and $max';
+  Function message = (int min, int max, Object validatedValue) =>
+      '$validatedValue is not between $min and $max';
 }

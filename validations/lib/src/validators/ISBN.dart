@@ -7,13 +7,13 @@ import '../validator_context.dart';
 class ISBNValidator extends ConstraintValidator<ISBN> {
   final int version;
 
-  ISBNValidator({this.version});
+  ISBNValidator({this.version}) : super([version]);
 
   @override
-  bool isValid(dynamic value, ValidatorContext context) {
+  bool isValid(dynamic value, [ValidatorContext context]) {
     return isISBN(value, version);
   }
 
   @override
-  Function message = (String value, int version) => 'ISBN is invalid.';
+  Function message = (int version, Object validatedValue) => 'ISBN is invalid.';
 }

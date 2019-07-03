@@ -1,8 +1,9 @@
+import 'package:decimal/decimal.dart';
 import 'package:validations/validations.dart';
 
-part 'all.gval.dart';
+part 'car.gval.dart';
 
-class All {
+class Car {
   @NotNull()
   String manufacturer;
 
@@ -16,25 +17,34 @@ class All {
   String licensePlate;
 
   @Min(
+    value: 1,
+    message: r'Car must at least have ${value} seats available',
+  )
+  @Max(
     value: 2,
+    message: r'Car cannot have more than ${value} seats',
   )
   int seatCount;
 
-  @DecimalMax(
-    value: '350',
+  @Max(
+    value: 350,
     message: r'The top speed ${validatedValue} is higher than ${value}',
   )
-  double topSpeed;
+  int topSpeed;
 
   @DecimalMax(
-    value: '100000',
+    value: '100.00',
+    message: r'Price must not be lower than ${value}',
+  )
+  @DecimalMin(
+    value: '49.99',
     message: r'Price must not be higher than ${value}',
   )
-  double price;
+  Decimal price;
 
   @AssertTrue(message: 'All must be registered!')
   bool isRegistered;
 }
 
 @GenValidator()
-class TestValidator extends Validator<All> with $_TestValidator {}
+class TestCarValidator extends Validator<Car> with $_TestCarValidator {}

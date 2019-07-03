@@ -1,12 +1,12 @@
 import '../constraint_validator.dart';
 import '../validator_context.dart';
 
-class NotNullValidator extends ConstraintValidator {
+class NullValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValidatorContext context]) {
-    return value != null;
+    return value == null;
   }
 
   @override
-  Function message = (Object validatedValue) => 'Value cannot be null';
+  Function message = (Object validatedValue) => 'Value must be null';
 }

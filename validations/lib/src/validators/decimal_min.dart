@@ -5,11 +5,11 @@ import '../../validations.dart';
 import '../constraint_validator.dart';
 import '../validator_context.dart';
 
-class DecimalMaxValidator extends ConstraintValidator<DecimalMax> {
-  final dynamic value;
+class DecimalMinValidator extends ConstraintValidator<DecimalMin> {
   final bool inclusive;
+  final String value;
 
-  DecimalMaxValidator({
+  DecimalMinValidator({
     @required this.value,
     this.inclusive = false,
   })  : assert(value != null),
@@ -20,15 +20,15 @@ class DecimalMaxValidator extends ConstraintValidator<DecimalMax> {
     if (!(value is Decimal)) return false;
 
     if (inclusive) {
-      return value <= Decimal.parse(this.value);
+      return value >= Decimal.parse(this.value);
     }
 
-    return value < Decimal.parse(this.value);
+    return value > Decimal.parse(this.value);
   }
 
   @override
   Function message = (String value, bool inclusive, Object validatedValue) =>
       inclusive
-          ? '$validatedValue is greater or equal to $value'
-          : '$validatedValue is greater than $value';
+          ? '$validatedValue is smaller or equal to $value'
+          : '$validatedValue is smaller than $value';
 }

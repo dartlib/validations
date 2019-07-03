@@ -25,7 +25,7 @@ abstract class Validator<T> {
   Map<String, List<ConstraintValidator>> validators;
   Map<String, dynamic> props(T props);
 
-  Set<ConstraintViolation<T>> validate(T object) {
+  Set<ConstraintViolation> validate(T object) {
     final violations = Set<ConstraintViolation>();
 
     final keys = validators.keys.iterator;
@@ -41,7 +41,7 @@ abstract class Validator<T> {
     return violations;
   }
 
-  Set<ConstraintViolation<T>> validateProperty(T object, String name) {
+  Set<ConstraintViolation> validateProperty(T object, String name) {
     final properties = props(object);
 
     if (properties.containsKey(name)) {
@@ -50,7 +50,7 @@ abstract class Validator<T> {
       return validateValue(name, propertyValue, object);
     }
 
-    return Set<ConstraintViolation<T>>();
+    return Set<ConstraintViolation>();
   }
 
   Set<ConstraintViolation> validateValue(String name, Object value,
@@ -63,12 +63,17 @@ abstract class Validator<T> {
       final validator = validators.current;
 
       if (!validator.isValid(value, context)) {
+        print(validator.runtimeType);
+        print(validator.message);
+        print(validator.argumentValues);
         violations.add(
           ConstraintViolation(
             validatedObject: validatedObject,
             invalidValue: value,
-            message:
-                Function.apply(validator.message, [value]), // plus other args.
+            message: Function.apply(
+              validator.message,
+              List.from(validator.argumentValues)..add(value),
+            ),
           ),
         );
       }

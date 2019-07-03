@@ -1,5 +1,5 @@
 // https://github.com/sebthom/oval/blob/master/src/main/java/net/sf/oval/ConstraintViolation.java
-class ConstraintViolation<T> {
+class ConstraintViolation {
   String message;
   Object validatedObject;
   Object invalidValue;

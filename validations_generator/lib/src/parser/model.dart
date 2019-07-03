@@ -126,6 +126,25 @@ class ModelParser {
         String messageMethod;
         List<Parameter> messageMethodParameters = [];
 
+        final List<ParameterElement> parameters =
+            (annotation.element as ConstructorElement).parameters;
+
+        // must here use the annotation definition not the computer value.
+        // to get all fields.
+
+        parameters.forEach((ParameterElement parameter) {
+          // somehow this skips inclusive when it has a default?
+          if (parameter.displayName != 'message') {
+            // displayName is wrong..
+            messageMethodParameters.add(
+              Parameter((builder) {
+                builder.name = parameter.name;
+                builder.type = refer(parameter.type.name);
+              }),
+            );
+          }
+        });
+
         obj.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
             final value = _getValue(k, v);
@@ -138,13 +157,6 @@ class ModelParser {
               if (value != null) {
                 namedParams[k] = value;
               }
-
-              messageMethodParameters.add(
-                Parameter((builder) {
-                  builder.name = k;
-                  builder.type = refer(v.type.displayName);
-                }),
-              );
             }
           }
         });
@@ -159,7 +171,7 @@ class ModelParser {
             builder.static = true;
             builder.name = messageMethod;
             builder.body = message;
-            builder.requiredParameters.addAll(messageMethodParameters.reversed);
+            builder.requiredParameters.addAll(messageMethodParameters);
             builder.requiredParameters.add(validatedValue);
           }));
         }

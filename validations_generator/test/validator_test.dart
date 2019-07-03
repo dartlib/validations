@@ -1,24 +1,44 @@
+import 'package:decimal/decimal.dart';
 import 'package:test/test.dart';
 
-import 'models/all.dart';
+import 'models/car.dart';
 
 void main() {
-  group('Validators', () {
+  group('TestCarValidator', () {
     setUp(() {});
 
-    test('AssertFalse', () {
-      final validator = TestValidator();
+    test('Validates correctly configured car.', () {
+      final validator = TestCarValidator();
 
-      final all = All();
+      final car = Car();
 
-      all.price = 100;
-      all.isRegistered = true;
-      all.licensePlate = 'DY28-38';
-      all.manufacturer = 'VEB Sachsenring';
-      all.seatCount = 2;
-      all.topSpeed = 100;
+      car.price = Decimal.parse('99.99');
+      car.isRegistered = true;
+      car.licensePlate = 'DY28-38';
+      car.manufacturer = 'VEB Sachsenring';
+      car.seatCount = 2;
+      car.topSpeed = 100;
 
-      expect(validator.validate(all), isEmpty);
+      expect(validator.validate(car), isEmpty);
+    });
+
+    test('Collects all misconfigurations.', () {
+      final validator = TestCarValidator();
+
+      final car = Car();
+
+      car.price = Decimal.parse('100.99');
+      car.isRegistered = false;
+      car.licensePlate = 'D';
+      car.manufacturer = null;
+      car.seatCount = 3;
+      car.topSpeed = 500;
+
+      final errors = validator.validate(car);
+
+      errors.forEach((error) => print(error));
+
+      expect(errors, isEmpty);
     });
   });
 }
