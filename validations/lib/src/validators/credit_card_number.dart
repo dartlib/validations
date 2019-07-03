@@ -11,5 +11,5 @@ class CreditCardNumberValidator extends ConstraintValidator {
   }
 
   @override
-  final message = () => 'Creditcard is invalid';
+  Function message = () => 'Creditcard is invalid';
 }

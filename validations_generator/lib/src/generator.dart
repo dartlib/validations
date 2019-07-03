@@ -37,7 +37,7 @@ class ValidatorGenerator
         generatorClass: element,
       ).parse();
     } catch (exception, stackTrace) {
-      throw '/*\nError while generating for bean ${className}\n$exception\n$stackTrace\n*/';
+      throw '/*\nError while generating validator for ${className}\n$exception\n$stackTrace\n*/';
     }
   }
 }

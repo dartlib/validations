@@ -67,7 +67,8 @@ abstract class Validator<T> {
           ConstraintViolation(
             validatedObject: validatedObject,
             invalidValue: value,
-            message: validator.message,
+            message:
+                Function.apply(validator.message, [value]), // plus other args.
           ),
         );
       }

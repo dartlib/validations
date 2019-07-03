@@ -1,4 +1,10 @@
+export 'ISBN.dart';
 export 'assert_false.dart';
 export 'assert_true.dart';
 export 'credit_card_number.dart';
+export 'decimal_max.dart';
 export 'email.dart';
+export 'max.dart';
+export 'min.dart';
+export 'not_null.dart';
+export 'size.dart';

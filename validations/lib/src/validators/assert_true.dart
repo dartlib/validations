@@ -8,5 +8,5 @@ class AssertTrueValidator extends ConstraintValidator {
   }
 
   @override
-  final message = () => 'Value is not true';
+  Function message = () => 'Value is not true';
 }

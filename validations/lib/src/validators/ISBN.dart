@@ -15,5 +15,5 @@ class ISBNValidator extends ConstraintValidator<ISBN> {
   }
 
   @override
-  final message = (String value) => 'ISBN is invalid.';
+  Function message = (String value, int version) => 'ISBN is invalid.';
 }

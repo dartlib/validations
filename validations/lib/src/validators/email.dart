@@ -10,5 +10,5 @@ class EmailValidator extends ConstraintValidator {
   }
 
   @override
-  final message = (String value) => 'Invalid email address';
+  Function message = (String value) => 'Invalid email address';
 }

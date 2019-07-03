@@ -25,7 +25,7 @@ class DecimalMaxValidator extends ConstraintValidator<DecimalMax> {
   }
 
   @override
-  final message = (String max, String value, bool inclusive) => inclusive
+  Function message = (String max, String value, bool inclusive) => inclusive
       ? '$value is greater or equal to $max'
       : '$value is greater than $max';
 }

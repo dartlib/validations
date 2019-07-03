@@ -12,6 +12,8 @@ final genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
 final annotationTypes =
     validator.fieldAnnotations.map((type) => TypeChecker.fromRuntime(type));
 
+String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
 class ModelParser {
   /// The [ClassElement] element of `GenValidator` spec.
   final ClassElement generatorClass;
@@ -120,20 +122,44 @@ class ModelParser {
         final dynamic obj = annotation.computeConstantValue();
         final namedParams = <String, Expression>{};
 
+        String messageMethod;
         obj.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
             final value = _getValue(k, v);
 
-            if (value != null) {
-              namedParams[k] = value;
+            if (k == 'message') {
+              messageMethod =
+                  '${field.name}${capitalize(obj.type.displayName)}Message';
+
+              classBuilder.methods.add(Method((builder) {
+                builder.static = true;
+                builder.name = messageMethod;
+                builder.body = value.code;
+              }));
+            } else {
+              if (value != null) {
+                namedParams[k] = value;
+              }
             }
           }
         });
 
-        list.add(
-          refer('${obj.type.displayName}Validator')
-              .newInstance([], namedParams),
-        );
+        final statement = refer('${obj.type.displayName}Validator')
+            .newInstance([], namedParams);
+
+        if (messageMethod != null) {
+          list.add(
+            Block.of(
+              [
+                statement.code,
+                Code('..'),
+                refer('message').assign(refer(messageMethod)).code,
+              ],
+            ),
+          );
+        } else {
+          list.add(statement);
+        }
       }
 
       map[field.name] = literalList(list);
@@ -142,6 +168,7 @@ class ModelParser {
     return Field(
       (FieldBuilder builder) {
         builder.name = 'validators';
+        builder.type = refer('Map<String, List<ConstraintValidator>>');
         builder.modifier = FieldModifier.final$;
         builder.assignment = literalMap(map).code;
       },
