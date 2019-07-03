@@ -6,7 +6,7 @@ part of 'all.dart';
 // ValidatorGenerator
 // **************************************************************************
 
-abstract class $_AllValidator implements Validator<All> {
+abstract class $_TestValidator implements Validator<All> {
   final Map<String, List<ConstraintValidator>> validators = {
     'manufacturer': [NotNullValidator()],
     'licensePlate': [
