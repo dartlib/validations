@@ -122,7 +122,10 @@ class ModelParser {
         final dynamic obj = annotation.computeConstantValue();
         final namedParams = <String, Expression>{};
 
+        Code message;
         String messageMethod;
+        List<Parameter> messageMethodParameters = [];
+
         obj.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
             final value = _getValue(k, v);
@@ -130,19 +133,37 @@ class ModelParser {
             if (k == 'message') {
               messageMethod =
                   '${field.name}${capitalize(obj.type.displayName)}Message';
-
-              classBuilder.methods.add(Method((builder) {
-                builder.static = true;
-                builder.name = messageMethod;
-                builder.body = value.code;
-              }));
+              message = value.code;
             } else {
               if (value != null) {
                 namedParams[k] = value;
               }
+
+              messageMethodParameters.add(
+                Parameter((builder) {
+                  builder.name = k;
+                  builder.type = refer(v.type.displayName);
+                }),
+              );
             }
           }
         });
+
+        if (messageMethod != null) {
+          messageMethodParameters.add(
+            Parameter((builder) {
+              builder.name = 'validatedValue';
+              builder.type = refer('Object');
+            }),
+          );
+
+          classBuilder.methods.add(Method((builder) {
+            builder.static = true;
+            builder.name = messageMethod;
+            builder.body = message;
+            builder.requiredParameters.addAll(messageMethodParameters);
+          }));
+        }
 
         final statement = refer('${obj.type.displayName}Validator')
             .newInstance([], namedParams);
@@ -182,7 +203,7 @@ class ModelParser {
       if (k == 'message') {
         return literalString(
           v.toStringValue(),
-          raw: true,
+          raw: false,
         );
       }
 
