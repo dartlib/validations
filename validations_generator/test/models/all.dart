@@ -46,4 +46,4 @@ class All {
 }
 
 @GenValidator()
-class TestValidator extends Validator<All> with $_AllValidator {}
+class TestValidator extends Validator<All> with $_TestValidator {}
