@@ -56,6 +56,11 @@ abstract class Validator<T> {
   Set<ConstraintViolation> validateValue(String name, Object value,
       [validatedObject]) {
     final context = ValidatorContext();
+
+    if (!this.validators.containsKey(name)) {
+      throw 'No validator found for `$name`';
+    }
+
     final validators = this.validators[name].iterator;
     final violations = Set<ConstraintViolation>();
 
@@ -63,16 +68,14 @@ abstract class Validator<T> {
       final validator = validators.current;
 
       if (!validator.isValid(value, context)) {
-        print(validator.runtimeType);
-        print(validator.message);
-        print(validator.argumentValues);
+        final arguments = List.from(validator.argumentValues)..add(value);
         violations.add(
           ConstraintViolation(
             validatedObject: validatedObject,
             invalidValue: value,
             message: Function.apply(
               validator.message,
-              List.from(validator.argumentValues)..add(value),
+              arguments,
             ),
           ),
         );

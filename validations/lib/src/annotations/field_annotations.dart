@@ -202,7 +202,7 @@ class Length {
 // minimum.
 @immutable
 class Min {
-  final int value;
+  final num value;
   final String message;
   const Min({
     @required this.value,
@@ -214,7 +214,7 @@ class Min {
 // maximum.
 @immutable
 class Max {
-  final int value;
+  final num value;
   final String message;
   const Max({
     @required this.value,

@@ -5,7 +5,7 @@ import '../constraint_validator.dart';
 import '../validator_context.dart';
 
 class MaxValidator extends ConstraintValidator<Max> {
-  final double value;
+  final num value;
 
   MaxValidator({
     @required this.value,
@@ -14,12 +14,12 @@ class MaxValidator extends ConstraintValidator<Max> {
 
   @override
   bool isValid(dynamic value, [ValidatorContext context]) {
-    if (!(value is int || value is double)) return false;
+    if (!(value is num)) return false;
 
     return value <= this.value;
   }
 
   @override
-  Function message = (double value, Object validatedValue) =>
+  Function message = (num value, Object validatedValue) =>
       '$validatedValue should not be more than $value';
 }

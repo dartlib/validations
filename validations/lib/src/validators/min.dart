@@ -5,7 +5,7 @@ import '../constraint_validator.dart';
 import '../validator_context.dart';
 
 class MinValidator extends ConstraintValidator<Min> {
-  final double value;
+  final num value;
 
   MinValidator({
     @required this.value,
@@ -14,12 +14,12 @@ class MinValidator extends ConstraintValidator<Min> {
 
   @override
   bool isValid(dynamic value, [ValidatorContext context]) {
-    if (!(value is int || value is double)) return false;
+    if (!(value is num)) return false;
 
     return value >= this.value;
   }
 
   @override
-  Function message = (double value, Object validatedValue) =>
+  Function message = (num value, Object validatedValue) =>
       '$validatedValue should not be less than $value';
 }
