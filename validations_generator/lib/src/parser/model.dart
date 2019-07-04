@@ -83,13 +83,17 @@ class ModelParser {
   }
 
   Method _buildPropsMethod(
-      List<FieldElement> annotatedFields, ClassBuilder classBuilder) {
-    final fieldNames =
-        annotatedFields.fold({}, (properties, FieldElement field) {
-      properties[literal(field.name)] = refer('instance.${field.name}');
+    List<FieldElement> annotatedFields,
+    ClassBuilder classBuilder,
+  ) {
+    final fieldNames = annotatedFields.fold(
+      {},
+      (properties, FieldElement field) {
+        properties[literal(field.name)] = refer('instance.${field.name}');
 
-      return properties;
-    });
+        return properties;
+      },
+    );
 
     final Code code = literalMap(fieldNames).returned.statement;
 
@@ -111,10 +115,13 @@ class ModelParser {
   }
 
   Field _buildValidatorsProperty(
-      List<FieldElement> fields, ClassBuilder classBuilder) {
+    List<FieldElement> fields,
+    ClassBuilder classBuilder,
+  ) {
     final map = <String, Expression>{};
     fields.forEach((FieldElement field) {
       final list = [];
+
       for (ElementAnnotation annotation in field.metadata) {
         /*
         final isValidatorAnnotation = annotationTypes.any(
@@ -134,16 +141,18 @@ class ModelParser {
         final List<ParameterElement> parameters =
             (annotation.element as ConstructorElement).parameters;
 
-        parameters.forEach((ParameterElement parameter) {
-          if (parameter.displayName != 'message') {
-            messageMethodParameters.add(
-              Parameter((builder) {
-                builder.name = parameter.name;
-                builder.type = refer(parameter.type.name);
-              }),
-            );
-          }
-        });
+        parameters.forEach(
+          (ParameterElement parameter) {
+            if (parameter.displayName != 'message') {
+              messageMethodParameters.add(
+                Parameter((builder) {
+                  builder.name = parameter.name;
+                  builder.type = refer(parameter.type.name);
+                }),
+              );
+            }
+          },
+        );
 
         annotationImpl.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
@@ -180,8 +189,11 @@ class ModelParser {
           );
         }
 
-        final statement = refer('${annotationImpl.type.displayName}Validator')
-            .newInstance([], namedParams);
+        final statement =
+            refer('${annotationImpl.type.displayName}Validator').newInstance(
+          [],
+          namedParams,
+        );
 
         if (messageMethod != null) {
           list.add(
@@ -215,13 +227,6 @@ class ModelParser {
     final String type = v.type.name;
     if (type == 'bool') return literal(v.toBoolValue());
     if (type == 'String') {
-      if (k == 'message') {
-        return literalString(
-          v.toStringValue(),
-          raw: false,
-        );
-      }
-
       return literalString(v.toStringValue());
     }
     if (type == 'double') return literal(v.toDoubleValue());
