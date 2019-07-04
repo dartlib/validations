@@ -51,11 +51,10 @@ class ModelParser {
 
   _buildValidatorClass(String className, List<FieldElement> fields) {
     return (ClassBuilder classBuilder) {
-      classBuilder.name = '\$_${generatorClass.displayName}';
-      classBuilder.implements.add(
-        refer('Validator<${className}>'),
-      );
-      classBuilder.abstract = true;
+      classBuilder
+        ..name = '\$_${generatorClass.displayName}'
+        ..implements.add(refer('Validator<${className}>'))
+        ..abstract = true;
 
       final annotatedFields = _getAnnotatedFields(fields);
 
@@ -105,14 +104,14 @@ class ModelParser {
         builder
           ..name = 'props'
           ..body = code
-          ..returns = refer('Map<String, dynamic>');
-        builder.requiredParameters.add(
-          Parameter(
-            (p) => p
-              ..name = 'instance'
-              ..type = refer(model.name),
-          ),
-        );
+          ..returns = refer('Map<String, dynamic>')
+          ..requiredParameters.add(
+            Parameter(
+              (parameter) => parameter
+                ..name = 'instance'
+                ..type = refer(model.name),
+            ),
+          );
       },
     );
   }
@@ -149,8 +148,9 @@ class ModelParser {
             if (parameter.displayName != 'message') {
               messageMethodParameters.add(
                 Parameter((builder) {
-                  builder.name = parameter.name;
-                  builder.type = refer(parameter.type.name);
+                  builder
+                    ..name = parameter.name
+                    ..type = refer(parameter.type.name);
                 }),
               );
             }
@@ -176,19 +176,21 @@ class ModelParser {
         if (messageMethod != null) {
           final validatedValue = Parameter(
             (builder) {
-              builder.name = 'validatedValue';
-              builder.type = refer('Object');
+              builder
+                ..name = 'validatedValue'
+                ..type = refer('Object');
             },
           );
 
           classBuilder.methods.add(
             Method(
               (builder) {
-                builder.static = true;
-                builder.name = messageMethod;
-                builder.body = message;
-                builder.requiredParameters.addAll(messageMethodParameters);
-                builder.requiredParameters.add(validatedValue);
+                builder
+                  ..static = true
+                  ..name = messageMethod
+                  ..body = message
+                  ..requiredParameters.addAll(messageMethodParameters)
+                  ..requiredParameters.add(validatedValue);
               },
             ),
           );
@@ -220,10 +222,11 @@ class ModelParser {
 
     return Field(
       (FieldBuilder builder) {
-        builder.name = 'validators';
-        builder.type = refer('Map<String, List<ConstraintValidator>>');
-        builder.modifier = FieldModifier.final$;
-        builder.assignment = literalMap(map).code;
+        builder
+          ..name = 'validators'
+          ..type = refer('Map<String, List<ConstraintValidator>>')
+          ..modifier = FieldModifier.final$
+          ..assignment = literalMap(map).code;
       },
     );
   }
