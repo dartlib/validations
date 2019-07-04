@@ -10,8 +10,9 @@ import 'package:validations/validations.dart' as validator;
 final validatorType = TypeChecker.fromRuntime(validator.Validator);
 final genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
 
-final annotationTypes =
-    validator.fieldAnnotations.map((type) => TypeChecker.fromRuntime(type));
+final annotationTypes = validator.fieldAnnotations.map(
+  (type) => TypeChecker.fromRuntime(type),
+);
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
