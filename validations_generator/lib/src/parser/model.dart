@@ -73,8 +73,9 @@ class ModelParser {
     final annotatedFields = <FieldElement>[];
 
     for (FieldElement field in fields) {
-      final hasValidatorAnnotations = annotationTypes
-          .any((TypeChecker typeChecker) => typeChecker.hasAnnotationOf(field));
+      final hasValidatorAnnotations = annotationTypes.any(
+        (TypeChecker typeChecker) => typeChecker.hasAnnotationOf(field),
+      );
 
       if (hasValidatorAnnotations) {
         annotatedFields.add(field);
@@ -173,10 +174,12 @@ class ModelParser {
         });
 
         if (messageMethod != null) {
-          final validatedValue = Parameter((builder) {
-            builder.name = 'validatedValue';
-            builder.type = refer('Object');
-          });
+          final validatedValue = Parameter(
+            (builder) {
+              builder.name = 'validatedValue';
+              builder.type = refer('Object');
+            },
+          );
 
           classBuilder.methods.add(
             Method(
