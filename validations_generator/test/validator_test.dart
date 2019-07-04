@@ -124,5 +124,37 @@ void main() {
         );
       });
     });
+
+    test('validateValue()', () {
+      expect(
+        validator.validateValue('manufacturer', 'Mercedes'),
+        isEmpty,
+      );
+      expect(
+        validator
+            .validateValue('licensePlate', 'abcdefghijklmno')
+            .first
+            .message,
+        equals(
+          'The license plate abcdefghijklmno must be between 2 and 14 characters long',
+        ),
+      );
+      expect(
+        validator.validateValue('seatCount', 9).first.message,
+        equals('Car cannot have more than 2 seats'),
+      );
+      expect(
+        validator.validateValue('topSpeed', 1000).first.message,
+        equals('The top speed 1000 is higher than 350'),
+      );
+      expect(
+        validator.validateValue('price', '150.00').first.message,
+        equals('Price must not be lower than 100.00'),
+      );
+      expect(
+        validator.validateValue('isRegistered', false).first.message,
+        equals('Car must be registered!'),
+      );
+    });
   });
 }
