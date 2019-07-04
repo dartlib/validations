@@ -40,8 +40,9 @@ class ModelParser {
     final ClassElement modelClass = model.element;
     final modelClassName = modelClass.displayName;
 
-    final classBuilder =
-        Class(_buildValidatorClass(modelClassName, modelClass.fields));
+    final classBuilder = Class(
+      _buildValidatorClass(modelClassName, modelClass.fields),
+    );
 
     final emitter = DartEmitter();
 
