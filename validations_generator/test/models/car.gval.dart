@@ -44,7 +44,7 @@ abstract class $_TestCarValidator implements Validator<Car> {
           String value, bool inclusive, Object validatedValue) =>
       'Price must not be higher than ${value}';
   static isRegisteredAssertTrueMessage(Object validatedValue) =>
-      'All must be registered!';
+      'Car must be registered!';
   Map<String, dynamic> props(Car instance) {
     return {
       'manufacturer': instance.manufacturer,

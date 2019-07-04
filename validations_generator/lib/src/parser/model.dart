@@ -1,6 +1,7 @@
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/src/generated/constant.dart' show DartObjectImpl;
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
@@ -98,9 +99,13 @@ class ModelParser {
           ..name = 'props'
           ..body = code
           ..returns = refer('Map<String, dynamic>');
-        builder.requiredParameters.add(Parameter((p) => p
-          ..name = 'instance'
-          ..type = refer(model.name)));
+        builder.requiredParameters.add(
+          Parameter(
+            (p) => p
+              ..name = 'instance'
+              ..type = refer(model.name),
+          ),
+        );
       },
     );
   }
@@ -119,7 +124,7 @@ class ModelParser {
 
         // if (isValidatorAnnotation) {
 
-        final dynamic obj = annotation.computeConstantValue();
+        final DartObjectImpl annotationImpl = annotation.computeConstantValue();
         final namedParams = <String, Expression>{};
 
         Code message;
@@ -129,13 +134,8 @@ class ModelParser {
         final List<ParameterElement> parameters =
             (annotation.element as ConstructorElement).parameters;
 
-        // must here use the annotation definition not the computer value.
-        // to get all fields.
-
         parameters.forEach((ParameterElement parameter) {
-          // somehow this skips inclusive when it has a default?
           if (parameter.displayName != 'message') {
-            // displayName is wrong..
             messageMethodParameters.add(
               Parameter((builder) {
                 builder.name = parameter.name;
@@ -145,13 +145,13 @@ class ModelParser {
           }
         });
 
-        obj.fields.forEach((String k, DartObject v) {
+        annotationImpl.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
             final value = _getValue(k, v);
 
             if (k == 'message') {
               messageMethod =
-                  '${field.name}${capitalize(obj.type.displayName)}Message';
+                  '${field.name}${capitalize(annotationImpl.type.displayName)}Message';
               message = value.code;
             } else {
               if (value != null) {
@@ -167,16 +167,20 @@ class ModelParser {
             builder.type = refer('Object');
           });
 
-          classBuilder.methods.add(Method((builder) {
-            builder.static = true;
-            builder.name = messageMethod;
-            builder.body = message;
-            builder.requiredParameters.addAll(messageMethodParameters);
-            builder.requiredParameters.add(validatedValue);
-          }));
+          classBuilder.methods.add(
+            Method(
+              (builder) {
+                builder.static = true;
+                builder.name = messageMethod;
+                builder.body = message;
+                builder.requiredParameters.addAll(messageMethodParameters);
+                builder.requiredParameters.add(validatedValue);
+              },
+            ),
+          );
         }
 
-        final statement = refer('${obj.type.displayName}Validator')
+        final statement = refer('${annotationImpl.type.displayName}Validator')
             .newInstance([], namedParams);
 
         if (messageMethod != null) {
@@ -233,7 +237,8 @@ class ModelParser {
 
     if (meta == null) {
       throw Exception(
-          'GenValidator annotation not found for ${generatorClass.name}!');
+        'GenValidator annotation not found for ${generatorClass.name}!',
+      );
     }
 
     genValidatorReader = ConstantReader(meta);
@@ -242,8 +247,9 @@ class ModelParser {
   }
 
   _getModelFromFirstGenericTypeArgument(ClassElement clazz) {
-    final InterfaceType interface = clazz.allSupertypes
-        .firstWhere((InterfaceType i) => validatorType.isExactlyType(i));
+    final InterfaceType interface = clazz.allSupertypes.firstWhere(
+      (InterfaceType i) => validatorType.isExactlyType(i),
+    );
 
     final model = interface.typeArguments.first;
 

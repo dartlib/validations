@@ -22,30 +22,44 @@ void main() {
       expect(validator.validate(car), isEmpty);
     });
 
-    try {
-      test('Collects all misconfigurations.', () {
-        final validator = TestCarValidator();
+    test('Collects all misconfigurations.', () {
+      final validator = TestCarValidator();
 
-        final car = Car();
+      final car = Car();
 
-        car.price = Decimal.parse('100.99');
-        car.isRegistered = false;
-        car.licensePlate = 'D';
-        car.manufacturer = null;
-        car.seatCount = 3;
-        car.topSpeed = 500;
+      car.price = Decimal.parse('100.99');
+      car.isRegistered = false;
+      car.licensePlate = 'D';
+      car.manufacturer = null;
+      car.seatCount = 3;
+      car.topSpeed = 500;
 
-        final errors = validator.validate(car);
+      final violations = validator.validate(car);
 
-        // Problem now is what to do with optional parameters
-        // and passing their values to the message
-
-        errors.forEach((error) => print(error));
-
-        expect(errors, isEmpty);
-      });
-    } catch (e, s) {
-      print(s);
-    }
+      expect(
+        violations.elementAt(0).message,
+        equals('Value cannot be null'),
+      );
+      expect(
+        violations.elementAt(1).message,
+        equals('The license plate D must be between 2 and 14 characters long'),
+      );
+      expect(
+        violations.elementAt(2).message,
+        equals('Car cannot have more than 2 seats'),
+      );
+      expect(
+        violations.elementAt(3).message,
+        equals('The top speed 500 is higher than 350'),
+      );
+      expect(
+        violations.elementAt(4).message,
+        equals('Price must not be lower than 100.00'),
+      );
+      expect(
+        violations.elementAt(5).message,
+        equals('Car must be registered!'),
+      );
+    });
   });
 }
