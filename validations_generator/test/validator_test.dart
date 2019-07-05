@@ -42,7 +42,7 @@ void main() {
 
         // A violation should include more info than this.
         violations.forEach((violation) => print(
-            '${violation.message} ${violation.invalidValue} ${violation.validatedObject.runtimeType} ${violation.name}'));
+            '${violation.message} ${violation.invalidValue} ${violation.validatedObject.runtimeType} ${violation.name} ${violation.propertyPath}'));
 
         expect(
           violations.elementAt(0).message,

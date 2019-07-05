@@ -10,7 +10,7 @@ class ISBNValidator extends ConstraintValidator<ISBN> {
   ISBNValidator({this.version}) : super([version]);
 
   @override
-  bool isValid(dynamic value, [ValidatorContext context]) {
+  bool isValid(dynamic value, [ValueContext context]) {
     return isISBN(value, version);
   }
 

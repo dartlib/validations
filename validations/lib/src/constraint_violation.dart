@@ -1,11 +1,21 @@
 // https://github.com/sebthom/oval/blob/master/src/main/java/net/sf/oval/ConstraintViolation.java
-class ConstraintViolation {
+class ConstraintViolation<T> {
   String message;
   Object validatedObject;
   Object invalidValue;
+  String name;
+  T rootModel;
+  Type rootModelType;
+  String propertyPath;
+
   ConstraintViolation({
+    this.name,
     this.message,
     this.validatedObject,
     this.invalidValue,
-  });
+    this.rootModel,
+    this.propertyPath,
+  }) {
+    rootModelType = rootModel.runtimeType;
+  }
 }

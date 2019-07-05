@@ -5,8 +5,7 @@ import '../validator_context.dart';
 
 class CreditCardNumberValidator extends ConstraintValidator {
   @override
-  bool isValid(Object value, [ValidatorContext context]) {
-    // should already imply the value must be a string.
+  bool isValid(Object value, [ValueContext context]) {
     return value is String && isCreditCard(value);
   }
 

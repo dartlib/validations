@@ -389,6 +389,14 @@ class URL {
   });
 }
 
+@immutable
+class Valid {
+  final String message;
+  const Valid({
+    this.message,
+  });
+}
+
 final fieldAnnotations = [
   AssertFalse,
   AssertTrue,
@@ -420,4 +428,5 @@ final fieldAnnotations = [
   Size,
   UniqueElements,
   URL,
+  Valid,
 ];

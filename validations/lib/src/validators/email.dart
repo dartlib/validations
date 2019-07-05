@@ -5,7 +5,7 @@ import '../validator_context.dart';
 
 class EmailValidator extends ConstraintValidator {
   @override
-  bool isValid(Object value, [ValidatorContext context]) {
+  bool isValid(Object value, [ValueContext context]) {
     return isEmail(value);
   }
 

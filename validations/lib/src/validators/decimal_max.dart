@@ -16,7 +16,7 @@ class DecimalMaxValidator extends ConstraintValidator<DecimalMax> {
         super([value, inclusive]);
 
   @override
-  bool isValid(dynamic value, [ValidatorContext context]) {
+  bool isValid(dynamic value, [ValueContext context]) {
     if (!(value is Decimal)) return false;
 
     if (inclusive) {

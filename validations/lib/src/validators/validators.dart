@@ -10,3 +10,4 @@ export 'min.dart';
 export 'not_null.dart';
 export 'null.dart';
 export 'size.dart';
+export 'valid.dart';
