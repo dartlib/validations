@@ -3,9 +3,21 @@ import 'package:validations/validations.dart';
 
 part 'car.gval.dart';
 
+class Driver {
+  Driver({this.name});
+  @NotNull()
+  String name;
+}
+
+// TODO extents
+// class Driver extends Person {}
+
 class Car {
   @NotNull()
   String manufacturer;
+
+  @Valid(message: 'There should be a valid driver!')
+  Driver driver;
 
   @Size(
     min: 2,
@@ -48,3 +60,7 @@ class Car {
 
 @GenValidator()
 class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
+
+@GenValidator()
+class TestDriverValidator extends Validator<Driver> with $_TestDriverValidator {
+}

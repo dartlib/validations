@@ -38,6 +38,7 @@ class ModelParser {
     _findModel();
 
     final ClassElement modelClass = model.element;
+
     final modelClassName = modelClass.displayName;
 
     final classBuilder = Class(

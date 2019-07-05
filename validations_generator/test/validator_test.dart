@@ -14,6 +14,7 @@ void main() {
       test('Validates correctly configured car.', () {
         final car = Car();
 
+        car.driver = Driver(name: 'TestDriver');
         car.price = Decimal.parse('99.99');
         car.isRegistered = true;
         car.licensePlate = 'DY28-38';
@@ -29,6 +30,7 @@ void main() {
 
         final car = Car();
 
+        car.driver = Driver(); // without name
         car.price = Decimal.parse('100.99');
         car.isRegistered = false;
         car.licensePlate = 'D';
@@ -38,29 +40,43 @@ void main() {
 
         final violations = validator.validate(car);
 
+        // A violation should include more info than this.
+        violations.forEach((violation) => print(
+            '${violation.message} ${violation.invalidValue} ${violation.validatedObject.runtimeType} ${violation.name}'));
+
         expect(
           violations.elementAt(0).message,
           equals('Value cannot be null'),
         );
+
         expect(
           violations.elementAt(1).message,
+          equals('There should be a valid driver!'),
+        );
+
+        expect(
+          violations.elementAt(2).message,
+          equals('Value cannot be null'),
+        );
+        expect(
+          violations.elementAt(3).message,
           equals(
               'The license plate D must be between 2 and 14 characters long'),
         );
         expect(
-          violations.elementAt(2).message,
+          violations.elementAt(4).message,
           equals('Car cannot have more than 2 seats'),
         );
         expect(
-          violations.elementAt(3).message,
+          violations.elementAt(5).message,
           equals('The top speed 500 is higher than 350'),
         );
         expect(
-          violations.elementAt(4).message,
+          violations.elementAt(6).message,
           equals('Price must not be lower than 100.00'),
         );
         expect(
-          violations.elementAt(5).message,
+          violations.elementAt(7).message,
           equals('Car must be registered!'),
         );
       });

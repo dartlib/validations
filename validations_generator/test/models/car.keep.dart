@@ -7,7 +7,7 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_TestCarValidator implements Validator<Car> {
-  Map<String, List<ConstraintValidator>> getConstraintValidators() {
+  Map<String, List<ConstraintValidator>> getValidators() {
     return {
       'manufacturer': [NotNullValidator()],
       'driver': [
@@ -68,11 +68,9 @@ abstract class $_TestCarValidator implements Validator<Car> {
 }
 
 abstract class $_TestDriverValidator implements Validator<Driver> {
-  Map<String, List<ConstraintValidator>> getConstraintValidators() {
-    return {
-      'name': [NotNullValidator()]
-    };
-  }
+  final Map<String, List<ConstraintValidator>> validators = {
+    'name': [NotNullValidator()]
+  };
 
   Map<String, dynamic> props(Driver instance) {
     return {'name': instance.name};
