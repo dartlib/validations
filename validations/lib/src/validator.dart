@@ -23,19 +23,23 @@ import 'validator_context.dart';
 ///     class UserValidator extends Validator<User> with _$UserValidator {}
 ///
 abstract class Validator<T> {
+  Map<String, List<ConstraintValidator>> _constraintValidators;
   Map<String, List<ConstraintValidator>> getConstraintValidators();
   Map<String, dynamic> props(T props);
   ValidationContext validationContext = ValidationContext();
 
-  /*
-  Set<ConstraintViolation> validate(T object, [ValueContext context]) {
-    if (context == null) {
-      context = createRootContext();
+  bool _initialized = false;
+
+  void _init() {
+    if (!_initialized) {
+      _constraintValidators = getConstraintValidators();
+      _initialized = true;
     }
   }
-  */
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
+    _init();
+
     if (context == null) {
       context = _createRootValueContext(
         object.runtimeType.toString(),
@@ -44,7 +48,7 @@ abstract class Validator<T> {
     }
     final violations = Set<ConstraintViolation>();
 
-    final keys = getConstraintValidators().keys.iterator;
+    final keys = _constraintValidators.keys.iterator;
 
     while (keys.moveNext()) {
       final propertyViolations =
@@ -58,15 +62,10 @@ abstract class Validator<T> {
     return violations;
   }
 
-  ValueContext _createRootValueContext(String type, T value) {
-    return ValueContext(
-      node: Node(name: type),
-      value: value,
-    );
-  }
-
   Set<ConstraintViolation> validateProperty(T object, String name,
       [ValueContext context]) {
+    _init();
+
     if (context == null) {
       context = _createRootValueContext(
         object.runtimeType.toString(),
@@ -97,7 +96,9 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> validateValue(String name, Object value,
       [validatedObject, ValueContext valueContext]) {
-    if (!this.getConstraintValidators().containsKey(name)) {
+    _init();
+
+    if (!this._constraintValidators.containsKey(name)) {
       throw 'No validator found for `$name`';
     }
 
@@ -108,7 +109,7 @@ abstract class Validator<T> {
       );
     }
 
-    final validators = this.getConstraintValidators()[name].iterator;
+    final validators = this._constraintValidators[name].iterator;
     final violations = Set<ConstraintViolation>();
 
     while (validators.moveNext()) {
@@ -135,5 +136,12 @@ abstract class Validator<T> {
     validationContext.constraintViolations.addAll(violations);
 
     return validationContext.constraintViolations;
+  }
+
+  ValueContext _createRootValueContext(String type, T value) {
+    return ValueContext(
+      node: Node(name: type),
+      value: value,
+    );
   }
 }
