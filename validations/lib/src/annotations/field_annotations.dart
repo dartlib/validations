@@ -389,8 +389,12 @@ class URL {
   });
 }
 
+abstract class ContainerAnnotation {
+  const ContainerAnnotation();
+}
+
 @immutable
-class Valid {
+class Valid extends ContainerAnnotation {
   final String message;
   const Valid({
     this.message,
