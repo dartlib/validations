@@ -9,6 +9,8 @@ import 'package:validations/validations.dart' as validator;
 
 final validatorType = TypeChecker.fromRuntime(validator.Validator);
 final genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
+final containerAnnotationType =
+    TypeChecker.fromRuntime(validator.ContainerAnnotation);
 
 final annotationTypes = validator.fieldAnnotations.map(
   (type) => TypeChecker.fromRuntime(type),
@@ -29,8 +31,11 @@ class ModelParser {
   // Constant reader used to read fields from the [GenValidator]
   ConstantReader genValidatorReader;
 
+  LibraryReader library;
+
   ModelParser({
     this.generatorClass,
+    this.library,
     this.serializer,
   });
 
@@ -59,13 +64,10 @@ class ModelParser {
 
       final annotatedFields = _getAnnotatedFields(fields);
 
-      classBuilder.fields.add(
-        _buildValidatorsProperty(annotatedFields, classBuilder),
-      );
-
-      classBuilder.methods.add(
+      classBuilder.methods.addAll([
+        _buildGetConstraintValidators(annotatedFields, classBuilder),
         _buildPropsMethod(annotatedFields, classBuilder),
-      );
+      ]);
     };
   }
 
@@ -98,13 +100,13 @@ class ModelParser {
       },
     );
 
-    final Code code = literalMap(fieldNames).returned.statement;
+    final Code body = literalMap(fieldNames).returned.statement;
 
     return Method(
       (MethodBuilder builder) {
         builder
           ..name = 'props'
-          ..body = code
+          ..body = body
           ..returns = refer('Map<String, dynamic>')
           ..requiredParameters.add(
             Parameter(
@@ -117,7 +119,7 @@ class ModelParser {
     );
   }
 
-  Field _buildValidatorsProperty(
+  Method _buildGetConstraintValidators(
     List<FieldElement> fields,
     ClassBuilder classBuilder,
   ) {
@@ -147,6 +149,7 @@ class ModelParser {
         parameters.forEach(
           (ParameterElement parameter) {
             if (parameter.displayName != 'message') {
+              // detect if it's a ContainerConstraintValidator.
               messageMethodParameters.add(
                 Parameter((builder) {
                   builder
@@ -197,9 +200,25 @@ class ModelParser {
           );
         }
 
+        final List<Expression> positionalArguments = [];
+
+        final isContainerAnnotation =
+            containerAnnotationType.isAssignableFromType(annotationImpl.type);
+
+        if (isContainerAnnotation) {
+          final containerValidator = _getValidatorForModel(field.type.element);
+
+          // final result = Block.of([
+
+          final str = refer(
+              '${containerValidator.type.displayName}()..validationContext = validationContext,');
+
+          positionalArguments.add(str);
+        }
+
         final statement =
             refer('${annotationImpl.type.displayName}Validator').newInstance(
-          [],
+          positionalArguments,
           namedParams,
         );
 
@@ -221,15 +240,14 @@ class ModelParser {
       map[field.name] = literalList(list);
     });
 
-    return Field(
-      (FieldBuilder builder) {
-        builder
-          ..name = 'validators'
-          ..type = refer('Map<String, List<ConstraintValidator>>')
-          ..modifier = FieldModifier.final$
-          ..assignment = literalMap(map).code;
-      },
-    );
+    final Code body = literalMap(map).returned.statement;
+
+    return Method((MethodBuilder builder) {
+      builder
+        ..name = 'getConstraintValidators'
+        ..body = body
+        ..returns = refer('Map<String, List<ConstraintValidator>>');
+    });
   }
 
   dynamic _getValue(String k, DartObject v) {
@@ -260,7 +278,28 @@ class ModelParser {
     model = _getModelFromFirstGenericTypeArgument(generatorClass);
   }
 
-  _getModelFromFirstGenericTypeArgument(ClassElement clazz) {
+  ClassElement _getValidatorForModel(ClassElement validatedModel) {
+    final List<ClassElement> found = [];
+    for (AnnotatedElement annotatedElement
+        in library.annotatedWith(genValidatorType)) {
+      final model =
+          _getModelFromFirstGenericTypeArgument(annotatedElement.element);
+
+      if (model.name == validatedModel.name) {
+        found.add(annotatedElement.element);
+      }
+    }
+
+    if (found.isEmpty) {
+      throw Exception('Unable to find Validator for ${validatedModel.name}');
+    } else if (found.length == 1) {
+      return found.first;
+    }
+
+    throw Exception('Multiple validators found for ${validatedModel.name}');
+  }
+
+  DartType _getModelFromFirstGenericTypeArgument(ClassElement clazz) {
     final InterfaceType interface = clazz.allSupertypes.firstWhere(
       (InterfaceType i) => validatorType.isExactlyType(i),
     );

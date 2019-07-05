@@ -7,13 +7,31 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_TestCarValidator implements Validator<Car> {
+  static driverValidMessage(Object validatedValue) =>
+      'There should be a valid driver!';
+  static licensePlateSizeMessage(int min, int max, Object validatedValue) =>
+      'The license plate ${validatedValue} must be between ${min} and ${max} characters long';
+  static seatCountMinMessage(num value, Object validatedValue) =>
+      'Car must at least have ${value} seats available';
+  static seatCountMaxMessage(num value, Object validatedValue) =>
+      'Car cannot have more than ${value} seats';
+  static topSpeedMaxMessage(num value, Object validatedValue) =>
+      'The top speed ${validatedValue} is higher than ${value}';
+  static priceDecimalMaxMessage(
+          String value, bool inclusive, Object validatedValue) =>
+      'Price must not be lower than ${value}';
+  static priceDecimalMinMessage(
+          String value, bool inclusive, Object validatedValue) =>
+      'Price must not be higher than ${value}';
+  static isRegisteredAssertTrueMessage(Object validatedValue) =>
+      'Car must be registered!';
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'manufacturer': [NotNullValidator()],
       'driver': [
         ValidValidator(
-            TestDriverValidator()..validationContext = validationContext)
-          ..message = driverValidMessage
+          TestDriverValidator()..validationContext = validationContext,
+        )..message = driverValidMessage
       ],
       'licensePlate': [
         SizeValidator(min: 2, max: 14)..message = licensePlateSizeMessage,
@@ -36,24 +54,6 @@ abstract class $_TestCarValidator implements Validator<Car> {
     };
   }
 
-  static driverValidMessage(Object validatedValue) =>
-      'There should be a valid driver!';
-  static licensePlateSizeMessage(int min, int max, Object validatedValue) =>
-      'The license plate ${validatedValue} must be between ${min} and ${max} characters long';
-  static seatCountMinMessage(num value, Object validatedValue) =>
-      'Car must at least have ${value} seats available';
-  static seatCountMaxMessage(num value, Object validatedValue) =>
-      'Car cannot have more than ${value} seats';
-  static topSpeedMaxMessage(num value, Object validatedValue) =>
-      'The top speed ${validatedValue} is higher than ${value}';
-  static priceDecimalMaxMessage(
-          String value, bool inclusive, Object validatedValue) =>
-      'Price must not be lower than ${value}';
-  static priceDecimalMinMessage(
-          String value, bool inclusive, Object validatedValue) =>
-      'Price must not be higher than ${value}';
-  static isRegisteredAssertTrueMessage(Object validatedValue) =>
-      'Car must be registered!';
   Map<String, dynamic> props(Car instance) {
     return {
       'manufacturer': instance.manufacturer,

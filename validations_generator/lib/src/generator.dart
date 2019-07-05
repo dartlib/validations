@@ -11,7 +11,14 @@ import 'parser/model.dart';
 
 class ValidatorGenerator
     extends GeneratorForAnnotation<validator.GenValidator> {
-  const ValidatorGenerator();
+  LibraryReader library;
+
+  @override
+  FutureOr<String> generate(LibraryReader library, BuildStep buildStep) async {
+    this.library = library;
+
+    return super.generate(library, buildStep);
+  }
 
   @override
   FutureOr<String> generateForAnnotatedElement(
@@ -20,7 +27,7 @@ class ValidatorGenerator
     BuildStep buildStep,
   ) {
     if (element is! ClassElement) {
-      throw new InvalidGenerationSourceError(
+      throw InvalidGenerationSourceError(
         'GenValidator can only be defined on a class.',
         todo:
             'Remove the [GenValidator] annotation from `${element.displayName}`.',
@@ -35,6 +42,7 @@ class ValidatorGenerator
     try {
       return ModelParser(
         generatorClass: element,
+        library: library,
       ).parse();
     } catch (exception, stackTrace) {
       throw '/*\nError while generating validator for ${className}\n$exception\n$stackTrace\n*/';
