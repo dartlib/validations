@@ -29,17 +29,11 @@ abstract class Validator<T> {
   Map<String, dynamic> props(T props);
   ValidationContext validationContext = ValidationContext();
 
-  bool _initialized = false;
-
-  void _init() {
-    if (!_initialized) {
-      _constraintValidators = getConstraintValidators();
-      _initialized = true;
-    }
+  Validator() {
+    _constraintValidators = getConstraintValidators();
   }
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
-    _init();
     if (context == null) {
       context = _createRootValueContext(
         object.runtimeType.toString(),
@@ -88,8 +82,6 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> _validateProperty(T object, String name,
       [ValueContext context]) {
-    _init();
-
     if (context == null) {
       context = _createRootValueContext(
         object.runtimeType.toString(),
@@ -120,8 +112,6 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> _validateValue(String name, Object value,
       [validatedObject, ValueContext valueContext]) {
-    _init();
-
     if (!this._constraintValidators.containsKey(name)) {
       throw 'No validator found for `$name`';
     }
