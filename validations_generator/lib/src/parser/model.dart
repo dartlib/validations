@@ -208,8 +208,6 @@ class ModelParser {
         if (isContainerAnnotation) {
           final containerValidator = _getValidatorForModel(field.type.element);
 
-          // final result = Block.of([
-
           final str = refer(
               '${containerValidator.type.displayName}()..validationContext = validationContext,');
 
@@ -290,10 +288,10 @@ class ModelParser {
       }
     }
 
+    if (found.length == 1) return found.first;
+
     if (found.isEmpty) {
       throw Exception('Unable to find Validator for ${validatedModel.name}');
-    } else if (found.length == 1) {
-      return found.first;
     }
 
     throw Exception('Multiple validators found for ${validatedModel.name}');
