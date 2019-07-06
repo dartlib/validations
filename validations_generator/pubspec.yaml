@@ -17,7 +17,7 @@ dependencies:
   source_gen: ^0.9.4+2
   code_builder: ^3.2.0
   dart_style: ^1.2.8
-  meta: ^1.1.7
+  meta: ^1.0.0
 
 dev_dependencies:
   pedantic: ^1.7.0

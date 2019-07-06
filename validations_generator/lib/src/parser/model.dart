@@ -92,7 +92,7 @@ class ModelParser {
     final List<Method> methods = [];
 
     for (FieldElement field in annotatedFields) {
-      final statement = refer('validateValue').newInstance(
+      final statement = refer('errorCheck').newInstance(
         [
           literalString(field.name),
           refer('value'),
@@ -105,6 +105,7 @@ class ModelParser {
             builder
               ..name = 'validate${capitalize(field.name)}'
               ..body = statement.code
+              ..returns = refer('String')
               ..requiredParameters.add(
                 Parameter(
                   (parameter) => parameter
