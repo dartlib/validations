@@ -125,6 +125,13 @@ validator.validateValue('manufacturer', null);
 
 // Returns first error message as a string or null if there are no errors.
 validator.errorCheck('isRegistered', false);
+
+// Convenience methods are also generated which can be assigned directly to form validators in
+// flutter e.g. validator: validator.validateLicensePlate,
+// Internally it performs an errorCheck and thus also either returns an error message or [null];
+validator.validateLicensePlate('DX');
+validator.validateRegistered(true);
+...etc
 ```
 
 
