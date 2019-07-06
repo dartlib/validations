@@ -21,6 +21,10 @@ class SizeValidator extends ConstraintValidator<Size> {
       return min <= value.length && value.length <= max;
     }
 
+    if (value is num) {
+      return min <= value && value <= max;
+    }
+
     return false;
   }
 

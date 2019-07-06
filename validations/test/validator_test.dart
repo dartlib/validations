@@ -60,6 +60,7 @@ void main() {
 
     test('DecimalMax', () {
       expect(
+        // ignore
         () => DecimalMaxValidator(),
         throwsA(TypeMatcher<AssertionError>()),
       );
@@ -122,10 +123,6 @@ void main() {
       expect(validator.isValid(false), isFalse);
       expect(validator.isValid(4), isTrue);
       expect(validator.isValid(5), isTrue);
-
-      validator = MaxValidator(value: 5, inclusive: false);
-
-      expect(validator.isValid(5), isFalse);
     });
 
     test('Min', () {
@@ -142,10 +139,6 @@ void main() {
       expect(validator.isValid(4), isFalse);
       expect(validator.isValid(5), isTrue);
       expect(validator.isValid(6), isTrue);
-
-      validator = MinValidator(value: 5, inclusive: false);
-
-      expect(validator.isValid(5), isFalse);
     });
 
     test('NotNull', () {
@@ -172,6 +165,12 @@ void main() {
       expect(validator.isValid(3), isTrue);
       expect(validator.isValid(5), isTrue);
       expect(validator.isValid(6), isFalse);
+
+      expect(validator.isValid('A'), isFalse);
+      expect(validator.isValid('AB'), isTrue);
+      expect(validator.isValid('ABC'), isTrue);
+      expect(validator.isValid('ABCDE'), isTrue);
+      expect(validator.isValid('ABCDEF'), isFalse);
     });
   });
 }

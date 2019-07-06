@@ -16,8 +16,16 @@ class DecimalMaxValidator extends ConstraintValidator<DecimalMax> {
         super([value, inclusive]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
-    if (!(value is Decimal)) return false;
+  bool isValid(dynamic object, [ValueContext context]) {
+    Decimal value;
+
+    if (object is String) {
+      value = Decimal.parse(object);
+    } else if (object is Decimal) {
+      value = object;
+    } else {
+      return false;
+    }
 
     if (inclusive) {
       return value <= Decimal.parse(this.value);

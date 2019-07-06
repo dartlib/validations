@@ -1,4 +1,4 @@
-import 'constraint_violation.dart';
+import '../constraint_violation.dart';
 
 /// Enables a validator to be used as a mixin:
 ///
