@@ -1,10 +1,5 @@
 /// Dart validations.
 ///
-library validations;
-
-export 'src/annotations/annotations.dart';
-export 'src/constraint_validator.dart';
-export 'src/constraint_violation.dart';
-export 'src/validator.dart';
-export 'src/validator_mixin.dart';
-export 'src/validators/validators.dart';
+export 'annotations.dart';
+export 'validator.dart';
+export 'validators.dart';

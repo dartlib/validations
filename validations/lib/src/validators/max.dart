@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../validations.dart';
-import '../constraint_validator.dart';
-import '../validator_context.dart';
+import '../validator/constraint_validator.dart';
+import '../validator/value_context.dart';
 
 class MaxValidator extends ConstraintValidator<Max> {
   final num value;

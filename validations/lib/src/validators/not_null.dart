@@ -1,5 +1,5 @@
-import '../constraint_validator.dart';
-import '../validator_context.dart';
+import '../validator/constraint_validator.dart';
+import '../validator/value_context.dart';
 
 class NotNullValidator extends ConstraintValidator {
   @override

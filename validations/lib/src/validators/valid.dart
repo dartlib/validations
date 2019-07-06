@@ -1,8 +1,9 @@
 import '../../validations.dart';
-import '../constraint_validator.dart';
-import '../validator_context.dart';
+import '../validator/constraint_validator_container.dart';
+import '../validator/constraint_violation.dart';
+import '../validator/value_context.dart';
 
-class ValidValidator extends ContainerConstraintValidator<Valid> {
+class ValidValidator extends ConstraintValidatorContainer<Valid> {
   ValidValidator(validator) : super(validator);
 
   @override

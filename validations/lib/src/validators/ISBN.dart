@@ -1,8 +1,8 @@
 import 'package:validators/validators.dart' show isISBN;
 
 import '../../validations.dart';
-import '../constraint_validator.dart';
-import '../validator_context.dart';
+import '../validator/constraint_validator.dart';
+import '../validator/value_context.dart';
 
 class ISBNValidator extends ConstraintValidator<ISBN> {
   final int version;

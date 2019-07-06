@@ -1,5 +1,4 @@
-import '../validations.dart';
-import 'validator_context.dart';
+import 'value_context.dart';
 
 abstract class ConstraintValidator<T> {
   List argumentValues;
@@ -14,10 +13,4 @@ abstract class ConstraintValidator<T> {
   bool isValid(Object value, ValueContext context);
 
   Function get message;
-}
-
-abstract class ContainerConstraintValidator<T> extends ConstraintValidator<T> {
-  Validator validator;
-  ContainerConstraintValidator(this.validator, [argumentValues = const []])
-      : super(argumentValues);
 }
