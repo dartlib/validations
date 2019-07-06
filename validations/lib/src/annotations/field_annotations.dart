@@ -407,6 +407,7 @@ final fieldAnnotations = [
   CreditCardNumber,
   Currency,
   DecimalMax,
+  DecimalMin,
   DurationMax,
   DurationMin,
   EAN,

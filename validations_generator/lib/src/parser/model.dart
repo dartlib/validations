@@ -116,6 +116,12 @@ class ModelParser {
     );
   }
 
+  bool isValidatorAnnotation(ElementAnnotation annotation) {
+    return annotationTypes.any(
+      (typeChecker) => typeChecker.isExactlyType(annotation.constantValue.type),
+    );
+  }
+
   Method _buildGetConstraintValidators(
     List<FieldElement> fields,
     ClassBuilder classBuilder,
@@ -125,13 +131,7 @@ class ModelParser {
       final list = [];
 
       for (ElementAnnotation annotation in field.metadata) {
-        /*
-        final isValidatorAnnotation = annotationTypes.any(
-            (TypeChecker typeChecker) =>
-                typeChecker. (annotation.constantValue.type));
-        */
-
-        // if (isValidatorAnnotation) {
+        if (!isValidatorAnnotation(annotation)) continue;
 
         final DartObjectImpl annotationImpl = annotation.computeConstantValue();
         final namedParams = <String, Expression>{};
