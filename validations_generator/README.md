@@ -1,21 +1,13 @@
-# Validator Generator
+# Validations Generator
 
-A Validator generator.
+A validations generator for the package [validations](https://pub.dev/packages/validations)
 
-## Install
-
-pub global active validator_generator
+See that package for main setup and it's usage.
 
 ## Usage
 
 *run*
 
-`validator_generator build`
+`pub run build_runner build`
 
 ## Debugging
-
-First run `pub run build_runner generate-build-script`.
-This will generate the build script `.dart_tool/build/entrypoint/build.dart`.
-
-Set some breakpoints and launch `.dart_tool/build/entrypoint/build.dart run build_runner build`
-to start debugging.
