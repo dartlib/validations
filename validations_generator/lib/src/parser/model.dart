@@ -28,9 +28,6 @@ class ModelParser {
   /// Optional serializer to use
   final serializer;
 
-  // Constant reader used to read fields from the [GenValidator]
-  ConstantReader genValidatorReader;
-
   LibraryReader library;
 
   ModelParser({
@@ -270,8 +267,6 @@ class ModelParser {
         'GenValidator annotation not found for ${generatorClass.name}!',
       );
     }
-
-    genValidatorReader = ConstantReader(meta);
 
     model = _getModelFromFirstGenericTypeArgument(generatorClass);
   }
