@@ -18,4 +18,15 @@ class ConstraintViolation<T> {
   }) {
     rootModelType = rootModel.runtimeType;
   }
+
+  ConstraintViolation clone() {
+    return ConstraintViolation(
+      name: name,
+      message: message,
+      validatedObject: validatedObject,
+      invalidValue: invalidValue,
+      rootModel: rootModel,
+      propertyPath: propertyPath,
+    );
+  }
 }

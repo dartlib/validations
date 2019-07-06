@@ -32,7 +32,11 @@ class ValidatorContext {
 class ValidationContext {
   bool failFast = false;
 
-  final Set<ConstraintViolation> constraintViolations = Set();
+  Set<ConstraintViolation> constraintViolations = Set();
+
+  void reset() {
+    constraintViolations = Set();
+  }
 
   void addConstraintFailure(
     ValueContext valueContext,

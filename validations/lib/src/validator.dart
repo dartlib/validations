@@ -39,7 +39,6 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
     _init();
-
     if (context == null) {
       context = _createRootValueContext(
         object.runtimeType.toString(),
@@ -52,17 +51,41 @@ abstract class Validator<T> {
 
     while (keys.moveNext()) {
       final propertyViolations =
-          validateProperty(object, keys.current, context);
+          _validateProperty(object, keys.current, context);
 
       if (propertyViolations.isNotEmpty) {
         violations.addAll(propertyViolations);
       }
     }
 
+    assert(validationContext.constraintViolations != violations);
+
+    validationContext.reset();
+
     return violations;
   }
 
-  Set<ConstraintViolation> validateProperty(T object, String name,
+  Set<ConstraintViolation> validateProperty(T object, String name) {
+    final violations = _validateProperty(object, name);
+
+    assert(validationContext.constraintViolations != violations);
+
+    validationContext.reset();
+
+    return violations;
+  }
+
+  Set<ConstraintViolation> validateValue(String name, Object value) {
+    final violations = _validateValue(name, value);
+
+    assert(validationContext.constraintViolations != violations);
+
+    validationContext.reset();
+
+    return violations;
+  }
+
+  Set<ConstraintViolation> _validateProperty(T object, String name,
       [ValueContext context]) {
     _init();
 
@@ -88,13 +111,13 @@ abstract class Validator<T> {
         value: propertyValue,
       );
 
-      return validateValue(name, propertyValue, object, valueContext);
+      return _validateValue(name, propertyValue, object, valueContext);
     }
 
     return Set<ConstraintViolation>();
   }
 
-  Set<ConstraintViolation> validateValue(String name, Object value,
+  Set<ConstraintViolation> _validateValue(String name, Object value,
       [validatedObject, ValueContext valueContext]) {
     _init();
 
@@ -135,10 +158,10 @@ abstract class Validator<T> {
     // track all violations
     validationContext.constraintViolations.addAll(violations);
 
-    return validationContext.constraintViolations;
+    return Set.from(validationContext.constraintViolations);
   }
 
-  ValueContext _createRootValueContext(String type, T value) {
+  ValueContext _createRootValueContext(String type, Object value) {
     return ValueContext(
       node: Node(name: type),
       value: value,
