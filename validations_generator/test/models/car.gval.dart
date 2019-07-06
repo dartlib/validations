@@ -65,6 +65,14 @@ abstract class $_TestCarValidator implements Validator<Car> {
       'isRegistered': instance.isRegistered
     };
   }
+
+  validateManufacturer(Object value) => validateValue('manufacturer', value);
+  validateDriver(Object value) => validateValue('driver', value);
+  validateLicensePlate(Object value) => validateValue('licensePlate', value);
+  validateSeatCount(Object value) => validateValue('seatCount', value);
+  validateTopSpeed(Object value) => validateValue('topSpeed', value);
+  validatePrice(Object value) => validateValue('price', value);
+  validateIsRegistered(Object value) => validateValue('isRegistered', value);
 }
 
 abstract class $_TestDriverValidator implements Validator<Driver> {
@@ -77,4 +85,6 @@ abstract class $_TestDriverValidator implements Validator<Driver> {
   Map<String, dynamic> props(Driver instance) {
     return {'name': instance.name};
   }
+
+  validateName(Object value) => validateValue('name', value);
 }

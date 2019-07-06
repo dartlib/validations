@@ -64,6 +64,7 @@ class ModelParser {
       classBuilder.methods.addAll([
         _buildGetConstraintValidators(annotatedFields, classBuilder),
         _buildPropsMethod(annotatedFields, classBuilder),
+        ..._buildValidatorMethods(annotatedFields, classBuilder),
       ]);
     };
   }
@@ -82,6 +83,41 @@ class ModelParser {
     }
 
     return annotatedFields;
+  }
+
+  List<Method> _buildValidatorMethods(
+    List<FieldElement> annotatedFields,
+    ClassBuilder classBuilder,
+  ) {
+    final List<Method> methods = [];
+
+    for (FieldElement field in annotatedFields) {
+      final statement = refer('validateValue').newInstance(
+        [
+          literalString(field.name),
+          refer('value'),
+        ],
+      );
+
+      methods.add(
+        Method(
+          (MethodBuilder builder) {
+            builder
+              ..name = 'validate${capitalize(field.name)}'
+              ..body = statement.code
+              ..requiredParameters.add(
+                Parameter(
+                  (parameter) => parameter
+                    ..name = 'value'
+                    ..type = refer('Object'),
+                ),
+              );
+          },
+        ),
+      );
+    }
+
+    return methods;
   }
 
   Method _buildPropsMethod(
