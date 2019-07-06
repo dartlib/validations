@@ -1,6 +1,6 @@
 name: validations_generator
 version: 0.0.1
-description: Validator built using source_gen
+description: Generator for the validations package.
 authors:
 - Rob Halff <rob.halff@gmail.com>
 homepage: https://github.com/dartlib/validations.git
