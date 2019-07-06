@@ -146,7 +146,6 @@ class ModelParser {
         parameters.forEach(
           (ParameterElement parameter) {
             if (parameter.displayName != 'message') {
-              // detect if it's a ContainerConstraintValidator.
               messageMethodParameters.add(
                 Parameter((builder) {
                   builder
