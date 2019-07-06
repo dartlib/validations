@@ -12,6 +12,8 @@ class Driver {
 // TODO extents
 // class Driver extends Person {}
 
+class CarWithMixin extends Car with ValidatorMixin<TestCarValidator> {}
+
 class Car {
   @NotNull()
   String manufacturer;
