@@ -9,6 +9,7 @@ export './src/validators/decimal_min.dart';
 export './src/validators/email.dart';
 export './src/validators/max.dart';
 export './src/validators/min.dart';
+export './src/validators/not_blank.dart';
 export './src/validators/not_null.dart';
 export './src/validators/null.dart';
 export './src/validators/size.dart';

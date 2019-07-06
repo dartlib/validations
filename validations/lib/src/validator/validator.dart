@@ -80,6 +80,26 @@ abstract class Validator<T> {
     return violations;
   }
 
+  /// Does a simple error check.
+  ///
+  /// Returns the first error if there are any [ConstraintViolation]s.
+  ///
+  /// Otherwise returns [null].
+  ///
+  String errorCheck(String name, Object value) {
+    final violations = _validateValue(name, value);
+
+    assert(validationContext.constraintViolations != violations);
+
+    validationContext.reset();
+
+    if (violations.isNotEmpty) {
+      return violations.first.message;
+    }
+
+    return null;
+  }
+
   Set<ConstraintViolation> _validateProperty(T object, String name,
       [ValueContext context]) {
     if (context == null) {
