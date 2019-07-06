@@ -26,6 +26,7 @@ dependencies:
 
   validations:
     path: ../../validations
+  intl: ^0.15.0
 
 dev_dependencies:
   build_runner:

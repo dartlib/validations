@@ -18,6 +18,8 @@ final annotationTypes = validator.fieldAnnotations.map(
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
+bool useIntl = true;
+
 class ModelParser {
   /// The [ClassElement] element of `GenValidator` spec.
   final ClassElement generatorClass;
@@ -173,7 +175,7 @@ class ModelParser {
         final DartObjectImpl annotationImpl = annotation.computeConstantValue();
         final namedParams = <String, Expression>{};
 
-        Code message;
+        String message;
         String messageMethod;
         List<Parameter> messageMethodParameters = [];
 
@@ -196,13 +198,13 @@ class ModelParser {
 
         annotationImpl.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
-            final value = _getValue(k, v);
-
             if (k == 'message') {
               messageMethod =
                   '${field.name}${capitalize(annotationImpl.type.displayName)}Message';
-              message = value.code;
+              message = v.toStringValue();
             } else {
+              final value = _getValue(k, v);
+
               if (value != null) {
                 namedParams[k] = value;
               }
@@ -211,24 +213,11 @@ class ModelParser {
         });
 
         if (messageMethod != null) {
-          final validatedValue = Parameter(
-            (builder) {
-              builder
-                ..name = 'validatedValue'
-                ..type = refer('Object');
-            },
-          );
-
           classBuilder.methods.add(
-            Method(
-              (builder) {
-                builder
-                  ..static = true
-                  ..name = messageMethod
-                  ..body = message
-                  ..requiredParameters.addAll(messageMethodParameters)
-                  ..requiredParameters.add(validatedValue);
-              },
+            _buildMessageMethod(
+              messageMethod,
+              messageMethodParameters,
+              message,
             ),
           );
         }
@@ -279,6 +268,55 @@ class ModelParser {
         ..body = body
         ..returns = refer('Map<String, List<ConstraintValidator>>');
     });
+  }
+
+  Method _buildMessageMethod(
+    String messageMethod,
+    List<Parameter> messageMethodParameters,
+    String message,
+  ) {
+    final validatedValue = Parameter(
+      (builder) {
+        builder
+          ..name = 'validatedValue'
+          ..type = refer('Object');
+      },
+    );
+
+    Code body;
+
+    if (useIntl) {
+      final List<Expression> positionalArguments = [literal(message)];
+      final Map<String, Expression> namedArguments = {
+        'name': literal(messageMethod),
+        'args': literalList([
+          ...messageMethodParameters.map(
+            (Parameter parameter) => refer(parameter.name),
+          ),
+          refer('validatedValue'),
+        ])
+      };
+
+      body = refer('Intl.message')
+          .newInstance(
+            positionalArguments,
+            namedArguments,
+          )
+          .code;
+    } else {
+      body = Code(message);
+    }
+
+    return Method(
+      (builder) {
+        builder
+          ..static = true
+          ..name = messageMethod
+          ..body = body
+          ..requiredParameters.addAll(messageMethodParameters)
+          ..requiredParameters.add(validatedValue);
+      },
+    );
   }
 
   dynamic _getValue(String k, DartObject v) {

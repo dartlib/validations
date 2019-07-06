@@ -8,11 +8,16 @@ part of 'login_screen.dart';
 
 abstract class $_LoginFormValidator implements Validator<FormData> {
   static emailNotBlankMessage(Object validatedValue) =>
-      'You must fill in an email address';
+      Intl.message('You must fill in an email address',
+          name: 'emailNotBlankMessage', args: [validatedValue]);
   static passwordNotBlankMessage(Object validatedValue) =>
-      'Password cannot be blank';
+      Intl.message('Password cannot be blank',
+          name: 'passwordNotBlankMessage', args: [validatedValue]);
   static passwordSizeMessage(int min, int max, Object validatedValue) =>
-      'Password must be at least be between $min and $max characters long';
+      Intl.message(
+          'Password must be at least be between $min and $max characters long',
+          name: 'passwordSizeMessage',
+          args: [min, max, validatedValue]);
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'email': [
