@@ -1,4 +1,5 @@
 import '../constraint_violation.dart';
+import '../validator.dart';
 
 /// Enables a validator to be used as a mixin:
 ///
@@ -19,7 +20,7 @@ import '../constraint_violation.dart';
 ///    person.validateProperty('name');
 ///    person.validateValue('name', 'Whom Ever);
 ///
-class ValidatorMixin<T> {
+class ValidatorMixin<T extends Validator> {
   Set<ConstraintViolation> validate() => _getValidator<T>().validate(this);
 
   Set<ConstraintViolation> validateProperty(String name) =>
