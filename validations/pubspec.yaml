@@ -5,7 +5,7 @@ homepage: https://github.com/dartling/validations.git
 author: Rob Halff <rob.halff@gmail.com>
 
 environment:
-  sdk: '>=2.2.0 <3.0.0'
+  sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
   validators: ^2.0.0
