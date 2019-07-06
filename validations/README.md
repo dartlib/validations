@@ -2,6 +2,13 @@
 
 ## Validator setup 
 
+You should add `validations_generator` as a dependency:
+```dart
+dev_dependencies:
+  build_runner:
+  validations_generator: 
+```
+
 First declare your model and assign a generator class to validate the model.
 
 `car.dart`:
@@ -77,6 +84,17 @@ class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
 
 @GenValidator()
 class TestDriverValidator extends Validator<Driver> with $_TestDriverValidator {}
+```
+
+## Generate the validators
+
+After the models have been annotated the validators should be generated:
+```bash
+# Dart
+pub run build_runner build
+
+# Flutter 
+flutter pub run build_runner build
 ```
 
 ## Usage

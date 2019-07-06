@@ -1,16 +1,15 @@
 name: validations_generator
-version: 1.0.0
+version: 0.0.1
 description: Validator built using source_gen
 authors:
 - Rob Halff <rob.halff@gmail.com>
-homepage: https://github.com/dartling/validator.git
+homepage: https://github.com/dartlib/validations.git
 
 environment:
   sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
-  validations:
-    path: ../validations
+  validations: ^0.0.1
   analyzer: ^0.36.4
   build: ^1.1.4
   logging: ^0.11.3+2
