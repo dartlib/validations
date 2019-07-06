@@ -1,86 +1,117 @@
 # Validations for Dart.
 
-## Use cases
+## Validator setup 
 
+First declare your model and assign a generator class to validate the model.
 
+`car.dart`:
 ```dart
+import 'package:decimal/decimal.dart';
+import 'package:validations/validations.dart';
+       
+part 'car.gval.dart';
+
+class Driver {
+  Driver({this.name});
+  @NotNull()
+  String name;
+}
+
 class Car {
-  @NotNull(message: 'Name cannot be null')
-  final String name;
+  Car({
+    this.manufacturer,
+    this.licensePlate,
+    this.seatCount,
+    this.topSpeed,
+    this.price,
+    this.isRegistered,
+  });
+  
+  @NotNull()
+  String manufacturer;
 
-  @AssertTrue
-  final boolean working;
-
-  @Size(min: 10, max: 200, message: 'About Me must be between 10 and 200 characters')
-  final String aboutMe;
-
-  @BrandIsSupported
-  final String brand;
-
-  @Email(message: 'Email should be valid')
-  final String email;
-
-  @after()
-  final DateTime birthday;
-
-  @Min(value: 8, message: 'Age should not be less than 18')
-  @Max(value = 150, message = 'Age should not be greater than 150')
-  final int age;
+  @Valid(message: 'There should be a valid driver!')
+  Driver driver;
 
   @Size(
     min: 2,
     max: 14,
-    message: 'The license plate ${validatedValue} must be between {min} and {max} characters long'
+    message:
+        r'The license plate ${validatedValue} must be between ${min} and ${max} characters long',
   )
-  final String licensePlate;
+  @NotNull()
+  String licensePlate;
 
+  @Min(
+    value: 1,
+    message: r'Car must at least have ${value} seats available',
+  )
+  @Max(
+    value: 2,
+    message: r'Car cannot have more than ${value} seats',
+  )
+  int seatCount;
+
+  @Max(
+    value: 350,
+    message: r'The top speed ${validatedValue} is higher than ${value}',
+  )
+  int topSpeed;
+
+  @DecimalMax(
+    value: '100.00',
+    message: r'Price must not be lower than ${value}',
+  )
+  @DecimalMin(
+    value: '49.99',
+    message: r'Price must not be higher than ${value}',
+  )
+  Decimal price;
+
+  @AssertTrue(message: 'Car must be registered!')
+  bool isRegistered;
 }
 
+@GenValidator()
+class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
+
+@GenValidator()
+class TestDriverValidator extends Validator<Driver> with $_TestDriverValidator {}
 ```
-The above is convenient to support, however I would prefer the generator method? (why?)
-Could also just use a mixin, in any case you want to validate on the model (directly).
-Same counts for the serializer I guess, but whatever.
-
-The only benefit is it is a bit leaner to keep those separate.
-Anyways let's just first support the generator method.
-
-For the generator not using field annotations it would look like:
-```cart
-@GenValidator(
-  fields: {
-    name: [
-      NotNull(message: 'Name cannot be null'),
-    ],
-    working: [
-      AssertTrue
-    ],
-    age: [
-      Min(value: 8, message: 'Age should not be less than 18'),
-      Max(value: 150, message: 'Age should not be greater than 150'),
-    ]
-  }
-)
-class CarValidator extends Validator<Car> {}
-```
-
-Something like that?
-
-
 
 ## Usage
 
-A simple usage example:
-
 ```dart
-import 'package:validations/validations.dart';
+import 'car.dart';
 
-main() {
-  var awesome = new Awesome();
-}
+final car = Car();
+
+car.driver = Driver(name: 'TestDriver');
+car.price = Decimal.parse('99.99');
+car.isRegistered = true;
+car.licensePlate = 'DY28-38';
+car.manufacturer = 'VEB Sachsenring';
+car.seatCount = 2;
+car.topSpeed = 100;
+
+final validator = TestCarValidator();
+
+// Full validation of the model
+validator.validate(car);
+
+// Validates only a specific property returning all violations
+validator.validateProperty(car, 'price');
+
+// Check violations given an arbitrary value using the validators defined for `manufacturer`
+validator.validateValue('manufacturer', null);
+
+// Returns first error message as a string or null if there are no errors.
+validator.errorCheck('isRegistered', false);
 ```
+
 
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: http://github.com/dartlib/validations/issues
