@@ -12,8 +12,8 @@ branches:
 jobs:
   include:
     - stage: analyzer_and_format
-      name: "SDK: 2.2.2; PKGS: validations, validations_generator; TASKS: `dartanalyzer --fatal-warnings .`"
-      dart: "2.2.2"
+      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `dartanalyzer --fatal-warnings .`"
+      dart: "2.3.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh dartanalyzer_1
     - stage: analyzer_and_format
@@ -22,8 +22,8 @@ jobs:
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh dartfmt dartanalyzer_0
     - stage: unit_test
-      name: "SDK: 2.2.2; PKGS: validations, validations_generator; TASKS: `pub run build_runner test --delete-conflicting-outputs -- -p chrome`"
-      dart: "2.2.2"
+      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run build_runner test --delete-conflicting-outputs -- -p chrome`"
+      dart: "2.3.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh command
     - stage: unit_test
@@ -32,8 +32,8 @@ jobs:
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh command
     - stage: unit_test
-      name: "SDK: 2.2.2; PKGS: validations, validations_generator; TASKS: `pub run test`"
-      dart: "2.2.2"
+      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run test`"
+      dart: "2.3.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test_0
     - stage: unit_test
@@ -42,8 +42,8 @@ jobs:
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test_0
     - stage: ensure_build
-      name: "SDK: 2.2.2; PKGS: validations, validations_generator; TASKS: `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
-      dart: "2.2.2"
+      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
+      dart: "2.3.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test_1
     - stage: ensure_build
