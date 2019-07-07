@@ -1,6 +1,12 @@
-# Created by mono_repo
-validations:
-  published: false
-validations_generator:
-  published: false
+travis:
+  sudo: required
+  addons:
+    chrome: stable
+  branches:
+    only:
+    - master
 
+merge_stages:
+- analyzer_and_format
+- ensure_build
+- unit_test

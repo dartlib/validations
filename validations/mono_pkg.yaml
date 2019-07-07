@@ -1,0 +1,23 @@
+# See https://github.com/dart-lang/mono_repo for details
+dart:
+- 2.2.2
+- dev
+
+stages:
+- analyzer_and_format:
+  - group:
+    - dartfmt
+    - dartanalyzer: --fatal-warnings --fatal-infos .
+    dart: [dev]
+  - group:
+    - dartanalyzer: --fatal-warnings .
+    dart: [2.2.2]
+- unit_test:
+  - test
+  - command: pub run build_runner test --delete-conflicting-outputs -- -p chrome
+- ensure_build:
+  - test: --run-skipped -t presubmit-only test/ensure_build_test.dart
+
+cache:
+  directories:
+  - .dart_tool/build
