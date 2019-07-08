@@ -60,7 +60,7 @@ void main() {
 
     test('DecimalMax', () {
       expect(
-        // ignore
+        // ignore: missing_required_param
         () => DecimalMaxValidator(),
         throwsA(TypeMatcher<AssertionError>()),
       );
@@ -81,6 +81,7 @@ void main() {
 
     test('DecimalMin', () {
       expect(
+        // ignore: missing_required_param
         () => DecimalMinValidator(),
         throwsA(TypeMatcher<AssertionError>()),
       );
@@ -112,6 +113,7 @@ void main() {
 
     test('Max', () {
       expect(
+        // ignore: missing_required_param
         () => MaxValidator(),
         throwsA(TypeMatcher<AssertionError>()),
       );
@@ -127,6 +129,7 @@ void main() {
 
     test('Min', () {
       expect(
+        // ignore: missing_required_param
         () => MinValidator(),
         throwsA(TypeMatcher<AssertionError>()),
       );
