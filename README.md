@@ -1,3 +1,12 @@
+# Validations
+
+Validations enables you to annotation your models and classes using annotations;
+
+It can be used to validate form information, models or any other class which benefits from
+validation.
+
+This module is loosely based on the JSR303 Bean Validation specification.
+
 ## Usage
 
 ### Generator
@@ -75,3 +84,4 @@ final car = Car();
 car.validate();
 
 ```
+
