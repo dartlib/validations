@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:intl/intl.dart';
 import 'package:validations/validations.dart';
 
 part 'car.gval.dart';

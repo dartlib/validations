@@ -41,11 +41,12 @@ class ValidatorGenerator
 
     try {
       return ModelParser(
-        generatorClass: element,
+        generatorClass: element as ClassElement,
         library: library,
       ).parse();
     } catch (exception, stackTrace) {
-      throw '/*\nError while generating validator for ${className}\n$exception\n$stackTrace\n*/';
+      throw Exception(
+          '/*\nError while generating validator for $className\n$exception\n$stackTrace\n*/');
     }
   }
 }

@@ -7,9 +7,9 @@ import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:validations/validations.dart' as validator;
 
-final validatorType = TypeChecker.fromRuntime(validator.Validator);
-final genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
-final containerAnnotationType =
+const validatorType = TypeChecker.fromRuntime(validator.Validator);
+const genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
+const containerAnnotationType =
     TypeChecker.fromRuntime(validator.ContainerAnnotation);
 
 final annotationTypes = validator.fieldAnnotations.map(
@@ -27,22 +27,17 @@ class ModelParser {
   /// The model this validator handles.
   DartType model;
 
-  /// Optional serializer to use
-  final serializer;
-
   LibraryReader library;
 
   ModelParser({
     this.generatorClass,
     this.library,
-    this.serializer,
   });
 
   String parse() {
     _findModel();
 
-    final ClassElement modelClass = model.element;
-
+    final modelClass = model.element as ClassElement;
     final modelClassName = modelClass.displayName;
 
     final classBuilder = Class(
@@ -54,11 +49,12 @@ class ModelParser {
     return DartFormatter().format('${classBuilder.accept(emitter)}');
   }
 
-  _buildValidatorClass(String className, List<FieldElement> fields) {
+  void Function(ClassBuilder) _buildValidatorClass(
+      String className, List<FieldElement> fields) {
     return (ClassBuilder classBuilder) {
       classBuilder
         ..name = '\$_${generatorClass.displayName}'
-        ..implements.add(refer('Validator<${className}>'))
+        ..implements.add(refer('Validator<$className>'))
         ..abstract = true;
 
       final annotatedFields = _getAnnotatedFields(fields);
@@ -74,7 +70,7 @@ class ModelParser {
   List<FieldElement> _getAnnotatedFields(List<FieldElement> fields) {
     final annotatedFields = <FieldElement>[];
 
-    for (FieldElement field in fields) {
+    for (var field in fields) {
       final hasValidatorAnnotations = annotationTypes.any(
         (TypeChecker typeChecker) => typeChecker.hasAnnotationOf(field),
       );
@@ -91,9 +87,9 @@ class ModelParser {
     List<FieldElement> annotatedFields,
     ClassBuilder classBuilder,
   ) {
-    final List<Method> methods = [];
+    final methods = <Method>[];
 
-    for (FieldElement field in annotatedFields) {
+    for (var field in annotatedFields) {
       final statement = refer('errorCheck').newInstance(
         [
           literalString(field.name),
@@ -128,15 +124,15 @@ class ModelParser {
     ClassBuilder classBuilder,
   ) {
     final fieldNames = annotatedFields.fold(
-      {},
-      (properties, FieldElement field) {
+      <Expression, Expression>{},
+      (Map<Expression, Expression> properties, FieldElement field) {
         properties[literal(field.name)] = refer('instance.${field.name}');
 
         return properties;
       },
     );
 
-    final Code body = literalMap(fieldNames).returned.statement;
+    final body = literalMap(fieldNames).returned.statement;
 
     return Method(
       (MethodBuilder builder) {
@@ -166,35 +162,34 @@ class ModelParser {
     ClassBuilder classBuilder,
   ) {
     final map = <String, Expression>{};
-    fields.forEach((FieldElement field) {
+
+    for (var field in fields) {
       final list = [];
 
-      for (ElementAnnotation annotation in field.metadata) {
+      for (var annotation in field.metadata) {
         if (!isValidatorAnnotation(annotation)) continue;
 
-        final DartObjectImpl annotationImpl = annotation.computeConstantValue();
+        final annotationImpl =
+            annotation.computeConstantValue() as DartObjectImpl;
         final namedParams = <String, Expression>{};
 
         String message;
         String messageMethod;
-        List<Parameter> messageMethodParameters = [];
+        final messageMethodParameters = <Parameter>[];
 
-        final List<ParameterElement> parameters =
-            (annotation.element as ConstructorElement).parameters;
+        final parameters = (annotation.element as ConstructorElement)
+            .parameters
+            .where((parameter) => parameter.displayName != 'message');
 
-        parameters.forEach(
-          (ParameterElement parameter) {
-            if (parameter.displayName != 'message') {
-              messageMethodParameters.add(
-                Parameter((builder) {
-                  builder
-                    ..name = parameter.name
-                    ..type = refer(parameter.type.name);
-                }),
-              );
-            }
-          },
-        );
+        for (var parameter in parameters) {
+          messageMethodParameters.add(
+            Parameter((builder) {
+              builder
+                ..name = parameter.name
+                ..type = refer(parameter.type.name);
+            }),
+          );
+        }
 
         annotationImpl.fields.forEach((String k, DartObject v) {
           if (!v.isNull) {
@@ -222,13 +217,14 @@ class ModelParser {
           );
         }
 
-        final List<Expression> positionalArguments = [];
+        final positionalArguments = <Expression>[];
 
         final isContainerAnnotation =
             containerAnnotationType.isAssignableFromType(annotationImpl.type);
 
         if (isContainerAnnotation) {
-          final containerValidator = _getValidatorForModel(field.type.element);
+          final containerValidator =
+              _getValidatorForModel(field.type.element as ClassElement);
 
           final str = refer(
               '${containerValidator.type.displayName}()..validationContext = validationContext,');
@@ -247,7 +243,7 @@ class ModelParser {
             Block.of(
               [
                 statement.code,
-                Code('..'),
+                const Code('..'),
                 refer('message').assign(refer(messageMethod)).code,
               ],
             ),
@@ -258,9 +254,9 @@ class ModelParser {
       }
 
       map[field.name] = literalList(list);
-    });
+    }
 
-    final Code body = literalMap(map).returned.statement;
+    final body = literalMap(map).returned.statement;
 
     return Method((MethodBuilder builder) {
       builder
@@ -286,8 +282,8 @@ class ModelParser {
     Code body;
 
     if (useIntl) {
-      final List<Expression> positionalArguments = [literal(message)];
-      final Map<String, Expression> namedArguments = {
+      final positionalArguments = <Expression>[literal(message)];
+      final namedArguments = <String, Expression>{
         'name': literal(messageMethod),
         'args': literalList([
           ...messageMethodParameters.map(
@@ -313,20 +309,23 @@ class ModelParser {
           ..static = true
           ..name = messageMethod
           ..body = body
+          ..returns = refer('String')
           ..requiredParameters.addAll(messageMethodParameters)
           ..requiredParameters.add(validatedValue);
       },
     );
   }
 
-  dynamic _getValue(String k, DartObject v) {
-    final String type = v.type.name;
+  Expression _getValue(String k, DartObject v) {
+    final type = v.type.name;
     if (type == 'bool') return literal(v.toBoolValue());
     if (type == 'String') {
       return literalString(v.toStringValue());
     }
     if (type == 'double') return literal(v.toDoubleValue());
     if (type == 'int') return literal(v.toIntValue());
+
+    return null;
   }
 
   void _findModel() {
@@ -334,7 +333,7 @@ class ModelParser {
       throw Exception('Validators must implement Validator interface!');
     }
 
-    final DartObject meta = genValidatorType.firstAnnotationOf(generatorClass);
+    final meta = genValidatorType.firstAnnotationOf(generatorClass);
 
     if (meta == null) {
       throw Exception(
@@ -346,14 +345,13 @@ class ModelParser {
   }
 
   ClassElement _getValidatorForModel(ClassElement validatedModel) {
-    final List<ClassElement> found = [];
-    for (AnnotatedElement annotatedElement
-        in library.annotatedWith(genValidatorType)) {
-      final model =
-          _getModelFromFirstGenericTypeArgument(annotatedElement.element);
+    final found = <ClassElement>[];
+    for (var annotatedElement in library.annotatedWith(genValidatorType)) {
+      final model = _getModelFromFirstGenericTypeArgument(
+          annotatedElement.element as ClassElement);
 
       if (model.name == validatedModel.name) {
-        found.add(annotatedElement.element);
+        found.add(annotatedElement.element as ClassElement);
       }
     }
 
@@ -367,9 +365,8 @@ class ModelParser {
   }
 
   DartType _getModelFromFirstGenericTypeArgument(ClassElement clazz) {
-    final InterfaceType interface = clazz.allSupertypes.firstWhere(
-      (InterfaceType i) => validatorType.isExactlyType(i),
-    );
+    final interface =
+        clazz.allSupertypes.firstWhere(validatorType.isExactlyType);
 
     final model = interface.typeArguments.first;
 

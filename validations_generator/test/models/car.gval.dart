@@ -7,24 +7,37 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_TestCarValidator implements Validator<Car> {
-  static driverValidMessage(Object validatedValue) =>
-      'There should be a valid driver!';
-  static licensePlateSizeMessage(int min, int max, Object validatedValue) =>
-      'The license plate ${validatedValue} must be between ${min} and ${max} characters long';
-  static seatCountMinMessage(num value, Object validatedValue) =>
-      'Car must at least have ${value} seats available';
-  static seatCountMaxMessage(num value, Object validatedValue) =>
-      'Car cannot have more than ${value} seats';
-  static topSpeedMaxMessage(num value, Object validatedValue) =>
-      'The top speed ${validatedValue} is higher than ${value}';
-  static priceDecimalMaxMessage(
+  static String driverValidMessage(Object validatedValue) =>
+      Intl.message('There should be a valid driver!',
+          name: 'driverValidMessage', args: [validatedValue]);
+  static String licensePlateSizeMessage(
+          int min, int max, Object validatedValue) =>
+      Intl.message(
+          'The license plate ${validatedValue} must be between ${min} and ${max} characters long',
+          name: 'licensePlateSizeMessage',
+          args: [min, max, validatedValue]);
+  static String seatCountMinMessage(num value, Object validatedValue) =>
+      Intl.message('Car must at least have ${value} seats available',
+          name: 'seatCountMinMessage', args: [value, validatedValue]);
+  static String seatCountMaxMessage(num value, Object validatedValue) =>
+      Intl.message('Car cannot have more than ${value} seats',
+          name: 'seatCountMaxMessage', args: [value, validatedValue]);
+  static String topSpeedMaxMessage(num value, Object validatedValue) =>
+      Intl.message('The top speed ${validatedValue} is higher than ${value}',
+          name: 'topSpeedMaxMessage', args: [value, validatedValue]);
+  static String priceDecimalMaxMessage(
           String value, bool inclusive, Object validatedValue) =>
-      'Price must not be lower than ${value}';
-  static priceDecimalMinMessage(
+      Intl.message('Price must not be lower than ${value}',
+          name: 'priceDecimalMaxMessage',
+          args: [value, inclusive, validatedValue]);
+  static String priceDecimalMinMessage(
           String value, bool inclusive, Object validatedValue) =>
-      'Price must not be higher than ${value}';
-  static isRegisteredAssertTrueMessage(Object validatedValue) =>
-      'Car must be registered!';
+      Intl.message('Price must not be higher than ${value}',
+          name: 'priceDecimalMinMessage',
+          args: [value, inclusive, validatedValue]);
+  static String isRegisteredAssertTrueMessage(Object validatedValue) =>
+      Intl.message('Car must be registered!',
+          name: 'isRegisteredAssertTrueMessage', args: [validatedValue]);
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'manufacturer': [NotNullValidator()],
@@ -66,13 +79,16 @@ abstract class $_TestCarValidator implements Validator<Car> {
     };
   }
 
-  validateManufacturer(Object value) => validateValue('manufacturer', value);
-  validateDriver(Object value) => validateValue('driver', value);
-  validateLicensePlate(Object value) => validateValue('licensePlate', value);
-  validateSeatCount(Object value) => validateValue('seatCount', value);
-  validateTopSpeed(Object value) => validateValue('topSpeed', value);
-  validatePrice(Object value) => validateValue('price', value);
-  validateIsRegistered(Object value) => validateValue('isRegistered', value);
+  String validateManufacturer(Object value) =>
+      errorCheck('manufacturer', value);
+  String validateDriver(Object value) => errorCheck('driver', value);
+  String validateLicensePlate(Object value) =>
+      errorCheck('licensePlate', value);
+  String validateSeatCount(Object value) => errorCheck('seatCount', value);
+  String validateTopSpeed(Object value) => errorCheck('topSpeed', value);
+  String validatePrice(Object value) => errorCheck('price', value);
+  String validateIsRegistered(Object value) =>
+      errorCheck('isRegistered', value);
 }
 
 abstract class $_TestDriverValidator implements Validator<Driver> {
@@ -86,5 +102,5 @@ abstract class $_TestDriverValidator implements Validator<Driver> {
     return {'name': instance.name};
   }
 
-  validateName(Object value) => validateValue('name', value);
+  String validateName(Object value) => errorCheck('name', value);
 }
