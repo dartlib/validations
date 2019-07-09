@@ -3,22 +3,24 @@ part of annotations.comparison;
 /// Checks that annotated Duration element is not greater than the one
 /// constructed from annotation parameters. Equality is allowed if inclusive
 /// flag is set to true.
+///
 @immutable
 class DurationMax extends ValidatorAnnotation {
+  final bool inclusive;
   final int days;
   final int hours;
   final int minutes;
   final int seconds;
-  final int millis;
-  final int nanos;
-  final bool inclusive;
+  final int milliseconds;
+  final int microseconds;
+
   const DurationMax({
-    this.days,
-    this.hours,
-    this.minutes,
-    this.seconds,
-    this.millis,
-    this.nanos,
+    this.days = 0,
+    this.hours = 0,
+    this.minutes = 0,
+    this.seconds = 0,
+    this.milliseconds = 0,
+    this.microseconds = 0,
     this.inclusive,
     message,
     groups,

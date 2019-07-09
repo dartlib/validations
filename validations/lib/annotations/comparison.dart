@@ -14,13 +14,11 @@ part 'comparison/greater_than_or_equal.dart';
 part 'comparison/identical_to.dart';
 part 'comparison/less_than.dart';
 part 'comparison/less_than_or_equal.dart';
+part 'comparison/max.dart';
+part 'comparison/min.dart';
 part 'comparison/not_equal_to.dart';
 part 'comparison/not_identical_to.dart';
 part 'comparison/range.dart';
-
-const Min = GreaterThanOrEqual;
-
-const Max = LessThanOrEqual;
 
 final comparisonAnnotations = [
   DecimalMax,

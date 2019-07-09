@@ -1,6 +1,6 @@
 part of validators.basic;
 
-class AssertTrueValidator extends ConstraintValidator {
+class IsTrueValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     return value == true;

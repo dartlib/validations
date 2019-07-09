@@ -6,17 +6,17 @@ void main() {
     setUp(() {});
 
     test('AssertFalse', () {
-      expect(AssertFalseValidator().isValid(false), isTrue);
-      expect(AssertFalseValidator().isValid(null), isFalse);
-      expect(AssertFalseValidator().isValid(true), isFalse);
-      expect(AssertFalseValidator().isValid(''), isFalse);
+      expect(IsFalseValidator().isValid(false), isTrue);
+      expect(IsFalseValidator().isValid(null), isFalse);
+      expect(IsFalseValidator().isValid(true), isFalse);
+      expect(IsFalseValidator().isValid(''), isFalse);
     });
 
     test('AssertTrue', () {
-      expect(AssertTrueValidator().isValid(true), isTrue);
-      expect(AssertTrueValidator().isValid(false), isFalse);
-      expect(AssertTrueValidator().isValid(null), isFalse);
-      expect(AssertTrueValidator().isValid(''), isFalse);
+      expect(IsTrueValidator().isValid(true), isTrue);
+      expect(IsTrueValidator().isValid(false), isFalse);
+      expect(IsTrueValidator().isValid(null), isFalse);
+      expect(IsTrueValidator().isValid(''), isFalse);
     });
 
     test('CreditCardNumber', () {
