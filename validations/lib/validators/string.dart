@@ -8,3 +8,4 @@ import '../validator/value_context.dart';
 part 'string/credit_card_number.dart';
 part 'string/email.dart';
 part 'string/isbn.dart';
+part 'string/pattern.dart';

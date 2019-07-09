@@ -1,3 +1,3 @@
 part of validators.comparison;
 
-const MinValidator = GreaterThanOrEqualValidator;
+class MinValidator = GreaterThanOrEqualValidator with _Alias;

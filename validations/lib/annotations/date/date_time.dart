@@ -1,6 +1,6 @@
 part of annotations.date;
 
-/// Checks whether the annotated date is in the future
+/// Checks whether the annotated string is a valid the future
 @immutable
 class DateTime extends ValidatorAnnotation {
   final String format;

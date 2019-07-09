@@ -1,3 +1,3 @@
 part of validators.comparison;
 
-const MaxValidator = LessThanOrEqualValidator;
+class MaxValidator = LessThanOrEqualValidator with _Alias;

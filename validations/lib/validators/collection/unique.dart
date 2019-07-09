@@ -26,8 +26,8 @@ class UniqueValidator extends ConstraintValidator {
     if (value is Map) {
       if (value.length < 2) return true;
 
-      for (var k in value.keys) {
-        final ret = uniqueSet.add(value[k]);
+      for (var v in value.values) {
+        final ret = uniqueSet.add(v);
 
         if (!ret) {
           return false;
