@@ -139,6 +139,7 @@ class ModelParser {
         builder
           ..name = 'props'
           ..body = body
+          ..annotations.add(refer('override'))
           ..returns = refer('Map<String, dynamic>')
           ..requiredParameters.add(
             Parameter(
@@ -262,6 +263,7 @@ class ModelParser {
       builder
         ..name = 'getConstraintValidators'
         ..body = body
+        ..annotations.add(refer('override'))
         ..returns = refer('Map<String, List<ConstraintValidator>>');
     });
   }

@@ -13,31 +13,32 @@ abstract class $_TestCarValidator implements Validator<Car> {
   static String licensePlateSizeMessage(
           int min, int max, Object validatedValue) =>
       Intl.message(
-          'The license plate ${validatedValue} must be between ${min} and ${max} characters long',
+          'The license plate $validatedValue must be between $min and $max characters long',
           name: 'licensePlateSizeMessage',
           args: [min, max, validatedValue]);
   static String seatCountMinMessage(num value, Object validatedValue) =>
-      Intl.message('Car must at least have ${value} seats available',
+      Intl.message('Car must at least have $value seats available',
           name: 'seatCountMinMessage', args: [value, validatedValue]);
   static String seatCountMaxMessage(num value, Object validatedValue) =>
-      Intl.message('Car cannot have more than ${value} seats',
+      Intl.message('Car cannot have more than $value seats',
           name: 'seatCountMaxMessage', args: [value, validatedValue]);
   static String topSpeedMaxMessage(num value, Object validatedValue) =>
-      Intl.message('The top speed ${validatedValue} is higher than ${value}',
+      Intl.message('The top speed $validatedValue is higher than $value',
           name: 'topSpeedMaxMessage', args: [value, validatedValue]);
   static String priceDecimalMaxMessage(
           String value, bool inclusive, Object validatedValue) =>
-      Intl.message('Price must not be lower than ${value}',
+      Intl.message('Price must not be lower than $value',
           name: 'priceDecimalMaxMessage',
           args: [value, inclusive, validatedValue]);
   static String priceDecimalMinMessage(
           String value, bool inclusive, Object validatedValue) =>
-      Intl.message('Price must not be higher than ${value}',
+      Intl.message('Price must not be higher than $value',
           name: 'priceDecimalMinMessage',
           args: [value, inclusive, validatedValue]);
   static String isRegisteredAssertTrueMessage(Object validatedValue) =>
       Intl.message('Car must be registered!',
           name: 'isRegisteredAssertTrueMessage', args: [validatedValue]);
+  @override
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'manufacturer': [NotNullValidator()],
@@ -67,6 +68,7 @@ abstract class $_TestCarValidator implements Validator<Car> {
     };
   }
 
+  @override
   Map<String, dynamic> props(Car instance) {
     return {
       'manufacturer': instance.manufacturer,
@@ -92,12 +94,14 @@ abstract class $_TestCarValidator implements Validator<Car> {
 }
 
 abstract class $_TestDriverValidator implements Validator<Driver> {
+  @override
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'name': [NotNullValidator()]
     };
   }
 
+  @override
   Map<String, dynamic> props(Driver instance) {
     return {'name': instance.name};
   }

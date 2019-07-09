@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 import 'models/car.dart';
 
-printViolations(violations) {
+void printViolations(violations) {
   violations.forEach((violation) => print(
       '${violation.message} ${violation.invalidValue} ${violation.validatedObject.runtimeType} ${violation.name} ${violation.propertyPath}'));
 }
@@ -17,15 +17,14 @@ void main() {
 
     group('validate()', () {
       test('Validates correctly configured car.', () {
-        final car = Car();
-
-        car.driver = Driver(name: 'TestDriver');
-        car.price = Decimal.parse('99.99');
-        car.isRegistered = true;
-        car.licensePlate = 'DY28-38';
-        car.manufacturer = 'VEB Sachsenring';
-        car.seatCount = 2;
-        car.topSpeed = 100;
+        final car = Car()
+          ..driver = Driver(name: 'TestDriver')
+          ..price = Decimal.parse('99.99')
+          ..isRegistered = true
+          ..licensePlate = 'DY28-38'
+          ..manufacturer = 'VEB Sachsenring'
+          ..seatCount = 2
+          ..topSpeed = 100;
 
         expect(validator.validate(car), isEmpty);
       });
@@ -33,15 +32,14 @@ void main() {
       test('Collects all violations.', () {
         final validator = TestCarValidator();
 
-        final car = Car();
-
-        car.driver = Driver(); // without name
-        car.price = Decimal.parse('100.99');
-        car.isRegistered = false;
-        car.licensePlate = 'D';
-        car.manufacturer = null;
-        car.seatCount = 3;
-        car.topSpeed = 500;
+        final car = Car()
+          ..driver = Driver() // without name
+          ..price = Decimal.parse('100.99')
+          ..isRegistered = false
+          ..licensePlate = 'D'
+          ..manufacturer = null
+          ..seatCount = 3
+          ..topSpeed = 500;
 
         final violations = validator.validate(car);
 
@@ -133,15 +131,14 @@ void main() {
 
     group('validateProperty()', () {
       test('Validates single properties of correctly configured car.', () {
-        final car = Car();
-
-        car.driver = Driver(name: 'TestDriver');
-        car.price = Decimal.parse('99.99');
-        car.isRegistered = true;
-        car.licensePlate = 'DY28-38';
-        car.manufacturer = 'VEB Sachsenring';
-        car.seatCount = 2;
-        car.topSpeed = 100;
+        final car = Car()
+          ..driver = Driver(name: 'TestDriver')
+          ..price = Decimal.parse('99.99')
+          ..isRegistered = true
+          ..licensePlate = 'DY28-38'
+          ..manufacturer = 'VEB Sachsenring'
+          ..seatCount = 2
+          ..topSpeed = 100;
 
         expect(validator.validateProperty(car, 'driver'), isEmpty);
         expect(validator.validateProperty(car, 'price'), isEmpty);
@@ -157,15 +154,14 @@ void main() {
       test('Collects violations per property.', () {
         final validator = TestCarValidator();
 
-        final car = Car();
-
-        car.driver = Driver();
-        car.price = Decimal.parse('100.99');
-        car.isRegistered = false;
-        car.licensePlate = 'D';
-        car.manufacturer = null;
-        car.seatCount = 3;
-        car.topSpeed = 500;
+        final car = Car()
+          ..driver = Driver()
+          ..price = Decimal.parse('100.99')
+          ..isRegistered = false
+          ..licensePlate = 'D'
+          ..manufacturer = null
+          ..seatCount = 3
+          ..topSpeed = 500;
 
         expect(
           validator.validateProperty(car, 'manufacturer').first.message,
