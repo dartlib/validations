@@ -1,6 +1,6 @@
 part of annotations.comparison;
 
-// Checks whether the annotated value is divisible by the specified value.
+/// Checks whether the annotated value is divisible by the specified value.
 @immutable
 class DivisibleBy extends ValidatorAnnotation {
   final Object value;

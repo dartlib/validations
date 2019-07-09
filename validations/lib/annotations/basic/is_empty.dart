@@ -1,6 +1,6 @@
 part of annotations.basic;
 
-/// Checks whether the annotated element is empty or null
+//// Checks whether the annotated element is empty or null
 @immutable
 class IsEmpty extends ValidatorAnnotation {
   const IsEmpty({

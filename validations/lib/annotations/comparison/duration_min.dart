@@ -1,8 +1,8 @@
 part of annotations.comparison;
 
-/// Checks that annotated Duration element is not less than the one
-/// constructed from annotation parameters. Equality is allowed if inclusive
-/// flag is set to true.
+//// Checks that annotated Duration element is not less than the one
+//// constructed from annotation parameters. Equality is allowed if inclusive
+//// flag is set to true.
 @immutable
 class DurationMin extends ValidatorAnnotation {
   final int days;

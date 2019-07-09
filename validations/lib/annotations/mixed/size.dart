@@ -1,6 +1,6 @@
 part of annotations.mixed;
 
-/// Checks if the annotated element’s size is between [min] and [max] (inclusive)
+//// Checks if the annotated element’s size is between [min] and [max] (inclusive)
 @immutable
 class Size {
   final int min;

@@ -1,9 +1,9 @@
 part of annotations.comparison;
 
-/// Checks whether the annotated value is less than the specified maximum,
-/// when inclusive=false. Otherwise whether the value is less than or equal to
-/// the specified maximum. The parameter value is the string representation of
-/// the max value.
+//// Checks whether the annotated value is less than the specified maximum,
+//// when inclusive=false. Otherwise whether the value is less than or equal to
+//// the specified maximum. The parameter value is the string representation of
+//// the max value.
 @immutable
 class DecimalMax extends ValidatorAnnotation {
   final String value;

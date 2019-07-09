@@ -1,7 +1,7 @@
 part of annotations.string;
 
-/// Validates that the annotated character sequence is between
-/// min and max included.
+//// Validates that the annotated character sequence is between
+//// min and max included.
 @immutable
 class Length {
   final String message;

@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence is a valid number.
+//// Checks that the annotated character sequence is a valid number.
 @immutable
 class Numeric {
   final String message;

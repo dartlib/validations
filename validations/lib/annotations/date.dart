@@ -8,8 +8,23 @@ part './date/in_future.dart';
 part './date/past.dart';
 part './date/past_or_present.dart';
 
+/// [FutureOrPresent] annotation using default values
+const futureOrPresent = FutureOrPresent();
+
+/// [InFuture] annotation using default values
+const future = InFuture();
+
+/// [Past] annotation using default values
+const past = Past();
+
+/// [PastOrPresent] annotation using default values
+const pastOrPresent = PastOrPresent();
+
 final dateAnnotations = [
-  DateTime,
+  futureOrPresent,
+  future,
+  past,
+  pastOrPresent,
   FutureOrPresent,
   InFuture,
   Past,

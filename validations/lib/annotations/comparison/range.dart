@@ -1,7 +1,7 @@
 part of annotations.comparison;
 
-/// Checks whether the annotated value lies between (inclusive) the specified
-/// minimum and maximum
+//// Checks whether the annotated value lies between (inclusive) the specified
+//// minimum and maximum
 @immutable
 class Range extends ValidatorAnnotation {
   final double min;

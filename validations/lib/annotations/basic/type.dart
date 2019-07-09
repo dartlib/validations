@@ -1,6 +1,6 @@
 part of annotations.basic;
 
-/// Checks whether the annotated element is of a specific [Type]
+//// Checks whether the annotated element is of a specific [Type]
 @immutable
 class Type extends ValidatorAnnotation {
   final Object type;

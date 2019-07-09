@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence is a valid mongo id.
+//// Checks that the annotated character sequence is a valid mongo id.
 @immutable
 class MongoId {
   final String message;

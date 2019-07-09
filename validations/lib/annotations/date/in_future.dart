@@ -1,6 +1,6 @@
 part of annotations.date;
 
-/// Checks whether the annotated date is in the future
+//// Checks whether the annotated date is in the future
 @immutable
 class InFuture extends ValidatorAnnotation {
   final int year;
