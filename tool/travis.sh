@@ -26,11 +26,7 @@ for PKG in ${PKGS}; do
       echo 'pub run build_runner test --delete-conflicting-outputs -- -p chrome'
       pub run build_runner test --delete-conflicting-outputs -- -p chrome || EXIT_CODE=$?
       ;;
-    dartanalyzer_0)
-      echo 'dartanalyzer --fatal-warnings --fatal-infos .'
-      dartanalyzer --fatal-warnings --fatal-infos . || EXIT_CODE=$?
-      ;;
-    dartanalyzer_1)
+    dartanalyzer)
       echo 'dartanalyzer --fatal-warnings .'
       dartanalyzer --fatal-warnings . || EXIT_CODE=$?
       ;;
