@@ -3,6 +3,8 @@ library annotations.date;
 import 'package:meta/meta.dart';
 import 'package:validations/validator_annotation.dart';
 
+part './date/after.dart';
+part './date/before.dart';
 part './date/future_or_present.dart';
 part './date/in_future.dart';
 part './date/past.dart';
@@ -25,6 +27,8 @@ final dateAnnotations = [
   future,
   past,
   pastOrPresent,
+  After,
+  Before,
   FutureOrPresent,
   InFuture,
   Past,

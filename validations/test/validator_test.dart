@@ -1,22 +1,30 @@
-import 'package:test/test.dart';
+import 'package:test/test.dart' as t;
 import 'package:validations/validations.dart';
+
+const group = t.group;
+const setUp = t.setUp;
+const test = t.test;
+const expect = t.expect;
+const throwsA = t.throwsA;
+const yep = t.isTrue;
+const nope = t.isFalse;
 
 void main() {
   group('Validators', () {
     setUp(() {});
 
     test('AssertFalse', () {
-      expect(IsFalseValidator().isValid(false), isTrue);
-      expect(IsFalseValidator().isValid(null), isFalse);
-      expect(IsFalseValidator().isValid(true), isFalse);
-      expect(IsFalseValidator().isValid(''), isFalse);
+      expect(IsFalseValidator().isValid(false), yep);
+      expect(IsFalseValidator().isValid(null), nope);
+      expect(IsFalseValidator().isValid(true), nope);
+      expect(IsFalseValidator().isValid(''), nope);
     });
 
     test('AssertTrue', () {
-      expect(IsTrueValidator().isValid(true), isTrue);
-      expect(IsTrueValidator().isValid(false), isFalse);
-      expect(IsTrueValidator().isValid(null), isFalse);
-      expect(IsTrueValidator().isValid(''), isFalse);
+      expect(IsTrueValidator().isValid(true), yep);
+      expect(IsTrueValidator().isValid(false), nope);
+      expect(IsTrueValidator().isValid(null), nope);
+      expect(IsTrueValidator().isValid(''), nope);
     });
 
     test('CreditCardNumber', () {
@@ -62,7 +70,7 @@ void main() {
       expect(
         // ignore: missing_required_param
         () => DecimalMaxValidator(),
-        throwsA(TypeMatcher<AssertionError>()),
+        throwsA(t.TypeMatcher<AssertionError>()),
       );
       expect(DecimalMaxValidator(value: '6.0').isValid('5.0'), isTrue);
       expect(DecimalMaxValidator(value: '5.0').isValid('6.0'), isFalse);
@@ -74,7 +82,7 @@ void main() {
       expect(
         () => DecimalMaxValidator(value: 'A.B').isValid('Q'),
         throwsA(
-          TypeMatcher<FormatException>(),
+          t.TypeMatcher<FormatException>(),
         ),
       );
     });
@@ -83,7 +91,7 @@ void main() {
       expect(
         // ignore: missing_required_param
         () => DecimalMinValidator(),
-        throwsA(TypeMatcher<AssertionError>()),
+        throwsA(t.TypeMatcher<AssertionError>()),
       );
       expect(DecimalMinValidator(value: '5.0').isValid('6.0'), isTrue);
       expect(DecimalMinValidator(value: '6.0').isValid('5.0'), isFalse);
@@ -95,7 +103,7 @@ void main() {
       expect(
         () => DecimalMinValidator(value: 'A.B').isValid('Q'),
         throwsA(
-          TypeMatcher<FormatException>(),
+          t.TypeMatcher<FormatException>(),
         ),
       );
     });
@@ -115,7 +123,7 @@ void main() {
       expect(
         // ignore: missing_required_param
         () => MaxValidator(),
-        throwsA(TypeMatcher<AssertionError>()),
+        throwsA(t.TypeMatcher<AssertionError>()),
       );
       var validator = MaxValidator(value: 5);
 
@@ -131,7 +139,7 @@ void main() {
       expect(
         // ignore: missing_required_param
         () => MinValidator(),
-        throwsA(TypeMatcher<AssertionError>()),
+        throwsA(t.TypeMatcher<AssertionError>()),
       );
       var validator = MinValidator(value: 5);
 
