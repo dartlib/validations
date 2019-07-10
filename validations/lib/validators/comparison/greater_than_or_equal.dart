@@ -10,6 +10,8 @@ class GreaterThanOrEqualValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
+    if (value is! num) return false;
+
     return value >= this.value;
   }
 
