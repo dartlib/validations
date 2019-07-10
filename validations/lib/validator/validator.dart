@@ -149,10 +149,7 @@ abstract class Validator<T> {
     while (validators.moveNext()) {
       final validator = validators.current;
 
-      if (!validator.initialized) {
-        validator.initialize();
-        validator.initialized = true;
-      }
+      validator.initialize();
 
       if (!validator.isValid(value, valueContext)) {
         final arguments = List.from(validator.argumentValues)..add(value);
