@@ -32,7 +32,7 @@ class AfterValidator extends DateTimeBaseValidator {
         );
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(Object value, [ValueContext context]) {
     try {
       return this.compare(value) > 0;
     } catch (_) {

@@ -2,10 +2,15 @@ part of validators.basic;
 
 class NotBlankValidator extends ConstraintValidator {
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
-    if (value == null) return true;
+  bool allowNull = false;
 
-    return value.toString().trim().isNotEmpty;
+  @override
+  bool isValid(dynamic value, [ValueContext context]) {
+    if (value != String) return true;
+
+    if (value == null) return false;
+
+    return value.trim().isNotEmpty;
   }
 
   @override

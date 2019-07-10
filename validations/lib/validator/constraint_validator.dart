@@ -5,7 +5,7 @@ abstract class ConstraintValidator {
 
   /// null is allowed by default for every Constraint Validator.
   /// Set this to true
-  bool notNull = false;
+  bool allowNull = true;
 
   ConstraintValidator([
     this.argumentValues = const [],
@@ -14,7 +14,13 @@ abstract class ConstraintValidator {
   // Called each time before an isValid check.
   void initialize() {}
 
-  bool isValid(Object value, ValueContext context);
+  bool validate(Object value, [ValueContext context]) {
+    if (allowNull && value == null) return true;
+
+    return isValid(value, context);
+  }
+
+  bool isValid(Object value, [ValueContext context]);
 
   Function get message;
 }

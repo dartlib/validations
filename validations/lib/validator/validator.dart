@@ -149,9 +149,11 @@ abstract class Validator<T> {
     while (validators.moveNext()) {
       final validator = validators.current;
 
+      if (validator.allowNull && value == null) continue;
+
       validator.initialize();
 
-      if (!validator.isValid(value, valueContext)) {
+      if (!validator.validate(value, valueContext)) {
         final arguments = List.from(validator.argumentValues)..add(value);
         violations.add(
           ConstraintViolation(
