@@ -27,8 +27,8 @@ for PKG in ${PKGS}; do
       pub run build_runner test --delete-conflicting-outputs -- -p chrome || EXIT_CODE=$?
       ;;
     dartanalyzer)
-      echo 'dartanalyzer --fatal-warnings .'
-      dartanalyzer --fatal-warnings . || EXIT_CODE=$?
+      echo 'dartanalyzer --fatal-warnings lib test'
+      dartanalyzer --fatal-warnings lib test || EXIT_CODE=$?
       ;;
     dartfmt)
       echo 'dartfmt -n --set-exit-if-changed .'

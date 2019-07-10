@@ -12,23 +12,23 @@ branches:
 jobs:
   include:
     - stage: analyzer_and_format
-      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
-      dart: "2.3.0"
+      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings lib test`]"
+      dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh dartfmt dartanalyzer
     - stage: unit_test
-      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run build_runner test --delete-conflicting-outputs -- -p chrome`"
-      dart: "2.3.0"
+      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: `pub run build_runner test --delete-conflicting-outputs -- -p chrome`"
+      dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh command
     - stage: unit_test
-      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run test`"
-      dart: "2.3.0"
+      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: `pub run test`"
+      dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test_0
     - stage: ensure_build
-      name: "SDK: 2.3.0; PKGS: validations, validations_generator; TASKS: `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
-      dart: "2.3.0"
+      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: `pub run test --run-skipped -t presubmit-only test/ensure_build_test.dart`"
+      dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test_1
 

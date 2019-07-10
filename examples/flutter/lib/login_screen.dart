@@ -43,16 +43,17 @@ class LoginScreenState extends State<LoginScreen> {
   FormData data = FormData();
   LoginFormValidator validator = LoginFormValidator();
 
+  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20.0),
+      margin: const EdgeInsets.all(20.0),
       child: Form(
         key: formKey,
         child: Column(
           children: <Widget>[
             emailField(),
             passwordField(),
-            Container(margin: EdgeInsets.only(top: 25.0)),
+            Container(margin: const EdgeInsets.only(top: 25.0)),
             submitButton(),
           ],
         ),
@@ -91,7 +92,7 @@ class LoginScreenState extends State<LoginScreen> {
   Widget submitButton() {
     return RaisedButton(
       color: Colors.blue,
-      child: Text('Submit'),
+      child: const Text('Submit'),
       onPressed: () {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
