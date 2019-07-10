@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// Checks that the annotated character sequence is a valid hexadecimal.
 @immutable
-class Hexadecimal {
-  final String message;
+class Hexadecimal extends ValidatorAnnotation {
   const Hexadecimal({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// Checks that the annotated character sequence contains only alpha characters [A-z].
 @immutable
-class Alpha {
-  final String message;
+class Alpha extends ValidatorAnnotation {
   const Alpha({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

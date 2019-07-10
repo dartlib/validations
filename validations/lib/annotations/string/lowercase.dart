@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// Checks that the annotated character sequence is in lowercase.
 @immutable
-class Lowercase {
-  final String message;
+class Lowercase extends ValidatorAnnotation {
   const Lowercase({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

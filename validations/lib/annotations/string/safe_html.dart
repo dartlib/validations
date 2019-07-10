@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// checks whether the annotated element is safe html
 @immutable
-class SafeHtml {
-  final String message;
+class SafeHtml extends ValidatorAnnotation {
   const SafeHtml({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

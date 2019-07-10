@@ -1,3 +1,3 @@
 part of annotations.comparison;
 
-const Min = GreaterThanOrEqual;
+class Min = GreaterThanOrEqual with Alias;

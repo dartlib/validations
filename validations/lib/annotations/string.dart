@@ -2,6 +2,8 @@ library annotations.string;
 
 import 'package:meta/meta.dart';
 
+import '../validator_annotation.dart';
+
 part 'string/alpha.dart';
 part 'string/credit_card_number.dart';
 part 'string/ean.dart';

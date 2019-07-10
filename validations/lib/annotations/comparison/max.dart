@@ -1,3 +1,3 @@
 part of annotations.comparison;
 
-const Max = LessThanOrEqual;
+class Max = LessThanOrEqual with Alias;

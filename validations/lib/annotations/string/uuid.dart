@@ -6,11 +6,11 @@ part of annotations.string;
 ///
 //// If version is omitted all versions are valid.
 @immutable
-class Uuid {
+class Uuid extends ValidatorAnnotation {
   final int version;
-  final String message;
   const Uuid({
     this.version,
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

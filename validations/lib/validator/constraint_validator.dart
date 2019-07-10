@@ -1,6 +1,6 @@
 import 'value_context.dart';
 
-abstract class ConstraintValidator {
+abstract class ConstraintValidator<ValueType> {
   List argumentValues;
 
   /// null is allowed by default for every Constraint Validator.

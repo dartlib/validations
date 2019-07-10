@@ -1,9 +1,9 @@
 part of annotations.money;
 
 @immutable
-class Currency {
-  final String message;
+class Currency extends ValidatorAnnotation {
   const Currency({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

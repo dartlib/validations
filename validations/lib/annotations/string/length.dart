@@ -3,13 +3,9 @@ part of annotations.string;
 //// Validates that the annotated character sequence is between
 //// min and max included.
 @immutable
-class Length {
-  final String message;
-  final double min;
-  final double max;
+class Length extends ValidatorAnnotation {
   const Length({
-    this.min,
-    this.max,
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

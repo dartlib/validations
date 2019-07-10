@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// Checks that the annotated character sequence is valid JSON.
 @immutable
-class Json {
-  final String message;
+class Json extends ValidatorAnnotation {
   const Json({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }

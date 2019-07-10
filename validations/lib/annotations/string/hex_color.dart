@@ -2,9 +2,9 @@ part of annotations.string;
 
 //// Checks that the annotated character sequence is a valid hex color.
 @immutable
-class HexColor {
-  final String message;
+class HexColor extends ValidatorAnnotation {
   const HexColor({
-    this.message,
-  });
+    message,
+    groups,
+  }) : super(message, groups);
 }
