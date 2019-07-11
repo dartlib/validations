@@ -182,7 +182,7 @@ class ModelParser {
             (annotation.element as ConstructorElement).parameters;
 
         for (var parameter in parameters) {
-          if (parameter.name != 'message') {
+          if (parameter.name != 'message' && parameter.name != 'groups') {
             messageMethodParameters.add(
               Parameter((builder) {
                 builder
@@ -200,9 +200,7 @@ class ModelParser {
                   '${field.name}${capitalize(annotationConstantValue.type.displayName)}Message';
               message = param.stringValue;
             } else {
-              if (!param.isNull) {
-                namedParams[parameter.name] = literal(param.literalValue);
-              }
+              namedParams[parameter.name] = literal(param.literalValue);
             }
           }
         }
