@@ -11,22 +11,22 @@ class DecimalMaxValidator extends ConstraintValidator {
         super([value, inclusive]);
 
   @override
-  bool isValid(dynamic object, [ValueContext context]) {
-    Decimal value;
+  bool isValid(dynamic value, [ValueContext context]) {
+    Decimal decimal;
 
-    if (object is String) {
-      value = Decimal.parse(object);
-    } else if (object is Decimal) {
-      value = object;
+    if (value is String) {
+      decimal = Decimal.parse(value);
+    } else if (value is Decimal) {
+      decimal = value;
     } else {
       return false;
     }
 
     if (inclusive) {
-      return value <= Decimal.parse(this.value);
+      return decimal <= Decimal.parse(this.value);
     }
 
-    return value < Decimal.parse(this.value);
+    return decimal < Decimal.parse(this.value);
   }
 
   @override

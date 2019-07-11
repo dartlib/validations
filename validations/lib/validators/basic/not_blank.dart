@@ -10,7 +10,7 @@ class NotBlankValidator extends ConstraintValidator {
 
     if (value == null) return false;
 
-    return value.trim().isNotEmpty;
+    return value is String && value.trim().isNotEmpty;
   }
 
   @override

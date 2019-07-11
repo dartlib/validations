@@ -4,7 +4,7 @@ import 'package:validations/validator_annotation.dart';
 @immutable
 abstract class ContainerAnnotation extends ValidatorAnnotation {
   const ContainerAnnotation(
-    message,
-    groups,
+    String message,
+    List<String> groups,
   ) : super(message, groups);
 }

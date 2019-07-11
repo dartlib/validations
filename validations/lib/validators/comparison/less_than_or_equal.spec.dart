@@ -6,10 +6,10 @@ void main() {
     expect(
       // ignore: missing_required_param
       () => LessThanOrEqualValidator(),
-      throwsA(TypeMatcher<AssertionError>()),
+      throwsA(const TypeMatcher<AssertionError>()),
     );
 
-    var validator = LessThanOrEqualValidator(value: 5);
+    final validator = LessThanOrEqualValidator(value: 5);
 
     expect(validator.validate(null), true);
 

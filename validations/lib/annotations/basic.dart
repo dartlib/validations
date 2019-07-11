@@ -34,7 +34,7 @@ const notEmpty = NotEmpty();
 /// [NotNull] annotation using default values
 const notNull = NotNull();
 
-/// [IsNull] annotation using default values
+/// [Null] annotation using default values
 const isNull = Null();
 
 final basicAnnotations = [

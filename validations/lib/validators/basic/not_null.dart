@@ -1,6 +1,7 @@
 part of validators.basic;
 
 class NotNullValidator extends ConstraintValidator {
+  @override
   bool allowNull = false;
 
   @override

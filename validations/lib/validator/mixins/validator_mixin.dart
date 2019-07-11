@@ -29,5 +29,5 @@ class ValidatorMixin<T extends Validator> {
   Set<ConstraintViolation> validateValue(String name, Object value) =>
       _getValidator<T>().validateValue(name, value);
 
-  _getValidator<C>() => C;
+  Validator _getValidator<C>() => C as Validator;
 }

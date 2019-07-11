@@ -8,7 +8,7 @@ void main() {
     expect(
       // ignore: missing_required_param
       () => DecimalMaxValidator(),
-      throwsA(TypeMatcher<AssertionError>()),
+      throwsA(const TypeMatcher<AssertionError>()),
     );
     expect(DecimalMaxValidator(value: '6.0').validate('5.0'), true);
     expect(DecimalMaxValidator(value: '5.0').validate('6.0'), false);
@@ -20,7 +20,7 @@ void main() {
     expect(
       () => DecimalMaxValidator(value: 'A.B').validate('Q'),
       throwsA(
-        TypeMatcher<FormatException>(),
+        const TypeMatcher<FormatException>(),
       ),
     );
   });

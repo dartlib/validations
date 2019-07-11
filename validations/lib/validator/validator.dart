@@ -34,13 +34,11 @@ abstract class Validator<T> {
   }
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
-    if (context == null) {
-      context = _createRootValueContext(
-        object.runtimeType.toString(),
-        object,
-      );
-    }
-    final violations = Set<ConstraintViolation>();
+    context ??= _createRootValueContext(
+      object.runtimeType.toString(),
+      object,
+    );
+    final violations = <ConstraintViolation>{};
 
     final keys = _constraintValidators.keys.iterator;
 
@@ -84,7 +82,7 @@ abstract class Validator<T> {
   ///
   /// Returns the first error if there are any [ConstraintViolation]s.
   ///
-  /// Otherwise returns [null].
+  /// Otherwise returns null.
   ///
   String errorCheck(String name, Object value) {
     final violations = _validateValue(name, value);
@@ -102,12 +100,10 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> _validateProperty(T object, String name,
       [ValueContext context]) {
-    if (context == null) {
-      context = _createRootValueContext(
-        object.runtimeType.toString(),
-        object,
-      );
-    }
+    context ??= _createRootValueContext(
+      object.runtimeType.toString(),
+      object,
+    );
 
     final properties = props(object);
 
@@ -127,24 +123,22 @@ abstract class Validator<T> {
       return _validateValue(name, propertyValue, object, valueContext);
     }
 
-    return Set<ConstraintViolation>();
+    return <ConstraintViolation>{};
   }
 
   Set<ConstraintViolation> _validateValue(String name, Object value,
       [validatedObject, ValueContext valueContext]) {
-    if (!this._constraintValidators.containsKey(name)) {
-      throw 'No validator found for `$name`';
+    if (!_constraintValidators.containsKey(name)) {
+      throw Exception('No validator found for `$name`');
     }
 
-    if (valueContext == null) {
-      valueContext = _createRootValueContext(
-        value.runtimeType.toString(),
-        value,
-      );
-    }
+    valueContext ??= _createRootValueContext(
+      value.runtimeType.toString(),
+      value,
+    );
 
-    final validators = this._constraintValidators[name].iterator;
-    final violations = Set<ConstraintViolation>();
+    final validators = _constraintValidators[name].iterator;
+    final violations = <ConstraintViolation>{};
 
     while (validators.moveNext()) {
       final validator = validators.current;
@@ -164,7 +158,7 @@ abstract class Validator<T> {
             message: Function.apply(
               validator.message,
               arguments,
-            ),
+            ) as String,
           ),
         );
       }

@@ -8,7 +8,7 @@ void main() {
     expect(
       // ignore: missing_required_param
       () => DecimalMinValidator(),
-      throwsA(TypeMatcher<AssertionError>()),
+      throwsA(const TypeMatcher<AssertionError>()),
     );
     expect(DecimalMinValidator(value: '5.0').validate('6.0'), true);
     expect(DecimalMinValidator(value: '6.0').validate('5.0'), false);
@@ -20,7 +20,7 @@ void main() {
     expect(
       () => DecimalMinValidator(value: 'A.B').validate('Q'),
       throwsA(
-        TypeMatcher<FormatException>(),
+        const TypeMatcher<FormatException>(),
       ),
     );
   });

@@ -6,9 +6,9 @@ void main() {
     expect(
       // ignore: missing_required_param
       () => GreaterThanOrEqualValidator(),
-      throwsA(TypeMatcher<AssertionError>()),
+      throwsA(const TypeMatcher<AssertionError>()),
     );
-    var validator = GreaterThanOrEqualValidator(value: 5);
+    final validator = GreaterThanOrEqualValidator(value: 5);
 
     expect(validator.validate(null), true);
 
