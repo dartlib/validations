@@ -12,7 +12,7 @@ branches:
 jobs:
   include:
     - stage: analyzer_and_format
-      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings lib test`]"
+      name: "SDK: 2.4.0; PKGS: validations, validations_generator; TASKS: [`dartfmt -n --set-exit-if-changed .`, `dartanalyzer --fatal-warnings .`]"
       dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh dartfmt dartanalyzer

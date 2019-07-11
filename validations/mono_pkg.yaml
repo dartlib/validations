@@ -5,8 +5,8 @@ dart:
 stages:
 - analyzer_and_format:
   - group:
-    - dartfmt: lib test
-    - dartanalyzer: --fatal-warnings lib test
+    - dartfmt: lib
+    - dartanalyzer: --fatal-warnings .
     dart: [2.4.0]
 - unit_test:
   - test: lib/**/*.spec.dart
