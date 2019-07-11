@@ -5,7 +5,7 @@ part of annotations.number;
 @immutable
 class Positive extends ValidatorAnnotation {
   const Positive({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

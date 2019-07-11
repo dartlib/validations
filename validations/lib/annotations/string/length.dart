@@ -5,7 +5,7 @@ part of annotations.string;
 @immutable
 class Length extends ValidatorAnnotation {
   const Length({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

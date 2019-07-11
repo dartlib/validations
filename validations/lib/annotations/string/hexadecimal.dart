@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class Hexadecimal extends ValidatorAnnotation {
   const Hexadecimal({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

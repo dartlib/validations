@@ -7,7 +7,7 @@ class UuidValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isUUID(value, version);
+    return value is String && isUUID(value, version);
   }
 
   @override

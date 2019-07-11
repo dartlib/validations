@@ -3,7 +3,7 @@ part of validators.string;
 class Base64Validator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isBase64(value);
+    return value is String && isBase64(value);
   }
 
   @override

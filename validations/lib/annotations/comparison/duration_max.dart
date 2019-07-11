@@ -22,7 +22,7 @@ class DurationMax extends ValidatorAnnotation {
     this.milliseconds = 0,
     this.microseconds = 0,
     this.inclusive,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

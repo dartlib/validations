@@ -3,7 +3,7 @@ part of validators.string;
 class NumericValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isNumeric(value);
+    return value is String && isNumeric(value);
   }
 
   @override

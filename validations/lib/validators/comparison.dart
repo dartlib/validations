@@ -2,7 +2,6 @@ library validators.comparison;
 
 import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
-import 'package:validators/validators.dart' show isDivisibleBy;
 
 import '../validator/constraint_validator.dart';
 import '../validator/value_context.dart';

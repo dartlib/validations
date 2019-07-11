@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class Json extends ValidatorAnnotation {
   const Json({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

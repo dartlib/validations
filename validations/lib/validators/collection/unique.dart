@@ -9,13 +9,13 @@ class UniqueValidator extends ConstraintValidator {
       throw Exception('Only know how to handle List and Map');
     }
 
-    final uniqueSet = Set();
+    final uniqueSet = <dynamic>{};
 
     if (value is List) {
       if (value.length < 2) return true;
 
-      for (var i in value) {
-        final ret = uniqueSet.add(value[i]);
+      for (var v in value) {
+        final ret = uniqueSet.add(v);
 
         if (!ret) {
           return false;

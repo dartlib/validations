@@ -6,7 +6,7 @@ class Type extends ValidatorAnnotation {
   final Object type;
   const Type({
     this.type,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

@@ -5,7 +5,7 @@ part of annotations.collection;
 @immutable
 class Valid extends ValidatorAnnotation {
   const Valid({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

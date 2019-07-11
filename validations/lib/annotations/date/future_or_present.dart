@@ -4,7 +4,7 @@ part of annotations.date;
 @immutable
 class FutureOrPresent extends ValidatorAnnotation {
   const FutureOrPresent({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

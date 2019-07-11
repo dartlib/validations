@@ -4,7 +4,7 @@ part of annotations.date;
 @immutable
 class InFuture extends ValidatorAnnotation {
   const InFuture({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

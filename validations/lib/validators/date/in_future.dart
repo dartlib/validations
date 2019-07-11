@@ -12,7 +12,7 @@ class InFutureValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     try {
-      return value.compareTo(date) > 0;
+      return value.compareTo(toDateTime(date)) > 0 as bool;
     } catch (_) {
       return false;
     }

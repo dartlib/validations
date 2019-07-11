@@ -15,7 +15,7 @@ class RangeValidator extends ConstraintValidator {
   bool isValid(dynamic value, [ValueContext context]) {
     if (!(value is num)) return false;
 
-    return value >= this.min && value <= this.max;
+    return value >= min as bool && value <= max as bool;
   }
 
   @override

@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class Lowercase extends ValidatorAnnotation {
   const Lowercase({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

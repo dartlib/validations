@@ -4,7 +4,7 @@ part of annotations.number;
 @immutable
 class PositiveOrZero extends ValidatorAnnotation {
   const PositiveOrZero({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

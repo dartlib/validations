@@ -10,7 +10,7 @@ class IdenticalTo extends ValidatorAnnotation {
   const IdenticalTo({
     @required this.value,
     this.propertyPath,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

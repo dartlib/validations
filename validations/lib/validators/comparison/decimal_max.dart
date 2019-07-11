@@ -1,7 +1,7 @@
 part of validators.comparison;
 
 class DecimalMaxValidator extends ConstraintValidator {
-  final dynamic value;
+  final String value;
   final bool inclusive;
 
   DecimalMaxValidator({

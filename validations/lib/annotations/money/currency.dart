@@ -3,7 +3,7 @@ part of annotations.money;
 @immutable
 class Currency extends ValidatorAnnotation {
   const Currency({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

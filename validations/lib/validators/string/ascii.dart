@@ -3,7 +3,7 @@ part of validators.string;
 class AsciiValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isAscii(value);
+    return value is String && isAscii(value);
   }
 
   @override

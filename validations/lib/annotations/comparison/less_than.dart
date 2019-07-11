@@ -6,7 +6,7 @@ class LessThan extends ValidatorAnnotation {
   final num value;
   const LessThan({
     @required this.value,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

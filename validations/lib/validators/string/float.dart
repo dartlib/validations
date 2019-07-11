@@ -3,7 +3,7 @@ part of validators.string;
 class FloatValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isFloat(value);
+    return value is String && isFloat(value);
   }
 
   @override

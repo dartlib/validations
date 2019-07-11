@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class SafeHtml extends ValidatorAnnotation {
   const SafeHtml({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

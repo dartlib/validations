@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class HexColor extends ValidatorAnnotation {
   const HexColor({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

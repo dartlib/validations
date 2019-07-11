@@ -5,7 +5,7 @@ part of annotations.basic;
 @immutable
 class NotBlank extends ValidatorAnnotation {
   const NotBlank({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

@@ -4,7 +4,7 @@ part of annotations.basic;
 @immutable
 class IsEmpty extends ValidatorAnnotation {
   const IsEmpty({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class MongoId extends ValidatorAnnotation {
   const MongoId({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

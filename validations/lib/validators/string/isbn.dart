@@ -7,7 +7,7 @@ class ISBNValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isISBN(value, version);
+    return value is String && isISBN(value, version);
   }
 
   @override

@@ -3,7 +3,7 @@ part of validators.string;
 class HexadecimalValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isHexadecimal(value);
+    return value is String && isHexadecimal(value);
   }
 
   @override

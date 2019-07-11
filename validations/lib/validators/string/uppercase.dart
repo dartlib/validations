@@ -3,7 +3,7 @@ part of validators.string;
 class UppercaseValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isUppercase(value);
+    return value is String && isUppercase(value);
   }
 
   @override

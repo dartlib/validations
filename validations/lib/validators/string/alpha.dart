@@ -3,7 +3,7 @@ part of validators.string;
 class AlphaValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isAlpha(value);
+    return value is String && isAlpha(value);
   }
 
   @override

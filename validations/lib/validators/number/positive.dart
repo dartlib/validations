@@ -3,7 +3,11 @@ part of validators.number;
 class PositiveValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return !num.parse(value).isNegative;
+    try {
+      return !parseNum(value).isNegative;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

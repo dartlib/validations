@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class Int extends ValidatorAnnotation {
   const Int({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

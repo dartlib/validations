@@ -4,7 +4,7 @@ part of annotations.basic;
 @immutable
 class IsFalse extends ValidatorAnnotation {
   const IsFalse({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

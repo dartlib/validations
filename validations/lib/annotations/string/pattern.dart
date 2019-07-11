@@ -6,7 +6,7 @@ class Pattern extends ValidatorAnnotation {
   final String regexp;
   const Pattern({
     @required this.regexp,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

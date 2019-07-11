@@ -20,7 +20,7 @@ class After extends ValidatorAnnotation {
     this.second = 0,
     this.millisecond = 0,
     this.microsecond = 0,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

@@ -12,7 +12,7 @@ class DivisibleByValidator extends ConstraintValidator {
   bool isValid(dynamic value, [ValueContext context]) {
     if (!(value is num)) return false;
 
-    return isDivisibleBy(value, this.value);
+    return value % this.value == 0;
   }
 
   @override

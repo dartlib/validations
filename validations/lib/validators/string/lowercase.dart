@@ -3,7 +3,7 @@ part of validators.string;
 class LowercaseValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isLowercase(value);
+    return value is String && isLowercase(value);
   }
 
   @override

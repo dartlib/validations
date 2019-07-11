@@ -17,7 +17,7 @@ class URL extends ValidatorAnnotation {
     this.host,
     this.port,
     this.regexp,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

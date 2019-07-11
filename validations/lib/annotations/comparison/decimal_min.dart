@@ -11,8 +11,8 @@ class DecimalMin extends ValidatorAnnotation {
   const DecimalMin({
     @required this.value,
     this.inclusive = true,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   })  : assert(value != null),
         super(message, groups);
 }

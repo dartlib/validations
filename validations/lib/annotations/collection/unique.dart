@@ -8,7 +8,7 @@ part of annotations.collection;
 @immutable
 class Unique extends ValidatorAnnotation {
   const Unique({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

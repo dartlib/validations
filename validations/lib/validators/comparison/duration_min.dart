@@ -8,6 +8,7 @@ class DurationMinValidator extends ConstraintValidator {
   final int seconds;
   final int milliseconds;
   final int microseconds;
+  final bool inclusive;
 
   DurationMinValidator({
     this.days = 0,
@@ -16,7 +17,7 @@ class DurationMinValidator extends ConstraintValidator {
     this.seconds = 0,
     this.milliseconds = 0,
     this.microseconds = 0,
-    inclusive,
+    this.inclusive,
   }) : super([]);
 
   @override
@@ -30,14 +31,14 @@ class DurationMinValidator extends ConstraintValidator {
       microseconds: microseconds,
     );
 
-    this.argumentValues.add(duration);
+    argumentValues.add(duration);
   }
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (!(value is Duration)) return false;
+    if (value is! Duration) return false;
 
-    return value >= this.duration;
+    return value as Duration >= duration;
   }
 
   @override

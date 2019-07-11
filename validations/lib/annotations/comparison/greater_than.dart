@@ -6,7 +6,7 @@ class GreaterThan extends ValidatorAnnotation {
   final num value;
   const GreaterThan({
     @required this.value,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

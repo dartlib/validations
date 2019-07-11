@@ -12,7 +12,7 @@ class PastValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     try {
-      return value.compareTo(date).isNegative;
+      return value.compareTo(toDateTime(date)).isNegative as bool;
     } catch (_) {
       return false;
     }

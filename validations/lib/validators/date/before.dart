@@ -1,25 +1,15 @@
 part of validators.date;
 
 class BeforeValidator extends DateTimeBaseValidator {
-  final int year;
-  final int month;
-  final int day;
-  final int hour;
-  final int minute;
-  final int second;
-  final int millisecond;
-  final int microsecond;
-  DateTime date;
-
   BeforeValidator({
-    this.year,
-    this.month,
-    this.day,
-    this.hour,
-    this.minute,
-    this.second,
-    this.millisecond,
-    this.microsecond,
+    int year,
+    int month,
+    int day,
+    int hour,
+    int minute,
+    int second,
+    int millisecond,
+    int microsecond,
   }) : super(
           year: year,
           month: month,
@@ -34,7 +24,7 @@ class BeforeValidator extends DateTimeBaseValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     try {
-      return this.compare(value).isNegative;
+      return compare(toDateTime(value)).isNegative;
     } catch (_) {
       return false;
     }

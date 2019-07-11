@@ -4,7 +4,7 @@ part of annotations.basic;
 @immutable
 class NotNull extends ValidatorAnnotation {
   const NotNull({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

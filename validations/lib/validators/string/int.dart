@@ -3,7 +3,7 @@ part of validators.string;
 class IntValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isInt(value);
+    return value is String && isInt(value);
   }
 
   @override

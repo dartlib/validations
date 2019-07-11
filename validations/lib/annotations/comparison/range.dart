@@ -9,7 +9,7 @@ class Range extends ValidatorAnnotation {
   const Range({
     this.min,
     this.max,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

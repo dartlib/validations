@@ -24,14 +24,15 @@ class UrlValidator extends ConstraintValidator {
         ]);
   @override
   bool isValid(Object value, [ValueContext context]) {
-    return isURL(
-      value,
-      requireTld: requireTld,
-      requireProtocol: requireProtocol,
-      allowUnderscore: allowUnderscore,
-      hostBlacklist: blacklist,
-      hostWhitelist: whitelist,
-    );
+    return value is String &&
+        isURL(
+          value,
+          requireTld: requireTld,
+          requireProtocol: requireProtocol,
+          allowUnderscore: allowUnderscore,
+          hostBlacklist: blacklist,
+          hostWhitelist: whitelist,
+        );
   }
 
   @override

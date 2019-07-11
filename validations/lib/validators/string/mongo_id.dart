@@ -3,7 +3,7 @@ part of validators.string;
 class MongoIdValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return isMongoId(value);
+    return value is String && isMongoId(value);
   }
 
   @override

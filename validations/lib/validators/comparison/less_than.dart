@@ -12,7 +12,7 @@ class LessThanValidator extends ConstraintValidator {
   bool isValid(dynamic value, [ValueContext context]) {
     if (value is! num) return false;
 
-    return value < this.value;
+    return value < this.value as bool;
   }
 
   @override

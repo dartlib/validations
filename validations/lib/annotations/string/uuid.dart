@@ -10,7 +10,7 @@ class Uuid extends ValidatorAnnotation {
   final int version;
   const Uuid({
     this.version,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

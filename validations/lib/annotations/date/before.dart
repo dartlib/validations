@@ -20,8 +20,8 @@ class Before extends ValidatorAnnotation {
     this.second,
     this.millisecond,
     this.microsecond,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   })  : assert(year != null),
         super(message, groups);
 }

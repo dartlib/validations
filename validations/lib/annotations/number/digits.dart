@@ -12,7 +12,7 @@ class Digits extends ValidatorAnnotation {
   const Digits({
     this.integer,
     this.fraction,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

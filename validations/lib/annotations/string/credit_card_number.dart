@@ -4,7 +4,7 @@ part of annotations.string;
 @immutable
 class CreditCardNumber extends ValidatorAnnotation {
   const CreditCardNumber({
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }

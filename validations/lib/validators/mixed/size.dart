@@ -14,7 +14,7 @@ class SizeValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     if (value is String || value is List || value is Map) {
-      return min <= value.length && value.length <= max;
+      return min <= (value.length as int) && (value.length as int) <= max;
     }
 
     if (value is num) {

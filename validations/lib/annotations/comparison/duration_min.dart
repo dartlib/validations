@@ -20,7 +20,7 @@ class DurationMin extends ValidatorAnnotation {
     this.millis,
     this.nanos,
     this.inclusive,
-    message,
-    groups,
+    String message,
+    List<String> groups,
   }) : super(message, groups);
 }
