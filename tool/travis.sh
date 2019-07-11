@@ -31,8 +31,8 @@ for PKG in ${PKGS}; do
       dartfmt -n --set-exit-if-changed . || EXIT_CODE=$?
       ;;
     test_0)
-      echo 'pub run test lib/**/*.spec.dart'
-      pub run test lib/**/*.spec.dart || EXIT_CODE=$?
+      echo 'pub run test lib'
+      pub run test lib || EXIT_CODE=$?
       ;;
     test_1)
       echo 'pub run test'
