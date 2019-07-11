@@ -1,3 +1,8 @@
 part of validators.comparison;
 
-class MinValidator = GreaterThanOrEqualValidator with _Alias;
+class MinValidator extends GreaterThanOrEqualValidator {
+  MinValidator({
+    @required num value,
+  })  : assert(value != null),
+        super(value: value);
+}

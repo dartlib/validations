@@ -1,3 +1,8 @@
 part of validators.comparison;
 
-class MaxValidator = LessThanOrEqualValidator with _Alias;
+class MaxValidator extends LessThanOrEqualValidator {
+  MaxValidator({
+    @required num value,
+  })  : assert(value != null),
+        super(value: value);
+}

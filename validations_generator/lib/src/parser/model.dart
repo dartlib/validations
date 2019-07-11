@@ -12,9 +12,11 @@ const genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
 const containerAnnotationType =
     TypeChecker.fromRuntime(validator.ContainerAnnotation);
 
-final annotationTypes = validator.fieldAnnotations.map(
-  (type) => TypeChecker.fromRuntime(type),
-);
+// TODO: simple annotations are now still ignored.
+final annotationTypes =
+    validator.fieldAnnotations.where((type) => type is Type).map(
+          (type) => type is Type ? TypeChecker.fromRuntime(type) : null,
+        );
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

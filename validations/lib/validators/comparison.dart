@@ -22,5 +22,3 @@ part 'comparison/min.dart';
 part 'comparison/not_equal_to.dart';
 part 'comparison/not_identical_to.dart';
 part 'comparison/range.dart';
-
-mixin _Alias {}
