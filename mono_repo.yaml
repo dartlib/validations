@@ -1,7 +1,5 @@
 travis:
   sudo: required
-  addons:
-    chrome: stable
   branches:
     only:
     - master
