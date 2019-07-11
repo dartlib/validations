@@ -198,11 +198,10 @@ class ModelParser {
             if (parameter.name == 'message') {
               messageMethod =
                   '${field.name}${capitalize(annotationConstantValue.type.displayName)}Message';
-              message = param.stringValue; // v.toStringValue();
+              message = param.stringValue;
             } else {
               if (!param.isNull) {
-                namedParams[parameter.name] =
-                    literal(param.literalValue); // value;
+                namedParams[parameter.name] = literal(param.literalValue);
               }
             }
           }
