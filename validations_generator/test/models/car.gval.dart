@@ -7,28 +7,65 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_TestCarValidator implements Validator<Car> {
+  static String driverValidMessage(List groups, Object validatedValue) =>
+      Intl.message('There should be a valid driver!',
+          name: 'driverValidMessage', args: [groups, validatedValue]);
   static String licensePlateSizeMessage(
           int min, int max, Object validatedValue) =>
       Intl.message(
           'The license plate $validatedValue must be between $min and $max characters long',
           name: 'licensePlateSizeMessage',
           args: [min, max, validatedValue]);
+  static String seatCountMinMessage(
+          num value, List groups, Object validatedValue) =>
+      Intl.message('Car must at least have $value seats available',
+          name: 'seatCountMinMessage', args: [value, groups, validatedValue]);
+  static String seatCountMaxMessage(
+          num value, List groups, Object validatedValue) =>
+      Intl.message('Car cannot have more than $value seats',
+          name: 'seatCountMaxMessage', args: [value, groups, validatedValue]);
+  static String topSpeedMaxMessage(
+          num value, List groups, Object validatedValue) =>
+      Intl.message('The top speed $validatedValue is higher than $value',
+          name: 'topSpeedMaxMessage', args: [value, groups, validatedValue]);
+  static String priceDecimalMaxMessage(
+          String value, bool inclusive, List groups, Object validatedValue) =>
+      Intl.message('Price must not be lower than $value',
+          name: 'priceDecimalMaxMessage',
+          args: [value, inclusive, groups, validatedValue]);
+  static String priceDecimalMinMessage(
+          String value, bool inclusive, List groups, Object validatedValue) =>
+      Intl.message('Price must not be higher than $value',
+          name: 'priceDecimalMinMessage',
+          args: [value, inclusive, groups, validatedValue]);
+  static String isRegisteredIsTrueMessage(List groups, Object validatedValue) =>
+      Intl.message('Car must be registered!',
+          name: 'isRegisteredIsTrueMessage', args: [groups, validatedValue]);
   @override
   Map<String, List<ConstraintValidator>> getConstraintValidators() {
     return {
       'manufacturer': [NotNullValidator()],
-      'driver': [ValidValidator()],
+      'driver': [
+        ValidValidator(
+          TestDriverValidator()..validationContext = validationContext,
+        )..message = driverValidMessage
+      ],
       'licensePlate': [
         SizeValidator(min: 2, max: 14)..message = licensePlateSizeMessage,
         NotNullValidator()
       ],
-      'seatCount': [MinValidator(), MaxValidator()],
-      'topSpeed': [MaxValidator()],
-      'price': [
-        DecimalMaxValidator(inclusive: true, value: '100.00'),
-        DecimalMinValidator(inclusive: true, value: '49.99')
+      'seatCount': [
+        MinValidator(value: 1)..message = seatCountMinMessage,
+        MaxValidator(value: 2)..message = seatCountMaxMessage
       ],
-      'isRegistered': [IsTrueValidator()]
+      'topSpeed': [MaxValidator(value: 350)..message = topSpeedMaxMessage],
+      'price': [
+        DecimalMaxValidator(value: '100.00', inclusive: true)
+          ..message = priceDecimalMaxMessage,
+        DecimalMinValidator(value: '49.99', inclusive: true)
+          ..message = priceDecimalMinMessage
+      ],
+      'isRegistered': [IsTrueValidator()..message = isRegisteredIsTrueMessage]
     };
   }
 

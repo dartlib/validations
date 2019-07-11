@@ -1,7 +1,5 @@
-import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:analyzer/src/generated/constant.dart' show DartObjectImpl;
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
@@ -172,43 +170,43 @@ class ModelParser {
       for (var annotation in field.metadata) {
         if (!isValidatorAnnotation(annotation)) continue;
 
-        final annotationImpl =
-            annotation.computeConstantValue() as DartObjectImpl;
+        final annotationConstantValue = annotation.computeConstantValue();
+        final annotationImpl = ConstantReader(annotationConstantValue);
         final namedParams = <String, Expression>{};
 
         String message;
         String messageMethod;
         final messageMethodParameters = <Parameter>[];
 
-        final parameters = (annotation.element as ConstructorElement)
-            .parameters
-            .where((parameter) => parameter.displayName != 'message');
+        final parameters =
+            (annotation.element as ConstructorElement).parameters;
 
         for (var parameter in parameters) {
-          messageMethodParameters.add(
-            Parameter((builder) {
-              builder
-                ..name = parameter.name
-                ..type = refer(parameter.type.name);
-            }),
-          );
-        }
+          if (parameter.name != 'message') {
+            messageMethodParameters.add(
+              Parameter((builder) {
+                builder
+                  ..name = parameter.name
+                  ..type = refer(parameter.type.name);
+              }),
+            );
+          }
 
-        annotationImpl.fields.forEach((String k, DartObject v) {
-          if (!v.isNull) {
-            if (k == 'message') {
+          final param = annotationImpl.read(parameter.name);
+
+          if (!param.isNull) {
+            if (parameter.name == 'message') {
               messageMethod =
-                  '${field.name}${capitalize(annotationImpl.type.displayName)}Message';
-              message = v.toStringValue();
+                  '${field.name}${capitalize(annotationConstantValue.type.displayName)}Message';
+              message = param.stringValue; // v.toStringValue();
             } else {
-              final value = _getValue(k, v);
-
-              if (value != null) {
-                namedParams[k] = value;
+              if (!param.isNull) {
+                namedParams[parameter.name] =
+                    literal(param.literalValue); // value;
               }
             }
           }
-        });
+        }
 
         if (messageMethod != null) {
           classBuilder.methods.add(
@@ -222,8 +220,8 @@ class ModelParser {
 
         final positionalArguments = <Expression>[];
 
-        final isContainerAnnotation =
-            containerAnnotationType.isAssignableFromType(annotationImpl.type);
+        final isContainerAnnotation = containerAnnotationType
+            .isAssignableFromType(annotationConstantValue.type);
 
         if (isContainerAnnotation) {
           final containerValidator =
@@ -236,7 +234,8 @@ class ModelParser {
         }
 
         final statement =
-            refer('${annotationImpl.type.displayName}Validator').newInstance(
+            refer('${annotationConstantValue.type.displayName}Validator')
+                .newInstance(
           positionalArguments,
           namedParams,
         );
@@ -318,18 +317,6 @@ class ModelParser {
           ..requiredParameters.add(validatedValue);
       },
     );
-  }
-
-  Expression _getValue(String k, DartObject v) {
-    final type = v.type.name;
-    if (type == 'bool') return literal(v.toBoolValue());
-    if (type == 'String') {
-      return literalString(v.toStringValue());
-    }
-    if (type == 'double') return literal(v.toDoubleValue());
-    if (type == 'int') return literal(v.toIntValue());
-
-    return null;
   }
 
   void _findModel() {
