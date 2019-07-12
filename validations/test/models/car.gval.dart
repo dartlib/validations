@@ -27,12 +27,12 @@ abstract class $_TestCarValidator implements Validator<Car> {
           name: 'topSpeedMaxMessage', args: [value, validatedValue]);
   static String priceDecimalMaxMessage(
           String value, bool inclusive, Object validatedValue) =>
-      Intl.message('Price must not be lower than $value',
+      Intl.message('Price must not be higher than $value',
           name: 'priceDecimalMaxMessage',
           args: [value, inclusive, validatedValue]);
   static String priceDecimalMinMessage(
           String value, bool inclusive, Object validatedValue) =>
-      Intl.message('Price must not be higher than $value',
+      Intl.message('Price must not be lower than $value',
           name: 'priceDecimalMinMessage',
           args: [value, inclusive, validatedValue]);
   static String isRegisteredIsTrueMessage(Object validatedValue) =>

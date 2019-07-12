@@ -49,11 +49,11 @@ class Car {
 
   @DecimalMax(
     value: '100.00',
-    message: r'Price must not be lower than $value',
+    message: r'Price must not be higher than $value',
   )
   @DecimalMin(
     value: '49.99',
-    message: r'Price must not be higher than $value',
+    message: r'Price must not be lower than $value',
   )
   Decimal price;
 

@@ -109,7 +109,7 @@ void main() {
 
         expect(
           violations.elementAt(6).message,
-          equals('Price must not be lower than 100.00'),
+          equals('Price must not be higher than 100.00'),
         );
 
         expect(
@@ -186,7 +186,7 @@ void main() {
 
         expect(
           validator.validateProperty(car, 'price').first.message,
-          equals('Price must not be lower than 100.00'),
+          equals('Price must not be higher than 100.00'),
         );
 
         expect(
@@ -222,7 +222,7 @@ void main() {
       );
       expect(
         validator.validateValue('price', '150.00').first.message,
-        equals('Price must not be lower than 100.00'),
+        equals('Price must not be higher than 100.00'),
       );
       expect(
         validator.validateValue('isRegistered', false).first.message,
