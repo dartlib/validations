@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+part of annotations;
 
 @immutable
 class GenValidator {

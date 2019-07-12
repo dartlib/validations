@@ -1,7 +1,7 @@
 library validators.number;
 
 import '../validator.dart';
-import 'number/helpers/parse_num.dart';
+import 'helpers.dart';
 
 part 'number/negative.dart';
 part 'number/negative_or_zero.dart';
