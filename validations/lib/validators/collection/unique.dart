@@ -5,33 +5,29 @@ class UniqueValidator extends ConstraintValidator {
   bool isValid(Object value, [ValueContext context]) {
     if (value == null) return true;
 
-    if (!(value is Map) || !(value is List)) {
-      throw Exception('Only know how to handle List and Map');
-    }
+    if (value is Set) return true;
 
-    final uniqueSet = <dynamic>{};
-
-    if (value is List) {
-      if (value.length < 2) return true;
-
-      for (var v in value) {
-        final ret = uniqueSet.add(v);
-
-        if (!ret) {
-          return false;
-        }
-      }
+    if (value is Iterable) {
+      return _isUnique(value);
     }
 
     if (value is Map) {
-      if (value.length < 2) return true;
+      return _isUnique(value.values);
+    }
 
-      for (var v in value.values) {
-        final ret = uniqueSet.add(v);
+    throw Exception('Only know how to handle Iterables and Map');
+  }
 
-        if (!ret) {
-          return false;
-        }
+  bool _isUnique(Iterable value) {
+    final uniqueSet = <dynamic>{};
+
+    if (value.length < 2) return true;
+
+    for (var v in value) {
+      final ret = uniqueSet.add(v);
+
+      if (!ret) {
+        return false;
       }
     }
 

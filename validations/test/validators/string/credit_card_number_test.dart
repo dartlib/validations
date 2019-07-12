@@ -1,44 +1,23 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/string.dart';
 
+import '../../test_validator.dart';
+
 void main() {
-  test('CreditCardNumberValidator', () {
-    expect(CreditCardNumberValidator().validate(null), true);
-
-    expect(
-      CreditCardNumberValidator().validate('4111 1111 1111 1111'),
+  TestValidator(CreditCardNumberValidator())
+    ..isValid({
+      null,
+      '4111 1111 1111 1111', // visa
+      '5500 0000 0000 0004', // MasterCard
+      '3400 0000 0000 009', // American Express
+      '3000 0000 0000 04', // Diner's Club
+      '6011 0000 0000 0004', // Carte Blanche
+      // '2014 0000 0000 009', // en Route
+      // '3088 0000 0000 0009' // JCB
+    })
+    ..isInvalid({
+      '3088 0000',
+      '30000',
+      3,
       true,
-    ); // visa
-    expect(
-      CreditCardNumberValidator().validate('5500 0000 0000 0004'),
-      true,
-    ); // MasterCard
-    expect(
-      CreditCardNumberValidator().validate('3400 0000 0000 009'),
-      true,
-    ); // American Express
-    expect(
-      CreditCardNumberValidator().validate('3000 0000 0000 04 '),
-      true,
-    ); // Diner's Club
-    expect(
-      CreditCardNumberValidator().validate('6011 0000 0000 0004'),
-      true,
-    ); // Carte Blanche
-
-    // expect(
-    //   CreditCardNumberValidator().validate('2014 0000 0000 009'),
-    //   true,
-    // ); // en Route
-
-    // expect(
-    //  CreditCardNumberValidator().validate('3088 0000 0000 0009'),
-    //  true,
-    // ); // JCB
-
-    expect(CreditCardNumberValidator().validate('3088 0000'), false);
-    expect(CreditCardNumberValidator().validate('30000'), false);
-    expect(CreditCardNumberValidator().validate(3), false);
-    expect(CreditCardNumberValidator().validate(true), false);
-  });
+    });
 }

@@ -1,3 +1,4 @@
+/// To use, import `package:validations/annotations/date.dart`
 library annotations.date;
 
 import 'package:meta/meta.dart';

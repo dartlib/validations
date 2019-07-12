@@ -1,13 +1,20 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/basic.dart';
 
-void main() {
-  test('IsEmptyValidator', () {
-    expect(IsEmptyValidator().validate(null), true);
+import '../../test_validator.dart';
 
-    expect(IsEmptyValidator().validate(''), true);
-    expect(IsEmptyValidator().validate([]), true);
-    expect(IsEmptyValidator().validate({}), true);
-    expect(IsEmptyValidator().validate(<dynamic>{}), true);
-  });
+void main() {
+  TestValidator(IsEmptyValidator())
+    ..isValid({
+      null,
+      '',
+      [],
+      {},
+      <dynamic>{},
+    })
+    ..isInvalid({
+      'A',
+      [1],
+      {'A': 'A'},
+      {'A'},
+    });
 }

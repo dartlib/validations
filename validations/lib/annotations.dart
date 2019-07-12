@@ -1,3 +1,19 @@
+/// This library contains all available validation annotations.
+///
+/// To use, import `package:validations/annotations.dart`
+///
+/// It contains all of the below sub libraries:
+///
+///   * annotations.basic
+///   * annotations.choice
+///   * annotations.collection
+///   * annotations.comparison
+///   * annotations.date
+///   * annotations.file
+///   * annotations.mixed
+///   * annotations.money
+///   * annotations.number
+///   * annotations.string
 library annotations;
 
 import 'package:meta/meta.dart';

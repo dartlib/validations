@@ -1,3 +1,4 @@
+/// To use, import `package:validations/annotations/number.dart`
 library annotations.number;
 
 import 'package:meta/meta.dart';

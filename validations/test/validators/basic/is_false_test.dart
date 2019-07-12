@@ -1,12 +1,15 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/basic.dart';
 
-void main() {
-  test('IsFalseValidator', () {
-    expect(IsFalseValidator().validate(null), true);
+import '../../test_validator.dart';
 
-    expect(IsFalseValidator().validate(false), true);
-    expect(IsFalseValidator().validate(true), false);
-    expect(IsFalseValidator().validate(''), false);
-  });
+void main() {
+  TestValidator(IsFalseValidator())
+    ..isValid({
+      null,
+      false,
+    })
+    ..isInvalid({
+      true,
+      '',
+    });
 }

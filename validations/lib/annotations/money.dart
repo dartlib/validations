@@ -1,3 +1,4 @@
+/// To use, import `package:validations/annotations/money.dart`
 library annotations.money;
 
 import 'package:meta/meta.dart';

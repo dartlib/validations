@@ -1,3 +1,4 @@
+/// To use, import `package:validations/annotations/comparison.dart`
 library annotations.comparison;
 
 import 'package:meta/meta.dart';

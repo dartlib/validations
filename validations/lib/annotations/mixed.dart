@@ -1,3 +1,4 @@
+/// To use, import `package:validations/annotations/mixed.dart`
 library annotations.mixed;
 
 import 'package:meta/meta.dart';

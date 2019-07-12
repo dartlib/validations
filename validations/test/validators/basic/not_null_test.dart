@@ -1,13 +1,16 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/basic.dart';
 
-void main() {
-  test('NotNullValidator', () {
-    expect(NotNullValidator().validate(null), false);
+import '../../test_validator.dart';
 
-    expect(NotNullValidator().validate(''), true);
-    expect(NotNullValidator().validate(true), true);
-    expect(NotNullValidator().validate(false), true);
-    expect(NotNullValidator().validate(1), true);
-  });
+void main() {
+  TestValidator(NotNullValidator())
+    ..isValid({
+      '',
+      true,
+      false,
+      1,
+    })
+    ..isInvalid({
+      null,
+    });
 }

@@ -1,12 +1,23 @@
 part of validator;
 
-/// Extend this class to create a Validator for a [Type]
+/// This is the base validator class.
+///
+/// Extend this class to create a Validator for your model.
+///
+/// Based on the annotations which are defined in your model a validator
+/// class is generated.
+///
+/// The generic [T] argument determines for which model type the generated
+/// validator will validate.
+///
+/// To trigger generation of the validator make sure you annotate it with
+/// a [@GenValidator] annotation.
 ///
 /// Example:
 ///
 ///     class User {
-///       @Alphanumeric
-///       @NotNull
+///       @alphanumeric
+///       @notNull
 ///       @Min(value: 2)
 ///       @Max(value: 255)
 ///       String name;
