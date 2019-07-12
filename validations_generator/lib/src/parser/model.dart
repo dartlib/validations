@@ -60,7 +60,7 @@ class ModelParser {
       final annotatedFields = _getAnnotatedFields(fields);
 
       classBuilder.methods.addAll([
-        _buildGetConstraintValidators(annotatedFields, classBuilder),
+        _buildGetFieldValidators(annotatedFields, classBuilder),
         _buildPropsMethod(annotatedFields, classBuilder),
         ..._buildValidatorMethods(annotatedFields, classBuilder),
       ]);
@@ -158,11 +158,11 @@ class ModelParser {
     );
   }
 
-  Method _buildGetConstraintValidators(
+  Method _buildGetFieldValidators(
     List<FieldElement> fields,
     ClassBuilder classBuilder,
   ) {
-    final map = <String, Expression>{};
+    final fieldValidators = [];
 
     for (var field in fields) {
       final list = [];
@@ -252,17 +252,26 @@ class ModelParser {
         }
       }
 
-      map[field.name] = literalList(list);
+      fieldValidators.add(
+        refer('FieldValidator').newInstance(
+          [],
+          {
+            'name': literalString(field.name),
+            'validators': literalList(list),
+          },
+          [refer(field.type.name)],
+        ),
+      );
     }
 
-    final body = literalMap(map).returned.statement;
+    final body = literalList(fieldValidators).returned.statement;
 
     return Method((MethodBuilder builder) {
       builder
-        ..name = 'getConstraintValidators'
+        ..name = 'getFieldValidators'
         ..body = body
         ..annotations.add(refer('override'))
-        ..returns = refer('Map<String, List<ConstraintValidator>>');
+        ..returns = refer('List<FieldValidator>');
     });
   }
 

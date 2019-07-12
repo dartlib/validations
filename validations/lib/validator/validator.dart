@@ -1,6 +1,6 @@
-import '../validator/constraint_validator.dart';
 import '../validator/node.dart';
 import 'constraint_violation.dart';
+import 'field_validator.dart';
 import 'validation_context.dart';
 import 'value_context.dart';
 
@@ -24,13 +24,19 @@ import 'value_context.dart';
 ///     class UserValidator extends Validator<User> with _$UserValidator {}
 ///
 abstract class Validator<T> {
-  Map<String, List<ConstraintValidator>> _constraintValidators;
-  Map<String, List<ConstraintValidator>> getConstraintValidators();
+  Map<String, FieldValidator> _fieldValidatorMap;
+  List<FieldValidator> _fieldValidators;
+  List<FieldValidator> getFieldValidators();
   Map<String, dynamic> props(T props);
   ValidationContext validationContext = ValidationContext();
 
   Validator() {
-    _constraintValidators = getConstraintValidators();
+    _fieldValidators = getFieldValidators();
+    _fieldValidatorMap = Map.fromIterable(
+      _fieldValidators,
+      key: (v) => v.name as String,
+      value: (v) => v as FieldValidator,
+    );
   }
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
@@ -40,11 +46,9 @@ abstract class Validator<T> {
     );
     final violations = <ConstraintViolation>{};
 
-    final keys = _constraintValidators.keys.iterator;
-
-    while (keys.moveNext()) {
+    for (var fieldValidator in _fieldValidators) {
       final propertyViolations =
-          _validateProperty(object, keys.current, context);
+          _validateProperty(object, fieldValidator.name, context);
 
       if (propertyViolations.isNotEmpty) {
         violations.addAll(propertyViolations);
@@ -114,7 +118,6 @@ abstract class Validator<T> {
 
       context.node.append(valueNode);
 
-      // Could be reduced to only ValueContext as a node. simpler.
       final valueContext = ValueContext(
         node: valueNode,
         value: propertyValue,
@@ -128,7 +131,7 @@ abstract class Validator<T> {
 
   Set<ConstraintViolation> _validateValue(String name, Object value,
       [validatedObject, ValueContext valueContext]) {
-    if (!_constraintValidators.containsKey(name)) {
+    if (!_fieldValidatorMap.containsKey(name)) {
       throw Exception('No validator found for `$name`');
     }
 
@@ -137,7 +140,7 @@ abstract class Validator<T> {
       value,
     );
 
-    final validators = _constraintValidators[name].iterator;
+    final validators = _fieldValidatorMap[name].validators.iterator;
     final violations = <ConstraintViolation>{};
 
     while (validators.moveNext()) {
