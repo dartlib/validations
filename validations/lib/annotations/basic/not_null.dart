@@ -1,6 +1,6 @@
 part of annotations.basic;
 
-//// Checks whether the annotated element is not null
+/// Checks whether the annotated element is not null
 @immutable
 class NotNull extends ValidatorAnnotation {
   const NotNull({

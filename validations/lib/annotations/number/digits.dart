@@ -1,7 +1,7 @@
 part of annotations.number;
 
-//// Checks whether the annotated value is a number having up to [integer] digits
-//// and [fraction] fractional digits.
+/// Checks whether the annotated value is a number having up to [integer] digits
+/// and [fraction] fractional digits.
 @immutable
 class Digits extends ValidatorAnnotation {
   /// maximum number of integral digits accepted for this number

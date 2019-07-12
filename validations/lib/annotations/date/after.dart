@@ -1,6 +1,6 @@
 part of annotations.date;
 
-//// Checks whether the annotated date is after the specified date.
+/// Checks whether the annotated date is after the specified date.
 @immutable
 class After extends ValidatorAnnotation {
   final int year;

@@ -1,6 +1,6 @@
 part of annotations.basic;
 
-//// Checks whether the annotated element is of the declared type
+/// Checks whether the annotated element is of the declared type
 @immutable
 class Type extends ValidatorAnnotation {
   const Type({
