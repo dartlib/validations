@@ -1,7 +1,8 @@
 library annotations.basic;
 
 import 'package:meta/meta.dart';
-import 'package:validations/validator_annotation.dart';
+
+import '../annotation.dart';
 
 part './basic/blank.dart';
 part './basic/is_empty.dart';

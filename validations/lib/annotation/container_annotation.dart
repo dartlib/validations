@@ -1,5 +1,4 @@
-import 'package:meta/meta.dart';
-import 'package:validations/validator_annotation.dart';
+part of annotation;
 
 @immutable
 abstract class ContainerAnnotation extends ValidatorAnnotation {

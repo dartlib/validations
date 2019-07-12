@@ -2,7 +2,7 @@ library annotations.money;
 
 import 'package:meta/meta.dart';
 
-import '../validator_annotation.dart';
+import '../annotation.dart';
 
 part 'money/currency.dart';
 

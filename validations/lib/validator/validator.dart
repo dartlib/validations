@@ -1,8 +1,4 @@
-import '../validator/node.dart';
-import 'constraint_violation.dart';
-import 'field_validator.dart';
-import 'validation_context.dart';
-import 'value_context.dart';
+part of validator;
 
 /// Extend this class to create a Validator for a [Type]
 ///

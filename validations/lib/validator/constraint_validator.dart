@@ -1,4 +1,4 @@
-import 'value_context.dart';
+part of validator;
 
 abstract class ConstraintValidator<ValueType> {
   List argumentValues;

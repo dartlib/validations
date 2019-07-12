@@ -1,7 +1,6 @@
 library validators.basic;
 
-import '../validator/constraint_validator.dart';
-import '../validator/value_context.dart';
+import '../validator.dart';
 
 part 'basic/blank.dart';
 part 'basic/is_empty.dart';

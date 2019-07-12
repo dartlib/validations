@@ -1,7 +1,8 @@
 library annotations.date;
 
 import 'package:meta/meta.dart';
-import 'package:validations/validator_annotation.dart';
+
+import '../annotation.dart';
 
 part './date/after.dart';
 part './date/before.dart';

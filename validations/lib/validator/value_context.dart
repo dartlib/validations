@@ -1,6 +1,4 @@
-import 'package:meta/meta.dart';
-
-import 'node.dart';
+part of validator;
 
 class ValueContext {
   Node node;

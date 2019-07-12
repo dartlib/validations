@@ -79,7 +79,7 @@ class Car {
   )
   Decimal price;
 
-  @AssertTrue(message: 'Car must be registered!')
+  @IsTrue(message: 'Car must be registered!')
   bool isRegistered;
 }
 

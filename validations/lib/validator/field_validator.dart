@@ -1,4 +1,4 @@
-import 'constraint_validator.dart';
+part of validator;
 
 class FieldValidator<T> {
   final String name;

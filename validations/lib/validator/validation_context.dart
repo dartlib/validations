@@ -1,4 +1,4 @@
-import 'constraint_violation.dart';
+part of validator;
 
 class ValidationContext {
   bool failFast = false;

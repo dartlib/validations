@@ -1,5 +1,4 @@
-import '../validator/constraint_validator.dart';
-import '../validator/validator.dart';
+part of validator;
 
 abstract class ConstraintValidatorContainer extends ConstraintValidator {
   Validator validator;

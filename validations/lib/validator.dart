@@ -1,9 +1,13 @@
 library validator;
 
-export 'validator/constraint_validator.dart';
-export 'validator/constraint_violation.dart';
-export 'validator/field_validator.dart';
-export 'validator/mixins/validator_mixin.dart';
-export 'validator/node.dart';
-export 'validator/validator.dart';
-export 'validator/value_context.dart';
+import 'package:meta/meta.dart';
+
+part 'validator/constraint_validator.dart';
+part 'validator/constraint_validator_container.dart';
+part 'validator/constraint_violation.dart';
+part 'validator/field_validator.dart';
+part 'validator/mixins/validator_mixin.dart';
+part 'validator/node.dart';
+part 'validator/validation_context.dart';
+part 'validator/validator.dart';
+part 'validator/value_context.dart';
