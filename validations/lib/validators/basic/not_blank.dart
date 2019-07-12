@@ -6,9 +6,9 @@ class NotBlankValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value != String) return true;
-
     if (value == null) return false;
+
+    if (value is! String) return true;
 
     return value is String && value.trim().isNotEmpty;
   }

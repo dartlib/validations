@@ -1,16 +1,14 @@
 part of validators.basic;
 
-class TypeValidator extends ConstraintValidator {
-  Type type;
-  TypeValidator(this.type);
+class TypeValidator<T> extends ConstraintValidator {
+  TypeValidator() : super([T]);
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value == null) return true;
-
-    return value.runtimeType == type;
+    return value is T;
   }
 
   @override
-  Function message = (Object validatedValue) => 'Value must be blank';
+  Function message = (Type type, Object validatedValue) =>
+      'Value is not a ${type.runtimeType}';
 }

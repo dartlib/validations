@@ -3,9 +3,11 @@ part of validators.basic;
 class IsEmptyValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value == null) return true;
+    if (value is Iterable || value is Map || value is String) {
+      return value.isEmpty as bool;
+    }
 
-    return value.toString().isEmpty;
+    return false;
   }
 
   @override
