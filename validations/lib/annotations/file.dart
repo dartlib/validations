@@ -1,3 +1,3 @@
-library validations.file;
+library annotations.file;
 
 final fileAnnotations = [];
