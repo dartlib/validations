@@ -8,6 +8,6 @@ pubspec.lock
 build/
 
 # Directory created by dartdoc
-doc/
+*/doc/api
 
 TODO
