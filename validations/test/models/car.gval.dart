@@ -39,31 +39,36 @@ abstract class $_TestCarValidator implements Validator<Car> {
       Intl.message('Car must be registered!',
           name: 'isRegisteredIsTrueMessage', args: [validatedValue]);
   @override
-  Map<String, List<ConstraintValidator>> getConstraintValidators() {
-    return {
-      'manufacturer': [NotNullValidator()],
-      'driver': [
+  List<FieldValidator> getFieldValidators() {
+    return [
+      FieldValidator<String>(
+          name: 'manufacturer', validators: [NotNullValidator()]),
+      FieldValidator<Driver>(name: 'driver', validators: [
         ValidValidator(
           TestDriverValidator()..validationContext = validationContext,
         )..message = driverValidMessage
-      ],
-      'licensePlate': [
+      ]),
+      FieldValidator<String>(name: 'licensePlate', validators: [
         SizeValidator(min: 2, max: 14)..message = licensePlateSizeMessage,
         NotNullValidator()
-      ],
-      'seatCount': [
+      ]),
+      FieldValidator<int>(name: 'seatCount', validators: [
         MinValidator(value: 1)..message = seatCountMinMessage,
         MaxValidator(value: 2)..message = seatCountMaxMessage
-      ],
-      'topSpeed': [MaxValidator(value: 350)..message = topSpeedMaxMessage],
-      'price': [
+      ]),
+      FieldValidator<int>(
+          name: 'topSpeed',
+          validators: [MaxValidator(value: 350)..message = topSpeedMaxMessage]),
+      FieldValidator<Decimal>(name: 'price', validators: [
         DecimalMaxValidator(value: '100.00', inclusive: true)
           ..message = priceDecimalMaxMessage,
         DecimalMinValidator(value: '49.99', inclusive: true)
           ..message = priceDecimalMinMessage
-      ],
-      'isRegistered': [IsTrueValidator()..message = isRegisteredIsTrueMessage]
-    };
+      ]),
+      FieldValidator<bool>(
+          name: 'isRegistered',
+          validators: [IsTrueValidator()..message = isRegisteredIsTrueMessage])
+    ];
   }
 
   @override
@@ -93,10 +98,10 @@ abstract class $_TestCarValidator implements Validator<Car> {
 
 abstract class $_TestDriverValidator implements Validator<Driver> {
   @override
-  Map<String, List<ConstraintValidator>> getConstraintValidators() {
-    return {
-      'name': [NotNullValidator()]
-    };
+  List<FieldValidator> getFieldValidators() {
+    return [
+      FieldValidator<String>(name: 'name', validators: [NotNullValidator()])
+    ];
   }
 
   @override
