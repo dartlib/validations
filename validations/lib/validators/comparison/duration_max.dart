@@ -38,7 +38,11 @@ class DurationMaxValidator extends ConstraintValidator {
   bool isValid(dynamic value, [ValueContext context]) {
     if (value is! Duration) return false;
 
-    return value as Duration <= duration;
+    if (inclusive) {
+      return value as Duration <= duration;
+    }
+
+    return value as Duration < duration;
   }
 
   @override

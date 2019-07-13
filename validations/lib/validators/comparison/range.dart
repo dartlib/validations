@@ -1,8 +1,8 @@
 part of validators.comparison;
 
 class RangeValidator extends ConstraintValidator {
-  final num min;
-  final num max;
+  final dynamic min;
+  final dynamic max;
 
   RangeValidator({
     @required this.min,
@@ -13,9 +13,11 @@ class RangeValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (!(value is num)) return false;
-
-    return value >= min as bool && value <= max as bool;
+    try {
+      return value >= min as bool && value <= max as bool;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

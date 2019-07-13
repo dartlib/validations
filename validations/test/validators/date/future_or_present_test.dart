@@ -1,11 +1,22 @@
-import 'package:validations/validators/string.dart';
+import 'package:validations/validators/date.dart';
 
 import '../../test_validator.dart';
 
 void main() {
-  TestValidator(AValidator())
+  final eternal = DateTime.now().add(Duration(days: double.infinity.toInt()));
+  final negativeEternal =
+      DateTime.now().add(Duration(days: double.negativeInfinity.toInt()));
+
+  TestValidator(InFutureValidator())
     ..isValid({
       null,
+      DateTime.now(),
+      DateTime.now().toIso8601String(),
+      eternal,
+      eternal.toIso8601String(),
     })
     ..isInvalid({
+      negativeEternal,
+      negativeEternal.toIso8601String(),
     });
+}

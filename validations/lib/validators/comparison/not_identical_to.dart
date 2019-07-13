@@ -1,7 +1,7 @@
 part of validators.comparison;
 
 class NotIdenticalToValidator extends ConstraintValidator {
-  final num value;
+  final dynamic value;
 
   NotIdenticalToValidator({
     @required this.value,
