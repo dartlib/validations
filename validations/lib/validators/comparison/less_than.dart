@@ -1,7 +1,7 @@
 part of validators.comparison;
 
 class LessThanValidator extends ConstraintValidator {
-  final num value;
+  final dynamic value;
 
   LessThanValidator({
     @required this.value,
@@ -10,9 +10,11 @@ class LessThanValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value is! num) return false;
-
-    return value < this.value as bool;
+    try {
+      return value < this.value as bool;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

@@ -4,7 +4,8 @@ class NegativeValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     try {
-      return parseNum(value).isNegative;
+      final number = parseNum(value);
+      return number < 0;
     } catch (_) {
       return false;
     }

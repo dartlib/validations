@@ -17,7 +17,7 @@ class DurationMaxValidator extends ConstraintValidator {
     this.seconds = 0,
     this.milliseconds = 0,
     this.microseconds = 0,
-    this.inclusive,
+    this.inclusive = false,
   }) : super([]);
 
   @override
@@ -36,13 +36,17 @@ class DurationMaxValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value is! Duration) return false;
+    if (value is Duration) {
+      final result = value.compareTo(duration);
 
-    if (inclusive) {
-      return value as Duration <= duration;
+      if (inclusive) {
+        return result <= 0;
+      }
+
+      return result < 0;
     }
 
-    return value as Duration < duration;
+    throw Exception('Value must be of type Duration');
   }
 
   @override

@@ -4,7 +4,8 @@ class PositiveOrZeroValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
     try {
-      return !parseNum(value).isNegative || value == 0;
+      final number = parseNum(value);
+      return number >= 0;
     } catch (_) {
       return false;
     }

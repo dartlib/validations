@@ -24,16 +24,31 @@ abstract class DateTimeBaseValidator extends ConstraintValidator {
 
   @override
   void initialize() {
-    date = DateTime(
-      year,
-      month ?? 1,
-      day ?? 1,
-      hour ?? 0,
-      minute ?? 0,
-      second ?? 0,
-      millisecond ?? 0,
-      microsecond ?? 0,
-    );
+    if (year == null) {
+      final now = DateTime.now();
+
+      date = DateTime(
+        now.year,
+        month ?? now.month,
+        day ?? now.day,
+        hour ?? now.hour,
+        minute ?? now.minute,
+        second ?? now.second,
+        millisecond ?? now.millisecond,
+        microsecond ?? now.microsecond,
+      );
+    } else {
+      date = DateTime(
+        year,
+        month ?? 1,
+        day ?? 1,
+        hour ?? 0,
+        minute ?? 0,
+        second ?? 0,
+        millisecond ?? 0,
+        microsecond ?? 0,
+      );
+    }
 
     argumentValues.add(date);
   }

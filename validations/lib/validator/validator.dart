@@ -155,8 +155,6 @@ abstract class Validator<T> {
 
       if (validator.allowNull && value == null) continue;
 
-      validator.initialize();
-
       if (!validator.validate(value, valueContext)) {
         final arguments = List.from(validator.argumentValues)..add(value);
         violations.add(

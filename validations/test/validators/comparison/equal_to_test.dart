@@ -6,34 +6,41 @@ void main() {
   // ignore: missing_required_param
   TestValidator.throwsA<AssertionError>(() => EqualToValidator());
 
-  final falseValues = {false, 3, 'B', 1.0, Duration(days: 11)};
-  final values = {
-    {
+  final falseValues = [
+    false,
+    4,
+    'B',
+    1.0,
+    Duration(days: 11),
+  ];
+
+  final values = [
+    [
       2,
       2,
       falseValues,
-    },
-    {
+    ],
+    [
       'A',
       'A',
       falseValues,
-    },
-    {
+    ],
+    [
       true,
       true,
       falseValues,
-    },
-    {
+    ],
+    [
       3.0,
       3.0,
       falseValues,
-    },
-    {
+    ],
+    [
       Duration(days: 10),
       Duration(days: 10),
       falseValues,
-    }
-  };
+    ],
+  ];
 
   for (var value in values) {
     TestValidator(EqualToValidator(value: value.elementAt(0)))
@@ -41,6 +48,6 @@ void main() {
         null,
         value.elementAt(1),
       })
-      ..isInvalid(value.elementAt(2) as Set);
+      ..isInvalid(value.elementAt(2) as List);
   }
 }

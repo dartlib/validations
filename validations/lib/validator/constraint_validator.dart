@@ -21,7 +21,7 @@ part of validator;
 ///
 ///
 abstract class ConstraintValidator<ValueType> {
-  List argumentValues;
+  List argumentValues = [];
 
   /// `null` is allowed by default for every [ConstraintValidator].
   ///
@@ -29,13 +29,18 @@ abstract class ConstraintValidator<ValueType> {
   bool allowNull = true;
 
   ConstraintValidator([
-    this.argumentValues = const [],
-  ]);
-
+    List argumentValues,
+  ]) {
+    if (argumentValues != null) {
+      this.argumentValues = argumentValues;
+    }
+  }
   // Called each time before an isValid check.
   void initialize() {}
 
   bool validate(Object value, [ValueContext context]) {
+    initialize();
+
     if (allowNull && value == null) return true;
 
     return isValid(value, context);

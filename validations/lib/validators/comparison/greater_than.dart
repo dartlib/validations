@@ -10,7 +10,11 @@ class GreaterThanValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    return value > this.value as bool;
+    try {
+      return value > this.value as bool;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

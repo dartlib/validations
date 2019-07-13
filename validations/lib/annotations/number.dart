@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 
 import '../annotation.dart';
 
-part 'number/digits.dart';
 part 'number/negative.dart';
 part 'number/negative_or_zero.dart';
 part 'number/positive.dart';
@@ -28,7 +27,6 @@ final numberAnnotations = [
   negativeOrZero,
   positive,
   positiveOrZero,
-  Digits,
   Negative,
   NegativeOrZero,
   Positive,

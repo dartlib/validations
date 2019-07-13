@@ -1,8 +1,8 @@
 part of validators.comparison;
 
 class RangeValidator extends ConstraintValidator {
-  final dynamic min;
-  final dynamic max;
+  final num min;
+  final num max;
 
   RangeValidator({
     @required this.min,
@@ -13,11 +13,27 @@ class RangeValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    try {
-      return value >= min as bool && value <= max as bool;
-    } catch (_) {
-      return false;
+    if (value is Iterable) {
+      return _compare(value.length);
     }
+
+    if (value is Map) {
+      return _compare(value.length);
+    }
+
+    if (value is String) {
+      return _compare(value.length);
+    }
+
+    if (value is num) {
+      return _compare(value);
+    }
+
+    return false;
+  }
+
+  bool _compare(num value) {
+    return value >= min && value <= max;
   }
 
   @override
