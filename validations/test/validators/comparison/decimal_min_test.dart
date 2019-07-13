@@ -1,27 +1,32 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/comparison.dart';
 
-void main() {
-  test('DecimalMinValidator', () {
-    expect(DecimalMinValidator(value: '5.0').validate(null), true);
+import '../../test_validator.dart';
 
-    expect(
-      // ignore: missing_required_param
-      () => DecimalMinValidator(),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
-    expect(DecimalMinValidator(value: '5.0').validate('6.0'), true);
-    expect(DecimalMinValidator(value: '6.0').validate('5.0'), false);
-    expect(DecimalMinValidator(value: '6.0').validate('5.0'), false);
-    expect(
-      DecimalMinValidator(value: '5.0', inclusive: true).validate('5.0'),
-      true,
-    );
-    expect(
-      () => DecimalMinValidator(value: 'A.B').validate('Q'),
-      throwsA(
-        const TypeMatcher<FormatException>(),
-      ),
-    );
-  });
+void main() {
+  // ignore: missing_required_param
+  TestValidator.throwsA<AssertionError>(() => DecimalMinValidator());
+
+  TestValidator.throwsA<FormatException>(
+    () => DecimalMinValidator(value: 'A.B').validate('Q'),
+  );
+
+  TestValidator(DecimalMinValidator(value: '6.0'))
+    ..isValid({
+      null,
+      '7.0',
+    })
+    ..isInvalid({
+      '5.0',
+      '6.0',
+    });
+
+  TestValidator(DecimalMinValidator(value: '6.0', inclusive: true))
+    ..isValid({
+      null,
+      '6.0',
+      '7.0',
+    })
+    ..isInvalid({
+      '5.0',
+    });
 }

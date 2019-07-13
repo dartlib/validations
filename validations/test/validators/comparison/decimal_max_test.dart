@@ -1,27 +1,32 @@
-import 'package:test/test.dart';
 import 'package:validations/validators/comparison.dart';
 
-void main() {
-  test('DecimalMaxValidator', () {
-    expect(DecimalMaxValidator(value: '6.0').validate(null), true);
+import '../../test_validator.dart';
 
-    expect(
-      // ignore: missing_required_param
-      () => DecimalMaxValidator(),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
-    expect(DecimalMaxValidator(value: '6.0').validate('5.0'), true);
-    expect(DecimalMaxValidator(value: '5.0').validate('6.0'), false);
-    expect(DecimalMaxValidator(value: '5.0').validate('5.0'), false);
-    expect(
-      DecimalMaxValidator(value: '5.0', inclusive: true).validate('5.0'),
-      true,
-    );
-    expect(
-      () => DecimalMaxValidator(value: 'A.B').validate('Q'),
-      throwsA(
-        const TypeMatcher<FormatException>(),
-      ),
-    );
-  });
+void main() {
+  // ignore: missing_required_param
+  TestValidator.throwsA<AssertionError>(() => DecimalMaxValidator());
+
+  TestValidator.throwsA<FormatException>(
+    () => DecimalMaxValidator(value: 'A.B').validate('Q'),
+  );
+
+  TestValidator(DecimalMaxValidator(value: '6.0'))
+    ..isValid({
+      null,
+      '5.0',
+    })
+    ..isInvalid({
+      '6.0',
+      '7.0',
+    });
+
+  TestValidator(DecimalMaxValidator(value: '6.0', inclusive: true))
+    ..isValid({
+      null,
+      '5.0',
+      '6.0',
+    })
+    ..isInvalid({
+      '7.0',
+    });
 }
