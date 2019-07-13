@@ -11,7 +11,6 @@ part 'string/ean.dart';
 part 'string/email.dart';
 part 'string/hex_color.dart';
 part 'string/hexadecimal.dart';
-part 'string/int.dart';
 part 'string/isbn.dart';
 part 'string/json.dart';
 part 'string/length.dart';
@@ -70,22 +69,6 @@ const uppercase = Uppercase();
 const uuid = Uuid();
 
 final stringAnnotations = [
-  alpha,
-  creditCardNumber,
-  ean,
-  email,
-  hexcolor,
-  hexadecimal,
-  isbn,
-  int,
-  json,
-  lowercase,
-  mongoId,
-  numeric,
-  safeHtml,
-  url,
-  uppercase,
-  uuid,
   Alpha,
   CreditCardNumber,
   EAN,
@@ -93,7 +76,6 @@ final stringAnnotations = [
   HexColor,
   Hexadecimal,
   ISBN,
-  Int,
   Json,
   Length,
   Lowercase,
@@ -104,4 +86,19 @@ final stringAnnotations = [
   URL,
   Uppercase,
   Uuid,
+  alpha,
+  creditCardNumber,
+  ean,
+  email,
+  hexadecimal,
+  hexcolor,
+  isbn,
+  json,
+  lowercase,
+  mongoId,
+  numeric,
+  safeHtml,
+  uppercase,
+  url,
+  uuid,
 ];

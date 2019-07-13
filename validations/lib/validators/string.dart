@@ -9,11 +9,9 @@ import 'package:validators/validators.dart'
         isBase64,
         isCreditCard,
         isEmail,
-        isFloat,
         isFQDN,
         isHexadecimal,
         isHexColor,
-        isInt,
         isIP,
         isISBN,
         isJSON,
@@ -34,11 +32,9 @@ part 'string/base64.dart';
 part 'string/byte_length.dart';
 part 'string/credit_card_number.dart';
 part 'string/email.dart';
-part 'string/float.dart';
 part 'string/fqdn.dart';
 part 'string/hex_color.dart';
 part 'string/hexadecimal.dart';
-part 'string/int.dart';
 part 'string/ip.dart';
 part 'string/isbn.dart';
 part 'string/json.dart';
