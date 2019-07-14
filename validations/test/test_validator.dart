@@ -1,4 +1,4 @@
-import 'package:test_api/test_api.dart' as t;
+import 'package:test/test.dart' as t;
 import 'package:validations/validator.dart';
 
 class TestValidator {
