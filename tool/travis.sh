@@ -22,6 +22,14 @@ for PKG in ${PKGS}; do
     echo
     echo -e "\033[1mPKG: ${PKG}; TASK: ${TASK}\033[22m"
     case ${TASK} in
+    command_0)
+      echo 'pub run test_coverage'
+      pub run test_coverage || EXIT_CODE=$?
+      ;;
+    command_1)
+      echo 'bash <(curl -s https://codecov.io/bash)'
+      bash <(curl -s https://codecov.io/bash) || EXIT_CODE=$?
+      ;;
     dartanalyzer)
       echo 'dartanalyzer --fatal-warnings .'
       dartanalyzer --fatal-warnings . || EXIT_CODE=$?

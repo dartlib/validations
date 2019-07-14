@@ -10,6 +10,9 @@ stages:
     dart: [2.4.0]
 - unit_test:
   - test
+- coverage:
+    - command: pub run test_coverage
+    - command: bash <(curl -s https://codecov.io/bash)
 
 cache:
   directories:

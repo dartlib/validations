@@ -19,10 +19,21 @@ jobs:
       dart: "2.4.0"
       env: PKGS="validations validations_generator"
       script: ./tool/travis.sh test
+    - stage: coverage
+      name: "SDK: 2.4.0; PKG: validations; TASKS: `pub run test_coverage`"
+      dart: "2.4.0"
+      env: PKGS="validations"
+      script: ./tool/travis.sh command_0
+    - stage: coverage
+      name: "SDK: 2.4.0; PKG: validations; TASKS: `bash <(curl -s https://codecov.io/bash)`"
+      dart: "2.4.0"
+      env: PKGS="validations"
+      script: ./tool/travis.sh command_1
 
 stages:
   - analyzer_and_format
   - unit_test
+  - coverage
 
 cache:
   directories:
