@@ -1,3 +1,7 @@
+## 0.3.1
+
+- solve dependency errors.
+
 ## 0.3.0
 
 - fix date validators
