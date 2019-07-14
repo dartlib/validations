@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Update validations dependency 
+
 ## 0.2.0
 
 - Wrap property validators with a FieldValidator to enable type checking.

@@ -9,7 +9,7 @@ environment:
   sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
-  validations: ^0.2.0
+  validations: ^0.3.0
   #  path: ../validations
   analyzer: ^0.36.0
   build: ^1.1.4
