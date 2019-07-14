@@ -3,6 +3,8 @@
 
 [![Pub Package](https://img.shields.io/pub/v/validations.svg)](https://pub.dev/packages/validations)
 [![Build Status](https://travis-ci.org/dartlib/validations.svg?branch=master)](https://travis-ci.org/dartlib/validations)
+[![codecov](https://codecov.io/gh/dartlib/validations/branch/master/graph/badge.svg)](https://codecov.io/gh/dartlib/validations)
+
 
 ## Validator setup 
 
