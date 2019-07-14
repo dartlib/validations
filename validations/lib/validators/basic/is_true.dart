@@ -1,5 +1,8 @@
 part of validators.basic;
 
+/// Check that the validated value is `true`.
+///
+/// Supported types: Any type.
 class IsTrueValidator extends ConstraintValidator {
   @override
   bool allowNull = false;
