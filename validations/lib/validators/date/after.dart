@@ -2,7 +2,7 @@ part of validators.date;
 
 class AfterValidator extends DateTimeBaseValidator {
   AfterValidator({
-    int year,
+    @required int year,
     int month,
     int day,
     int hour,
@@ -19,12 +19,16 @@ class AfterValidator extends DateTimeBaseValidator {
           second: second,
           millisecond: millisecond,
           microsecond: microsecond,
-        );
+        ) {
+    if (year == null) {
+      throw ArgumentError('year is required');
+    }
+  }
 
   @override
   bool isValid(Object value, [ValueContext context]) {
     try {
-      return compare(toDateTime(value)) > 0;
+      return compare(value) > 0;
     } catch (_) {
       return false;
     }

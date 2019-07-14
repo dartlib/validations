@@ -42,14 +42,12 @@ abstract class DateTimeBaseValidator extends ConstraintValidator {
     argumentValues.add(date);
   }
 
-  int compare(DateTime value) {
-    if (value is! String || value is! DateTime) {
+  int compare(dynamic value) {
+    if (value is! String && value is! DateTime) {
       throw Exception('Invalid value');
     }
 
-    final date = _toAnnotatedPrecision(value);
-
-    return date.compareTo(this.date);
+    return _toAnnotatedPrecision(toDateTime(value)).compareTo(date);
   }
 
   DateTime _toAnnotatedPrecision(DateTime date) {
@@ -57,11 +55,11 @@ abstract class DateTimeBaseValidator extends ConstraintValidator {
       date.year,
       month == null ? 1 : date.month,
       day == null ? 1 : date.day,
-      hour == null ? null : date.hour,
-      minute == null ? null : date.minute,
-      second == null ? null : date.second,
-      millisecond == null ? null : date.millisecond,
-      microsecond == null ? null : date.microsecond,
+      hour == null ? 0 : date.hour,
+      minute == null ? 0 : date.minute,
+      second == null ? 0 : date.second,
+      millisecond == null ? 0 : date.millisecond,
+      microsecond == null ? 0 : date.microsecond,
     );
   }
 

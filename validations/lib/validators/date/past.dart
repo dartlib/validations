@@ -12,5 +12,6 @@ class PastValidator extends TimeUnitBaseValidator {
 
   @override
   Function message =
-      (DateTime date, Object validatedValue) => 'Date is not in the past.';
+      (TimeUnit timeUnit, DateTime date, Object validatedValue) =>
+          'Date is not in the past.';
 }

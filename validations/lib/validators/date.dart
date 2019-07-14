@@ -1,5 +1,7 @@
 library validators.date;
 
+import 'package:meta/meta.dart';
+
 import '../validator.dart';
 import 'helpers.dart';
 

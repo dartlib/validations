@@ -11,6 +11,7 @@ class FutureOrPresentValidator extends TimeUnitBaseValidator {
   }
 
   @override
-  Function message = (DateTime date, Object validatedValue) =>
-      'Date is not in the future or present.';
+  Function message =
+      (TimeUnit timeUnit, DateTime date, Object validatedValue) =>
+          'Date is not in the future or present.';
 }

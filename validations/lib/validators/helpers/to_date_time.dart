@@ -5,5 +5,5 @@ DateTime toDateTime(dynamic value) {
 
   if (value is String) return DateTime.parse(value);
 
-  throw Exception('Failed to parse value');
+  throw Exception('Cannot convert value to DateTime.');
 }
