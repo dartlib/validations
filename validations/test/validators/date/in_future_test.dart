@@ -3,20 +3,19 @@ import 'package:validations/validators/date.dart';
 import '../../test_validator.dart';
 
 void main() {
-  final eternal = DateTime.now().add(Duration(days: double.maxFinite.toInt()));
-  final negativeMax =
-      DateTime.now().add(Duration(days: -double.maxFinite.toInt()));
+  final future = DateTime.now().add(Duration(days: 100));
+  final past = DateTime.now().add(Duration(days: -100));
 
-  TestValidator(InFutureValidator())
+  TestValidator(InFutureValidator(timeUnit: TimeUnit.day))
     ..isValid({
       null,
-      eternal,
-      eternal.toIso8601String(),
+      future,
+      future.toIso8601String(),
     })
     ..isInvalid({
       DateTime.now().toIso8601String(),
       DateTime.now(),
-      negativeMax,
-      negativeMax.toIso8601String(),
+      past,
+      past.toIso8601String(),
     });
 }

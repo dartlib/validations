@@ -23,18 +23,5 @@ void main() {
       '',
     });
 
-  TestValidator(BeforeValidator())
-    ..isValid({
-      null,
-      '2002-12-12',
-      '2002-02-27 13:27:00',
-      '2002-02-27T14:00:00-0500',
-    })
-    ..isInvalid({
-      '2022-12-12',
-      '2022-02-27 13:27:00',
-      '2022-02-27T14:00:00-0500',
-      ' ',
-      ''
-    });
+  TestValidator.throwsA<ArgumentError>(() => BeforeValidator());
 }

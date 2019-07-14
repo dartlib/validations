@@ -25,18 +25,7 @@ abstract class DateTimeBaseValidator extends ConstraintValidator {
   @override
   void initialize() {
     if (year == null) {
-      final now = DateTime.now();
-
-      date = DateTime(
-        now.year,
-        month ?? now.month,
-        day ?? now.day,
-        hour ?? now.hour,
-        minute ?? now.minute,
-        second ?? now.second,
-        millisecond ?? now.millisecond,
-        microsecond ?? now.microsecond,
-      );
+      throw ArgumentError('Year is required');
     } else {
       date = DateTime(
         year,
@@ -54,7 +43,7 @@ abstract class DateTimeBaseValidator extends ConstraintValidator {
   }
 
   int compare(DateTime value) {
-    if (!(value is String) || !(value is DateTime)) {
+    if (value is! String || value is! DateTime) {
       throw Exception('Invalid value');
     }
 

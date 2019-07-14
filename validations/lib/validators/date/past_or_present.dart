@@ -1,21 +1,13 @@
 part of validators.date;
 
-class PastOrPresentValidator extends ConstraintValidator {
-  DateTime date;
-  @override
-  void initialize() {
-    date = DateTime.now();
-
-    argumentValues.add(date);
-  }
+class PastOrPresentValidator extends TimeUnitBaseValidator {
+  PastOrPresentValidator({
+    Object timeUnit,
+  }) : super(timeUnit: timeUnit);
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    try {
-      return value.compareTo(toDateTime(date)) <= 0 as bool;
-    } catch (_) {
-      return false;
-    }
+    return _isBefore(timeUnit, date, toDateTime(value), true);
   }
 
   @override

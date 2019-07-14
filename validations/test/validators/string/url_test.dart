@@ -61,7 +61,7 @@ void main() {
       'http://localhost:61500this is an invalid url!!!!',
     });
 
-  TestValidator(UrlValidator(requireProtocol: true)).isValid({
+  TestValidator(UrlValidator(requireProtocol: false)).isValid({
     null,
     'www.example.com',
   });
