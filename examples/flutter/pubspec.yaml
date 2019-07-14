@@ -30,7 +30,7 @@ dependencies:
 
 dev_dependencies:
   build_runner:
-  validations_generator: ^0.2.0
+  validations_generator: ^0.3.0
   #  path: ../../validations_generator
   flutter_test:
     sdk: flutter
