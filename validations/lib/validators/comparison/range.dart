@@ -1,5 +1,8 @@
 part of validators.comparison;
 
+/// Check that a given object is *between* some minimum and maximum.
+///
+/// Supported types: [Iterable], [Map], [String], [num]
 class RangeValidator extends ConstraintValidator {
   final num min;
   final num max;

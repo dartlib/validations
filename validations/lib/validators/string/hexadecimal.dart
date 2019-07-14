@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks if the value is a valid hexadecimal.
+///
+/// Supported types: [String]
 class HexadecimalValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

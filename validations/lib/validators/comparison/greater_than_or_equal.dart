@@ -1,5 +1,8 @@
 part of validators.comparison;
 
+/// Checks if the value being tested is greater than or equal to [value].
+///
+/// Supported types: All values implementing the `>=` operator.
 class GreaterThanOrEqualValidator extends ConstraintValidator {
   final dynamic value;
 

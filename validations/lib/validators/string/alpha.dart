@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks whether the value contains of only alpha characters.
+///
+/// Supported types: [String]
 class AlphaValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Validates that the annotated character sequence is between
+/// Validates that the annotated string is between
 /// min and max included.
 @immutable
 class Length extends ValidatorAnnotation {

@@ -1,5 +1,10 @@
 part of validators.comparison;
 
+/// Checks whether the value being tested is not identical to [value]
+///
+/// Equality is checked by the [identical] function.
+///
+/// This means both values should *not* share the same reference.
 class NotIdenticalToValidator extends ConstraintValidator {
   final dynamic value;
 

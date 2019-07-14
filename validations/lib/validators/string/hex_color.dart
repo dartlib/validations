@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks if the value is a valid hex color.
+///
+/// Supported types: [String]
 class HexColorValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

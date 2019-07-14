@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence passes the Luhn checksum test.
+/// Checks that the annotated string passes the Luhn checksum test.
 @immutable
 class CreditCardNumber extends ValidatorAnnotation {
   const CreditCardNumber({

@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks if the annotated character sequence is a valid URL according to
+/// Checks if the annotated string is a valid URL according to
 /// RFC2396. If any of the optional parameters protocol, host or port are
 /// specified, the corresponding URL fragments must match the specified values.
 /// The optional parameter regexp allow to specify an additional

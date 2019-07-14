@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks whether the value is a valid url.
+///
+/// Supported types: [String]
 class UrlValidator extends ConstraintValidator {
   final List<String> protocols;
   final bool requireTld;
@@ -8,11 +11,22 @@ class UrlValidator extends ConstraintValidator {
   final List<String> whitelist;
   final List<String> blacklist;
   UrlValidator({
+    /// Allowed protocols.
     this.protocols = const ['http', 'https', 'ftp'],
+
+    /// Whether to required a top level domain.
     this.requireTld = true,
+
+    /// Whether to required a protocol.
     this.requireProtocol = false,
+
+    /// Whether to allow underscores in the url.
     this.allowUnderscore = false,
+
+    /// A list of allowed hosts.
     this.whitelist = const [],
+
+    /// A list of disallowed hosts.
     this.blacklist = const [],
   }) : super([
           protocols,

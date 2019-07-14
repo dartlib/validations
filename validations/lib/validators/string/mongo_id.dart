@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks if the value is a valid mongo id.
+///
+/// Supported types: [String]
 class MongoIdValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence is uppercase.
+/// Checks that the annotated string is uppercase.
 @immutable
 class Uppercase extends ValidatorAnnotation {
   const Uppercase({

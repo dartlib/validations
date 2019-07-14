@@ -1,5 +1,22 @@
 part of validators.date;
 
+/// Checks whether the value being checked is within the past.
+///
+/// The [timeUnit] parameter is required and can be specified by either
+/// a [TimeUnit] symbol or a string.
+///
+/// Valid string values are:
+///
+///   - year
+///   - month
+///   - day
+///   - hour
+///   - minute
+///   - second
+///   - millisecond
+///   - microsecond
+///
+/// Supported types: [DateTime], [String]
 class PastValidator extends TimeUnitBaseValidator {
   PastValidator({
     Object timeUnit,

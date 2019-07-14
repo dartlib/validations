@@ -1,8 +1,12 @@
 part of validators.comparison;
 
+/// Check that the value being validated represents a [Decimal] number.
+/// and has a value greater than or equal to the maximum value specified.
+///
+/// Supported type: [Decimal] and [String]
 class DecimalMinValidator extends ConstraintValidator {
-  final bool inclusive;
   final String value;
+  final bool inclusive;
 
   DecimalMinValidator({
     @required this.value,

@@ -1,5 +1,8 @@
 part of validators.collection;
 
+/// Checks whether the validated object is valid.
+///
+/// It's expected the validated [Type] contains validation itself.
 class ValidValidator extends ConstraintValidatorContainer {
   ValidValidator(Validator validator) : super(validator);
 

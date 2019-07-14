@@ -1,5 +1,8 @@
 part of validators.comparison;
 
+/// Checks if the value being tested is less than [value].
+///
+/// Supported types: All values implementing the `<` operator.
 class LessThanValidator extends ConstraintValidator {
   final dynamic value;
 

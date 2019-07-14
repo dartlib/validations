@@ -1,5 +1,12 @@
 part of validators.collection;
 
+/// Validates that the provided collection only contains unique items.
+///
+/// i.e. that we can't find 2 equal elements in the collection.
+///
+/// Uniqueness is defined by the `==` operator method of the objects being compared.
+///
+/// Supported types: [Iterable] and [Map]
 class UniqueValidator extends ConstraintValidator {
   @override
   bool isValid(Object value, [ValueContext context]) {
@@ -35,5 +42,5 @@ class UniqueValidator extends ConstraintValidator {
   }
 
   @override
-  Function message = (Object validatedValue) => 'Value must be blank';
+  Function message = (Object validatedValue) => 'The items must be unique';
 }

@@ -1,5 +1,8 @@
 part of validators.basic;
 
+/// Check that a value is empty.
+///
+/// Supported types: [Map], [Iterable] and [String]
 class IsEmptyValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

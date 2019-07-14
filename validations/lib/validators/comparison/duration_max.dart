@@ -1,5 +1,9 @@
 part of validators.comparison;
 
+/// Checks whether the [Duration] value does not last longer than the [duration]
+/// specified.
+///
+/// Supported types: [Duration]
 class DurationMaxValidator extends ConstraintValidator {
   Duration duration;
   final int days;

@@ -1,6 +1,10 @@
 part of validators.string;
 
+/// Checks whether the value is a valid UUID.
+///
+/// Supported types: [String]
 class UuidValidator extends ConstraintValidator {
+  // UUID version (3, 4, or 5)
   final int version;
 
   UuidValidator({this.version}) : super([version]);

@@ -1,7 +1,13 @@
 part of validators.string;
 
+/// Checks whether the value is a valid fully qualified domain name.
+///
+/// Supported types: [String]
 class FqdnValidator extends ConstraintValidator {
+  /// Whether to require a top level domain.
   final bool requireTld;
+
+  /// Whether to allow underscores.
   final bool allowUnderscores;
   FqdnValidator({
     this.requireTld = true,

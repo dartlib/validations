@@ -1,5 +1,6 @@
 part of validators.basic;
 
+/// Check that a [String] is not `null` nor empty after removing any leading or trailing whitespace.
 class NotBlankValidator extends ConstraintValidator {
   @override
   bool allowNull = false;

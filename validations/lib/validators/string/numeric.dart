@@ -1,5 +1,6 @@
 part of validators.string;
 
+/// Checks
 class NumericValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

@@ -1,5 +1,10 @@
 part of validators.comparison;
 
+/// Checks whether the [value] is not equal to the value being tested.
+///
+/// Equality is based on the `!=` operator of the objects being compared.
+///
+/// Supported types: All types implementing the `!=` operator.
 class NotEqualToValidator extends ConstraintValidator {
   final dynamic value;
 

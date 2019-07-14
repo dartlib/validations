@@ -2,6 +2,10 @@ part of validators.mixed;
 
 const maxFraction = 20;
 
+/// Checks that the [Decimal] value being validated matches
+/// the [integer] and [fraction] lengths.
+///
+/// Supported types: [Decimal], [String]
 class DigitsValidator extends ConstraintValidator {
   final int integer;
   final int fraction;

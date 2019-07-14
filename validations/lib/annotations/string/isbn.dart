@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence is a valid ISBN.
+/// Checks that the annotated string is a valid ISBN.
 /// type determines the type of ISBN. The default is ISBN-13.
 @immutable
 class ISBN {

@@ -1,5 +1,10 @@
 part of validators.date;
 
+/// Checks whether the give value is after the specified time and date.
+///
+/// The [year] parameter is required. All other time units are optional.
+///
+/// Supported types: [DateTime], [String]
 class AfterValidator extends DateTimeBaseValidator {
   AfterValidator({
     @required int year,

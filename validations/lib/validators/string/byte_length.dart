@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks whether the value has a byte length between  $min and $max.
+///
+/// Supported types: [String]
 class ByteLengthValidator extends ConstraintValidator {
   final int min;
   final int max;

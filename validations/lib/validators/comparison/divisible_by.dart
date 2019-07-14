@@ -1,5 +1,8 @@
 part of validators.comparison;
 
+/// Checks whether the provided number is divisible by [value].
+///
+/// Supported types: [num]
 class DivisibleByValidator extends ConstraintValidator {
   final num value;
 

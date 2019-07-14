@@ -1,5 +1,6 @@
 part of validators.basic;
 
+/// Check that a [String] is empty. A `null` value is considered valid.
 class BlankValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

@@ -1,5 +1,8 @@
 part of validators.basic;
 
+/// Check that a value is not empty and not `null`.
+///
+/// Supported types: [Map], [Iterable] and [String]
 class NotEmptyValidator extends ConstraintValidator {
   @override
   bool allowNull = false;

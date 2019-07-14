@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks if the value is in all uppercase.
+///
+/// Supported types: [String]
 class UppercaseValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {

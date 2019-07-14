@@ -1,5 +1,8 @@
 part of validators.string;
 
+/// Checks if the value is a valid ISBN number.
+///
+/// Supported types: [String]
 class ISBNValidator extends ConstraintValidator {
   final int version;
 

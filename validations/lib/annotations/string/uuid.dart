@@ -1,6 +1,6 @@
 part of annotations.string;
 
-/// Checks that the annotated character sequence is a UUID.
+/// Checks that the annotated string is a UUID.
 ///
 /// Valid [version]s are 3, 4, 5.
 ///

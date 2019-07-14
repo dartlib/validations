@@ -1,5 +1,8 @@
 part of validators.mixed;
 
+/// Checks that the length or value is between [min] and [max].
+///
+///  Supported types: [String], [Iterable], [Map], [num]
 class SizeValidator extends ConstraintValidator {
   final int max;
   final int min;
@@ -13,7 +16,7 @@ class SizeValidator extends ConstraintValidator {
 
   @override
   bool isValid(dynamic value, [ValueContext context]) {
-    if (value is String || value is List || value is Map) {
+    if (value is String || value is Iterable || value is Map) {
       return min <= (value.length as int) && (value.length as int) <= max;
     }
 

@@ -1,5 +1,8 @@
 part of validators.number;
 
+/// Checks whether the value is negative.
+///
+/// Supported types: [num], [String]
 class NegativeValidator extends ConstraintValidator {
   @override
   bool isValid(dynamic value, [ValueContext context]) {
