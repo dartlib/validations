@@ -1,3 +1,8 @@
+## 0.3.2
+
+- fix annotation inconsistencies 
+- more annotation tests and code coverage
+
 ## 0.3.1
 
 - solve dependency errors.
