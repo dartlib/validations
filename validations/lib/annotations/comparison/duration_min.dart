@@ -9,16 +9,16 @@ class DurationMin extends ValidatorAnnotation {
   final int hours;
   final int minutes;
   final int seconds;
-  final int millis;
-  final int nanos;
+  final int milliseconds;
+  final int microseconds;
   final bool inclusive;
   const DurationMin({
     this.days,
     this.hours,
     this.minutes,
     this.seconds,
-    this.millis,
-    this.nanos,
+    this.milliseconds,
+    this.microseconds,
     this.inclusive,
     String message,
     List<String> groups,

@@ -6,13 +6,13 @@ part of annotations.comparison;
 ///
 @immutable
 class DurationMax extends ValidatorAnnotation {
-  final bool inclusive;
   final int days;
   final int hours;
   final int minutes;
   final int seconds;
   final int milliseconds;
   final int microseconds;
+  final bool inclusive;
 
   const DurationMax({
     this.days = 0,

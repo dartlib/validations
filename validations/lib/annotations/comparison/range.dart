@@ -4,8 +4,8 @@ part of annotations.comparison;
 /// minimum and maximum
 @immutable
 class Range extends ValidatorAnnotation {
-  final double min;
-  final double max;
+  final num min;
+  final num max;
   const Range({
     this.min,
     this.max,
