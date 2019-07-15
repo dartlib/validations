@@ -4,11 +4,11 @@ part of annotations.string;
 ///
 /// [type] determines the type of barcode. The default is EAN-13.
 @immutable
-class EAN {
-  final String message;
+class EAN extends ValidatorAnnotation {
   final String type;
   const EAN({
-    this.message,
     this.type = 'EAN-13',
-  });
+    String message,
+    List<String> groups,
+  }) : super(message, groups);
 }

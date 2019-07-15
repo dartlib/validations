@@ -12,5 +12,6 @@ build/
 
 */test/.test_coverage.dart
 coverage
+coverage_badge.svg
 
 TODO

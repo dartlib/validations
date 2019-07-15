@@ -2,22 +2,23 @@ import 'package:validations/annotations/string.dart';
 
 import '../test_annotation.dart';
 
+final commonAnnotations = [
+  Alpha,
+  CreditCardNumber,
+  EAN,
+  Email,
+  HexColor,
+  Hexadecimal,
+  Json,
+  Length,
+  Lowercase,
+  MongoId,
+  Numeric,
+  SafeHtml,
+  Uppercase,
+];
+
 void main() {
-  final commonAnnotations = [
-    Alpha,
-    CreditCardNumber,
-    EAN,
-    Email,
-    HexColor,
-    Hexadecimal,
-    Json,
-    Length,
-    Lowercase,
-    MongoId,
-    Numeric,
-    SafeHtml,
-    Uppercase,
-  ];
   testAnnotations('String Annotations', commonAnnotations, {
     #message: 'Test Message',
     #groups: ['test_group'],

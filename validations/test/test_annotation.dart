@@ -35,8 +35,8 @@ void testAnnotations(
 ) {
   group(description, () {
     for (var annotation in annotations) {
-      if (annotation.runtimeType.toString() != '_Type') {
-        TestAnnotation(annotation.runtimeType as Type, namedArguments);
+      if (!annotation.toString().startsWith('Instance of')) {
+        TestAnnotation(annotation as Type, namedArguments);
       }
     }
   });

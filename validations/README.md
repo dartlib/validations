@@ -140,6 +140,16 @@ validator.validateRegistered(true);
 ...etc
 ```
 
+## Test Coverage
+
+To run test coverage locally.
+
+```bash
+pub run test_coverage
+# To install genhtml: apt|brew install lcov
+genhtml -o coverage coverage/lcov.info
+open coverage/index.html
+```
 
 ## Features and bugs
 
