@@ -3,6 +3,11 @@ import 'package:validations/annotations/mixed.dart';
 import '../test_annotation.dart';
 
 void main() {
+  testListContainsOnlyAnnotationClassesOrInstances(
+    'Mixed Annotations List',
+    mixedAnnotations,
+  );
+
   TestAnnotation(Digits, {
     #integer: 3,
     #fraction: 2,

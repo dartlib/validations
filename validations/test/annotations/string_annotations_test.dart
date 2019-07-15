@@ -19,6 +19,11 @@ final commonAnnotations = [
 ];
 
 void main() {
+  testListContainsOnlyAnnotationClassesOrInstances(
+    'String Annotations List',
+    stringAnnotations,
+  );
+
   testAnnotations('String Annotations', commonAnnotations, {
     #message: 'Test Message',
     #groups: ['test_group'],

@@ -3,6 +3,11 @@ import 'package:validations/annotations/comparison.dart';
 import '../test_annotation.dart';
 
 void main() {
+  testListContainsOnlyAnnotationClassesOrInstances(
+    'Comparison Annotations List',
+    comparisonAnnotations,
+  );
+
   TestAnnotation(DecimalMax, {
     #value: '1.0',
     #inclusive: true,

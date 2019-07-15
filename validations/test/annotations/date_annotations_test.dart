@@ -4,6 +4,11 @@ import 'package:validations/validators/date.dart';
 import '../test_annotation.dart';
 
 void main() {
+  testListContainsOnlyAnnotationClassesOrInstances(
+    'Date Annotations List',
+    dateAnnotations,
+  );
+
   TestAnnotation(After, {
     #year: 2019,
     #month: 7,
