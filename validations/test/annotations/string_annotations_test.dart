@@ -3,7 +3,7 @@ import 'package:validations/annotations/string.dart';
 import '../test_annotation.dart';
 
 void main() {
-  TestAnnotations('String Annotations', [
+  final commonAnnotations = [
     Alpha,
     CreditCardNumber,
     EAN,
@@ -17,7 +17,8 @@ void main() {
     Numeric,
     SafeHtml,
     Uppercase,
-  ], {
+  ];
+  testAnnotations('String Annotations', commonAnnotations, {
     #message: 'Test Message',
     #groups: ['test_group'],
   });

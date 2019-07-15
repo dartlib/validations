@@ -28,7 +28,7 @@ class TestAnnotation {
   }
 }
 
-void TestAnnotations(
+void testAnnotations(
   String description,
   annotations,
   Map<Symbol, dynamic> namedArguments,
