@@ -3,21 +3,32 @@ import 'dart:mirrors';
 import 'package:test/test.dart';
 import 'package:validations/annotation.dart';
 
-void testAnnotation(
-  Type annotationType,
-  Map<Symbol, dynamic> namedArguments,
-) {
-  test(annotationType.toString(), () {
+class TestAnnotation {
+  Type annotationType;
+  TestAnnotation(
+    this.annotationType,
+    Map<Symbol, dynamic> namedArguments,
+  ) {
+    test(annotationType.toString(), () {
+      final instance = _getInstance(namedArguments);
+      expect(instance, isA<ValidatorAnnotation>());
+    });
+  }
+
+  dynamic _getInstance(Map<Symbol, dynamic> namedArguments) {
     final clazzMirror = reflectClass(annotationType);
 
-    final instance =
-        clazzMirror.newInstance(const Symbol(''), [], namedArguments).reflectee;
-
-    expect(instance, isA<ValidatorAnnotation>());
-  });
+    return clazzMirror
+        .newInstance(
+          const Symbol(''),
+          [],
+          namedArguments,
+        )
+        .reflectee;
+  }
 }
 
-void testAnnotations(
+void TestAnnotations(
   String description,
   annotations,
   Map<Symbol, dynamic> namedArguments,
@@ -25,7 +36,7 @@ void testAnnotations(
   group(description, () {
     for (var annotation in annotations) {
       if (annotation.runtimeType.toString() != '_Type') {
-        testAnnotation(annotation.runtimeType as Type, namedArguments);
+        TestAnnotation(annotation.runtimeType as Type, namedArguments);
       }
     }
   });

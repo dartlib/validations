@@ -3,7 +3,7 @@ import 'package:validations/annotations/string.dart';
 import '../test_annotation.dart';
 
 void main() {
-  testAnnotations('String Annotations', [
+  TestAnnotations('String Annotations', [
     Alpha,
     CreditCardNumber,
     EAN,
@@ -22,19 +22,19 @@ void main() {
     #groups: ['test_group'],
   });
 
-  testAnnotation(ISBN, {
+  TestAnnotation(ISBN, {
     #type: 'ISBN-13',
     #message: 'Test Message',
     #groups: ['text_group'],
   });
 
-  testAnnotation(Pattern, {
+  TestAnnotation(Pattern, {
     #regexp: r'^-?[0-9]+$',
     #message: 'Test Message',
     #groups: ['text_group'],
   });
 
-  testAnnotation(URL, {
+  TestAnnotation(URL, {
     #protocol: 'http',
     #host: '127.0.0.1',
     #port: 8080,
@@ -43,7 +43,7 @@ void main() {
     #groups: ['text_group'],
   });
 
-  testAnnotation(Uuid, {
+  TestAnnotation(Uuid, {
     #version: 4,
     #message: 'Test Message',
     #groups: ['text_group'],
