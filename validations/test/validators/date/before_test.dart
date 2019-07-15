@@ -3,6 +3,9 @@ import 'package:validations/validators/date.dart';
 import '../../test_validator.dart';
 
 void main() {
+  // ignore: missing_required_param
+  TestValidator.throwsA<ArgumentError>(() => BeforeValidator());
+
   // https://github.com/dart-league/validators/blob/master/test/validator_test.dart
   TestValidator(BeforeValidator(
     year: 2005,
@@ -22,6 +25,4 @@ void main() {
       ' ',
       '',
     });
-
-  TestValidator.throwsA<ArgumentError>(() => BeforeValidator());
 }
