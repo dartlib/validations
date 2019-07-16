@@ -47,21 +47,32 @@ class Car {
   )
   int topSpeed;
 
-  @DecimalMax(
-    value: '100.00',
-    message: r'Price must not be higher than $value',
-  )
-  @DecimalMin(
-    value: '49.99',
-    message: r'Price must not be lower than $value',
-  )
+  // Validations are declared in GenValidator
   Decimal price;
 
-  @IsTrue(message: 'Car must be registered!')
+  // Validations are declared in GenValidator
   bool isRegistered;
 }
 
-@GenValidator()
+// The thing is however, these are also processed during runtime.
+// Same counts for the other annotations.
+@GenValidator(
+  fields: {
+    'price': [
+      DecimalMax(
+        value: '100.00',
+        message: r'Price must not be higher than $value',
+      ),
+      DecimalMin(
+        value: '49.99',
+        message: r'Price must not be lower than $value',
+      ),
+    ],
+    'isRegistered': [
+      IsTrue(message: 'Car must be registered!'),
+    ],
+  },
+)
 class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
 
 @GenValidator()
