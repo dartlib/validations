@@ -2,5 +2,8 @@ part of annotations;
 
 @immutable
 class GenValidator {
-  const GenValidator();
+  final Map<String, List<ValidatorAnnotation>> fields;
+  const GenValidator({
+    this.fields,
+  });
 }

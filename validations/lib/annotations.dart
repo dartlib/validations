@@ -18,6 +18,7 @@ library annotations;
 
 import 'package:meta/meta.dart';
 
+import 'annotation.dart';
 import 'annotations/basic.dart';
 import 'annotations/choice.dart';
 import 'annotations/collection.dart';
