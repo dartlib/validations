@@ -1,6 +1,10 @@
+## 0.4.0
+
+- add `fields` option to GenValidator as alternative to annotating the model.
+
 ## 0.3.2
 
-- fix annotation inconsistencies 
+- fix annotation inconsistencies
 - more annotation tests and code coverage
 
 ## 0.3.1
