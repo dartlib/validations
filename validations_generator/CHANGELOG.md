@@ -1,6 +1,10 @@
+## 0.4.0
+
+- Add optional `fields` parameter to Genvalidator to generate validators.
+
 ## 0.3.0
 
-- Update validations dependency 
+- Update validations dependency
 
 ## 0.2.0
 
