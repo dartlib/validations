@@ -54,11 +54,11 @@ class AnnotatedField {
 
   void parseFieldsProperties(List<DartObject> annotations) {
     for (var annotation in annotations) {
-      parseField(annotation);
+      this.annotations.add(parseField(annotation));
     }
   }
 
-  void parseField(DartObject constantValue) {
+  FieldAnnotation parseField(DartObject constantValue) {
     final annotationElement = constantValue.type.element as ClassElement;
 
     final constructor = annotationElement.getNamedConstructor('');
@@ -67,13 +67,31 @@ class AnnotatedField {
 
     final parameters = constructor.parameters;
 
-    annotations.add(
-      _createFieldAnnotation(
-        constantValue,
-        reader,
-        parameters,
-      ),
+    return _createFieldAnnotation(
+      constantValue,
+      reader,
+      parameters,
     );
+  }
+
+  void parseAnnotations(FieldElement field) {
+    for (var annotation in field.metadata) {
+      if (!isValidatorAnnotation(annotation)) continue;
+
+      final constantValue = annotation.computeConstantValue();
+
+      final reader = ConstantReader(constantValue);
+
+      final parameters = (annotation.element as ConstructorElement).parameters;
+
+      annotations.add(
+        _createFieldAnnotation(
+          constantValue,
+          reader,
+          parameters,
+        ),
+      );
+    }
   }
 
   FieldAnnotation _createFieldAnnotation(
@@ -106,27 +124,5 @@ class AnnotatedField {
     }
 
     return fieldAnnotation;
-  }
-
-  void parseAnnotations(FieldElement field) {
-    for (var annotation in field.metadata) {
-      if (!isValidatorAnnotation(annotation)) continue;
-
-      annotations.add(parseAnnotation(annotation));
-    }
-  }
-
-  FieldAnnotation parseAnnotation(ElementAnnotation annotation) {
-    final constantValue = annotation.computeConstantValue();
-
-    final reader = ConstantReader(constantValue);
-
-    final parameters = (annotation.element as ConstructorElement).parameters;
-
-    return _createFieldAnnotation(
-      constantValue,
-      reader,
-      parameters,
-    );
   }
 }
