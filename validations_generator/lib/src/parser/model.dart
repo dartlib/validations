@@ -62,9 +62,6 @@ class ModelParser {
         ..implements.add(refer('Validator<$className>'))
         ..abstract = true;
 
-      // So _getAnnotated fields could just take fields into account
-      // and if I'm correct that's all?
-      // but probably the next methods assume to much
       var annotatedFields = _getAnnotatedFields(fields);
 
       annotatedFields = _getGenValidatorFields(annotatedFields);
@@ -83,10 +80,7 @@ class ModelParser {
   /// defined in the model (If any).
   List<AnnotatedField> _getGenValidatorFields(
       List<AnnotatedField> annotatedFields) {
-    // final fields = generatorClass.getField('fields');
     final fields = genValidatorAnnotation.getField('fields').toMapValue();
-
-    print('Fields? $fields');
 
     if (fields != null) {
       for (var name in fields.keys) {
@@ -97,10 +91,8 @@ class ModelParser {
 
         final annotatedField = AnnotatedField(
           name: name.toStringValue(),
-          // there is no element, all we have is the property name.
-          element: propertyField.type.element
-              as ClassElement, //  type.element as ClassElement,
-          type: propertyField.type.displayName, // type.displayName,
+          element: propertyField.type.element as ClassElement,
+          type: propertyField.type.displayName,
         )..parseFieldsProperties(annotations);
 
         annotatedFields
