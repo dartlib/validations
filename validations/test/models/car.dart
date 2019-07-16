@@ -54,8 +54,6 @@ class Car {
   bool isRegistered;
 }
 
-// The thing is however, these are also processed during runtime.
-// Same counts for the other annotations.
 @GenValidator(
   fields: {
     'price': [
