@@ -1,9 +1,12 @@
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:validations/validations.dart' as validator;
+
+import 'annotated_field.dart';
 
 const validatorType = TypeChecker.fromRuntime(validator.Validator);
 const genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
@@ -26,6 +29,8 @@ class ModelParser {
 
   /// The model this validator handles.
   DartType model;
+
+  DartObject genValidatorAnnotation;
 
   LibraryReader library;
 
@@ -57,7 +62,9 @@ class ModelParser {
         ..implements.add(refer('Validator<$className>'))
         ..abstract = true;
 
-      final annotatedFields = _getAnnotatedFields(fields);
+      var annotatedFields = _getAnnotatedFields(fields);
+
+      annotatedFields = _getGenValidatorFields(annotatedFields);
 
       classBuilder.methods.addAll([
         _buildGetFieldValidators(annotatedFields, classBuilder),
@@ -67,8 +74,38 @@ class ModelParser {
     };
   }
 
-  List<FieldElement> _getAnnotatedFields(List<FieldElement> fields) {
-    final annotatedFields = <FieldElement>[];
+  /// Reads the fields parameter of GenValidator
+  ///
+  /// Any field specified in this map will override the annotations
+  /// defined in the model (If any).
+  List<AnnotatedField> _getGenValidatorFields(
+      List<AnnotatedField> annotatedFields) {
+    final fields = genValidatorAnnotation.getField('fields').toMapValue();
+
+    if (fields != null) {
+      for (var name in fields.keys) {
+        final annotations = fields[name].toListValue();
+
+        final propertyField =
+            (model.element as ClassElement).getField(name.toStringValue());
+
+        final annotatedField = AnnotatedField(
+          name: name.toStringValue(),
+          element: propertyField.type.element as ClassElement,
+          type: propertyField.type.displayName,
+        )..parseFieldsProperties(annotations);
+
+        annotatedFields
+          ..retainWhere((field) => field.name != annotatedField.name)
+          ..add(annotatedField);
+      }
+    }
+
+    return annotatedFields;
+  }
+
+  List<AnnotatedField> _getAnnotatedFields(List<FieldElement> fields) {
+    final annotatedFields = <AnnotatedField>[];
 
     for (var field in fields) {
       final hasValidatorAnnotations = annotationTypes.any(
@@ -76,7 +113,13 @@ class ModelParser {
       );
 
       if (hasValidatorAnnotations) {
-        annotatedFields.add(field);
+        final annotatedField = AnnotatedField(
+          name: field.name,
+          element: field.type.element as ClassElement,
+          type: field.type.displayName,
+        )..parseAnnotations(field);
+
+        annotatedFields.add(annotatedField);
       }
     }
 
@@ -84,7 +127,7 @@ class ModelParser {
   }
 
   List<Method> _buildValidatorMethods(
-    List<FieldElement> annotatedFields,
+    List<AnnotatedField> annotatedFields,
     ClassBuilder classBuilder,
   ) {
     final methods = <Method>[];
@@ -120,12 +163,12 @@ class ModelParser {
   }
 
   Method _buildPropsMethod(
-    List<FieldElement> annotatedFields,
+    List<AnnotatedField> annotatedFields,
     ClassBuilder classBuilder,
   ) {
     final fieldNames = annotatedFields.fold(
       <Expression, Expression>{},
-      (Map<Expression, Expression> properties, FieldElement field) {
+      (Map<Expression, Expression> properties, AnnotatedField field) {
         properties[literal(field.name)] = refer('instance.${field.name}');
 
         return properties;
@@ -159,7 +202,7 @@ class ModelParser {
   }
 
   Method _buildGetFieldValidators(
-    List<FieldElement> fields,
+    List<AnnotatedField> fields,
     ClassBuilder classBuilder,
   ) {
     final fieldValidators = [];
@@ -167,62 +210,39 @@ class ModelParser {
     for (var field in fields) {
       final list = [];
 
-      for (var annotation in field.metadata) {
-        if (!isValidatorAnnotation(annotation)) continue;
-
-        final annotationConstantValue = annotation.computeConstantValue();
-        final annotationImpl = ConstantReader(annotationConstantValue);
+      for (var annotation in field.annotations) {
         final namedParams = <String, Expression>{};
 
-        String message;
-        String messageMethod;
         final messageMethodParameters = <Parameter>[];
 
-        final parameters =
-            (annotation.element as ConstructorElement).parameters;
+        for (var parameter in annotation.parameters) {
+          messageMethodParameters.add(
+            Parameter((builder) {
+              builder
+                ..name = parameter.name
+                ..type = refer(parameter.type);
+            }),
+          );
 
-        for (var parameter in parameters) {
-          if (parameter.name != 'message' && parameter.name != 'groups') {
-            messageMethodParameters.add(
-              Parameter((builder) {
-                builder
-                  ..name = parameter.name
-                  ..type = refer(parameter.type.name);
-              }),
-            );
-          }
-
-          final param = annotationImpl.read(parameter.name);
-
-          if (!param.isNull) {
-            if (parameter.name == 'message') {
-              messageMethod =
-                  '${field.name}${capitalize(annotationConstantValue.type.displayName)}Message';
-              message = param.stringValue;
-            } else {
-              namedParams[parameter.name] = literal(param.literalValue);
-            }
+          if (!parameter.isNull) {
+            namedParams[parameter.name] = literal(parameter.value);
           }
         }
 
-        if (messageMethod != null) {
+        if (annotation.messageMethod != null) {
           classBuilder.methods.add(
             _buildMessageMethod(
-              messageMethod,
+              annotation.messageMethod,
               messageMethodParameters,
-              message,
+              annotation.message,
             ),
           );
         }
 
         final positionalArguments = <Expression>[];
 
-        final isContainerAnnotation = containerAnnotationType
-            .isAssignableFromType(annotationConstantValue.type);
-
-        if (isContainerAnnotation) {
-          final containerValidator =
-              _getValidatorForModel(field.type.element as ClassElement);
+        if (annotation.isContainerAnnotation) {
+          final containerValidator = _getValidatorForModel(field.element);
 
           final str = refer(
               '${containerValidator.type.displayName}()..validationContext = validationContext,');
@@ -230,20 +250,18 @@ class ModelParser {
           positionalArguments.add(str);
         }
 
-        final statement =
-            refer('${annotationConstantValue.type.displayName}Validator')
-                .newInstance(
+        final statement = refer('${annotation.type}Validator').newInstance(
           positionalArguments,
           namedParams,
         );
 
-        if (messageMethod != null) {
+        if (annotation.messageMethod != null) {
           list.add(
             Block.of(
               [
                 statement.code,
                 const Code('..'),
-                refer('message').assign(refer(messageMethod)).code,
+                refer('message').assign(refer(annotation.messageMethod)).code,
               ],
             ),
           );
@@ -259,7 +277,8 @@ class ModelParser {
             'name': literalString(field.name),
             'validators': literalList(list),
           },
-          [refer(field.type.name)],
+          // [refer(field.type.name)],
+          [refer(field.type)],
         ),
       );
     }
@@ -330,9 +349,9 @@ class ModelParser {
       throw Exception('Validators must implement Validator interface!');
     }
 
-    final meta = genValidatorType.firstAnnotationOf(generatorClass);
+    genValidatorAnnotation = genValidatorType.firstAnnotationOf(generatorClass);
 
-    if (meta == null) {
+    if (genValidatorAnnotation == null) {
       throw Exception(
         'GenValidator annotation not found for ${generatorClass.name}!',
       );

@@ -15,3 +15,7 @@ See that package for main setup and it's usage.
 `pub run build_runner build`
 
 ## Debugging
+
+Run `pub run build_runner generate-build-script`
+
+And use the generated build script for debugging.
