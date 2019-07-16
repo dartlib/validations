@@ -7,42 +7,37 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class $_TestCarValidator implements Validator<Car> {
-  static String driverValidMessage(
-          List<String> groups, Object validatedValue) =>
+  static String driverValidMessage(Object validatedValue) =>
       Intl.message('There should be a valid driver!',
-          name: 'driverValidMessage', args: [groups, validatedValue]);
+          name: 'driverValidMessage', args: [validatedValue]);
   static String licensePlateSizeMessage(
-          int min, int max, List<String> groups, Object validatedValue) =>
+          int min, int max, Object validatedValue) =>
       Intl.message(
           'The license plate $validatedValue must be between $min and $max characters long',
           name: 'licensePlateSizeMessage',
-          args: [min, max, groups, validatedValue]);
-  static String seatCountMinMessage(
-          num value, List<String> groups, Object validatedValue) =>
+          args: [min, max, validatedValue]);
+  static String seatCountMinMessage(num value, Object validatedValue) =>
       Intl.message('Car must at least have $value seats available',
-          name: 'seatCountMinMessage', args: [value, groups, validatedValue]);
-  static String seatCountMaxMessage(
-          num value, List<String> groups, Object validatedValue) =>
+          name: 'seatCountMinMessage', args: [value, validatedValue]);
+  static String seatCountMaxMessage(num value, Object validatedValue) =>
       Intl.message('Car cannot have more than $value seats',
-          name: 'seatCountMaxMessage', args: [value, groups, validatedValue]);
-  static String topSpeedMaxMessage(
-          num value, List<String> groups, Object validatedValue) =>
+          name: 'seatCountMaxMessage', args: [value, validatedValue]);
+  static String topSpeedMaxMessage(num value, Object validatedValue) =>
       Intl.message('The top speed $validatedValue is higher than $value',
-          name: 'topSpeedMaxMessage', args: [value, groups, validatedValue]);
-  static String priceDecimalMaxMessage(String value, bool inclusive,
-          List<String> groups, Object validatedValue) =>
+          name: 'topSpeedMaxMessage', args: [value, validatedValue]);
+  static String priceDecimalMaxMessage(
+          String value, bool inclusive, Object validatedValue) =>
       Intl.message('Price must not be higher than $value',
           name: 'priceDecimalMaxMessage',
-          args: [value, inclusive, groups, validatedValue]);
-  static String priceDecimalMinMessage(String value, bool inclusive,
-          List<String> groups, Object validatedValue) =>
+          args: [value, inclusive, validatedValue]);
+  static String priceDecimalMinMessage(
+          String value, bool inclusive, Object validatedValue) =>
       Intl.message('Price must not be lower than $value',
           name: 'priceDecimalMinMessage',
-          args: [value, inclusive, groups, validatedValue]);
-  static String isRegisteredIsTrueMessage(
-          List<String> groups, Object validatedValue) =>
+          args: [value, inclusive, validatedValue]);
+  static String isRegisteredIsTrueMessage(Object validatedValue) =>
       Intl.message('Car must be registered!',
-          name: 'isRegisteredIsTrueMessage', args: [groups, validatedValue]);
+          name: 'isRegisteredIsTrueMessage', args: [validatedValue]);
   @override
   List<FieldValidator> getFieldValidators() {
     return [

@@ -106,7 +106,7 @@ class AnnotatedField {
         fieldAnnotation
           ..messageMethod = '$name${capitalize(fieldAnnotation.type)}Message'
           ..message = param.stringValue;
-      } else {
+      } else if (parameter.name != 'groups') {
         fieldAnnotation.parameters.add(
           AnnotationParameter(
             name: parameter.name,
