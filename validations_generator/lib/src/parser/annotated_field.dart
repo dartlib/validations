@@ -41,11 +41,6 @@ class AnnotatedField {
         assert(type != null),
         assert(type != 'null');
 
-  /// Clears all annotations associated with this field.
-  void clear() {
-    annotations.clear();
-  }
-
   bool isValidatorAnnotation(ElementAnnotation annotation) {
     return annotationTypes.any(
       (typeChecker) => typeChecker.isExactlyType(annotation.constantValue.type),
