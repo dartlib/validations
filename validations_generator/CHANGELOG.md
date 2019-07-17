@@ -1,3 +1,7 @@
+## 0.5.0
+
+- change generated class prefix from $_ to _$ (private).
+
 ## 0.4.0
 
 - Add optional `fields` parameter to Genvalidator to generate validators.
