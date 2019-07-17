@@ -6,7 +6,7 @@ part of 'car.dart';
 // ValidatorGenerator
 // **************************************************************************
 
-abstract class $_TestCarValidator implements Validator<Car> {
+abstract class _$TestCarValidator implements Validator<Car> {
   static String driverValidMessage(Object validatedValue) =>
       Intl.message('There should be a valid driver!',
           name: 'driverValidMessage', args: [validatedValue]);
@@ -96,7 +96,7 @@ abstract class $_TestCarValidator implements Validator<Car> {
       errorCheck('isRegistered', value);
 }
 
-abstract class $_TestDriverValidator implements Validator<Driver> {
+abstract class _$TestDriverValidator implements Validator<Driver> {
   @override
   List<FieldValidator> getFieldValidators() {
     return [
