@@ -6,13 +6,13 @@
 [![codecov](https://codecov.io/gh/dartlib/validations/branch/master/graph/badge.svg)](https://codecov.io/gh/dartlib/validations)
 
 
-## Validator setup 
+## Validator setup
 
 You should add `validations_generator` as a dependency:
 ```dart
 dev_dependencies:
   build_runner:
-  validations_generator: 
+  validations_generator:
 ```
 
 First declare your model and assign a generator class to validate the model.
@@ -21,7 +21,7 @@ First declare your model and assign a generator class to validate the model.
 ```dart
 import 'package:decimal/decimal.dart';
 import 'package:validations/validations.dart';
-       
+
 part 'car.gval.dart';
 
 class Driver {
@@ -39,7 +39,7 @@ class Car {
     this.price,
     this.isRegistered,
   });
-  
+
   @NotNull()
   String manufacturer;
 
@@ -86,10 +86,10 @@ class Car {
 }
 
 @GenValidator()
-class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
+class TestCarValidator extends Validator<Car> with _$TestCarValidator {}
 
 @GenValidator()
-class TestDriverValidator extends Validator<Driver> with $_TestDriverValidator {}
+class TestDriverValidator extends Validator<Driver> with _$TestDriverValidator {}
 ```
 
 ## Generate the validators
@@ -99,7 +99,7 @@ After the models have been annotated the validators should be generated:
 # Dart
 pub run build_runner build
 
-# Flutter 
+# Flutter
 flutter pub run build_runner build
 ```
 

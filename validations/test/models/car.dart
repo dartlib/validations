@@ -71,8 +71,8 @@ class Car {
     ],
   },
 )
-class TestCarValidator extends Validator<Car> with $_TestCarValidator {}
+class TestCarValidator extends Validator<Car> with _$TestCarValidator {}
 
 @GenValidator()
-class TestDriverValidator extends Validator<Driver> with $_TestDriverValidator {
+class TestDriverValidator extends Validator<Driver> with _$TestDriverValidator {
 }

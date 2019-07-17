@@ -58,7 +58,7 @@ class ModelParser {
       String className, List<FieldElement> fields) {
     return (ClassBuilder classBuilder) {
       classBuilder
-        ..name = '\$_${generatorClass.displayName}'
+        ..name = '_\$${generatorClass.displayName}'
         ..implements.add(refer('Validator<$className>'))
         ..abstract = true;
 
