@@ -1,11 +1,12 @@
 # Read about `build.yaml` at https://pub.dartlang.org/packages/build_config
 builders:
-  validator_generator:
+  validations_generator:
     import: "package:validations_generator/validations_generator.dart"
     builder_factories:
       - validatorGeneratorFactory
     build_extensions:
       .dart:
-        - ".gval.dart"
-    auto_apply: root_package
-    build_to: source
+        - "validations.g.part"
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
