@@ -1,3 +1,8 @@
+## 0.6.0
+- make internationalization of messages optional.
+- generate to shared part files
+- extension changed from `.gval.dart` to `.g.dart`
+
 ## 0.5.1
 
 - update validators dependency.

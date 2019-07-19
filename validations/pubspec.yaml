@@ -1,6 +1,6 @@
 name: validations
 description: Validations for dart models.
-version: 0.5.0
+version: 0.6.0
 homepage: https://github.com/dartlib/validations.git
 author: Rob Halff <rob.halff@gmail.com>
 
