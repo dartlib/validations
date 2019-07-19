@@ -317,7 +317,7 @@ class ModelParser {
         messageMethodParameters,
       );
     } else {
-      body = Code(message);
+      body = literalString(message).returned.statement;
     }
 
     return Method(

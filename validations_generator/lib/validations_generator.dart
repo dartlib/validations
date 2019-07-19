@@ -9,7 +9,7 @@ Builder validatorGeneratorFactoryBuilder({bool useIntl}) {
   return SharedPartBuilder(
     [
       ValidatorGenerator(
-        useIntl: useIntl,
+        useIntl: useIntl ?? false,
       )
     ],
     'validators',
