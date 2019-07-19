@@ -16,7 +16,7 @@ See that package for main setup and it's usage.
 
 ## Internationalization
 
-The generator is capable of generating message methods which use the `intl` package.
+The generator is capable of generating message methods which use the [intl](https://pub.dev/packages/intl) package.
 
 The string to be translated will be the `message` you've specified in the annotation or else
 the default message for the annotation.
@@ -61,7 +61,7 @@ static String topSpeedMaxMessage(num value, Object validatedValue) =>
 ```
 
 Note:
-  Make sure you import the `package:intl` package from the source file in order for the
+  Make sure you import the [package:intl](https://pub.dev/packages/intl) package from the source file in order for the
   generated code to find the package.
 
 ## Debugging
