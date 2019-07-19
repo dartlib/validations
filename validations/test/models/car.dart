@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
 import 'package:validations/validations.dart';
 
-part 'car.gval.dart';
+part 'car.g.dart';
 
 class Driver {
   Driver({this.name});

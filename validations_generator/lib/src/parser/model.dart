@@ -21,8 +21,6 @@ final annotationTypes =
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
-bool useIntl = true;
-
 class ModelParser {
   /// The [ClassElement] element of `GenValidator` spec.
   final ClassElement generatorClass;
@@ -34,8 +32,11 @@ class ModelParser {
 
   LibraryReader library;
 
+  final bool useIntl;
+
   ModelParser({
     this.generatorClass,
+    this.useIntl = false,
     this.library,
   });
 
@@ -310,25 +311,13 @@ class ModelParser {
     Code body;
 
     if (useIntl) {
-      final positionalArguments = <Expression>[literal(message)];
-      final namedArguments = <String, Expression>{
-        'name': literal(messageMethod),
-        'args': literalList([
-          ...messageMethodParameters.map(
-            (Parameter parameter) => refer(parameter.name),
-          ),
-          refer('validatedValue'),
-        ])
-      };
-
-      body = refer('Intl.message')
-          .newInstance(
-            positionalArguments,
-            namedArguments,
-          )
-          .code;
+      body = _buildIntlMethod(
+        message,
+        messageMethod,
+        messageMethodParameters,
+      );
     } else {
-      body = Code(message);
+      body = literalString(message).returned.statement;
     }
 
     return Method(
@@ -342,6 +331,30 @@ class ModelParser {
           ..requiredParameters.add(validatedValue);
       },
     );
+  }
+
+  Code _buildIntlMethod(
+    String message,
+    String messageMethod,
+    List<Parameter> messageMethodParameters,
+  ) {
+    final positionalArguments = <Expression>[literal(message)];
+    final namedArguments = <String, Expression>{
+      'name': literal(messageMethod),
+      'args': literalList([
+        ...messageMethodParameters.map(
+          (Parameter parameter) => refer(parameter.name),
+        ),
+        refer('validatedValue'),
+      ])
+    };
+
+    return refer('Intl.message')
+        .newInstance(
+          positionalArguments,
+          namedArguments,
+        )
+        .code;
   }
 
   void _findModel() {

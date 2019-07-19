@@ -11,6 +11,12 @@ import 'parser/model.dart';
 
 class ValidatorGenerator
     extends GeneratorForAnnotation<validator.GenValidator> {
+  bool useIntl;
+
+  ValidatorGenerator({
+    this.useIntl = false,
+  });
+
   LibraryReader library;
 
   @override
@@ -42,6 +48,7 @@ class ValidatorGenerator
     try {
       return ModelParser(
         generatorClass: element as ClassElement,
+        useIntl: useIntl,
         library: library,
       ).parse();
     } catch (exception, stackTrace) {

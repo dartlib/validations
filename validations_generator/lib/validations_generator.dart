@@ -5,11 +5,19 @@ import 'package:source_gen/source_gen.dart';
 
 import 'src/generator.dart';
 
-Builder validatorGeneratorFactoryBuilder({String header}) {
-  return PartBuilder([ValidatorGenerator()], '.gval.dart', header: header);
+Builder validatorGeneratorFactoryBuilder({bool useIntl}) {
+  return SharedPartBuilder(
+    [
+      ValidatorGenerator(
+        useIntl: useIntl ?? false,
+      )
+    ],
+    'validators',
+  );
 }
 
 Builder validatorGeneratorFactory(BuilderOptions options) {
   return validatorGeneratorFactoryBuilder(
-      header: options.config['header'] as String);
+    useIntl: options.config['use_intl'] as bool,
+  );
 }

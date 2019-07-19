@@ -1,5 +1,5 @@
 name: validations_generator
-version: 0.5.1
+version: 0.6.0
 description: Generator for the validations package.
 authors:
 - Rob Halff <rob.halff@gmail.com>
@@ -9,9 +9,10 @@ environment:
   sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
-  validations: ^0.5.0
+  validations: ^0.6.0
   analyzer: ^0.36.0
-  build: ^1.1.4
+  build: '>=0.12.6 <2.0.0'
+  build_config: '>=0.2.6 <0.5.0'
   logging: ^0.11.3+2
   source_gen: ^0.9.4+2
   code_builder: ^3.2.0
@@ -24,6 +25,5 @@ dev_dependencies:
   test: ^1.6.4
   build_runner: ^1.6.1
   intl: 0.15.8
-  # build_web_compilers: ^2.1.2
   build_test: ^0.10.8
   collection: ^1.14.11
