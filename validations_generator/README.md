@@ -17,23 +17,11 @@ See that package for main setup and it's usage.
 ## Internationalization
 
 The generator is capable of generating message methods which use the `intl` package.
-The generated code will contain the `intl` method calls.
 
 The string to be translated will be the `message` you've specified in the annotation or else
 the default message for the annotation.
 
-If you want to enable the generation of `intl` method calls set `useIntl` to true in your
-annotation or enable it globally (see Build Configuration).
-
-```dart
-@GenValidator(
-  use_intl: true,
-)
-```
-
-## Build configuration
-
-Besides setting arguments on the `GenValidator` annotation itself, you can also configure code generation by setting values in build.yaml.
+In order to enable the generation of `intl` add the following to your `build.yaml` configuration.
 
 ```yaml
 targets:
@@ -41,8 +29,40 @@ targets:
     builders:
       validations_generator:
         options:
-          use_intl: false 
+          use_intl: true 
 ```
+
+### Intl Example
+
+Given an annotation like this:
+```dart
+@Max(
+  value: 350,
+  message: r'The top speed $validatedValue is higher than $value',
+)
+int topSpeed;
+```
+
+Without intl the generated code will be:
+```dart
+static String topSpeedMaxMessage(num value, Object validatedValue) {
+  return 'The top speed $validatedValue is higher than $value';
+}
+```
+
+With intl:
+```dart
+static String topSpeedMaxMessage(num value, Object validatedValue) =>
+  Intl.message(
+   'The top speed $validatedValue is higher than $value',
+   name: 'topSpeedMaxMessage',
+   args: [value, validatedValue]
+);
+```
+
+Note:
+  Make sure you import the `package:intl` package from the source file in order for the
+  generated code to find the package.
 
 ## Debugging
 
