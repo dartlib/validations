@@ -5,7 +5,7 @@ part of validators.basic;
 /// Supported types: [Map], [Iterable] and [String]
 class IsEmptyValidator extends ConstraintValidator {
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     if (value is Iterable || value is Map || value is String) {
       return value.isEmpty as bool;
     }

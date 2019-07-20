@@ -23,7 +23,7 @@ class InFutureValidator extends TimeUnitBaseValidator {
   }) : super(timeUnit: timeUnit);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return _isAfter(timeUnit, date, toDateTime(value), false);
   }
 

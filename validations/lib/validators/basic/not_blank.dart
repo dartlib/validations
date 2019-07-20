@@ -6,7 +6,7 @@ class NotBlankValidator extends ConstraintValidator {
   bool allowNull = false;
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     if (value == null) return false;
 
     if (value is! String) return true;

@@ -31,7 +31,7 @@ class AfterValidator extends DateTimeBaseValidator {
   }
 
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     try {
       return compare(value) > 0;
     } catch (_) {

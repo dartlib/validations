@@ -32,6 +32,7 @@ import 'annotations/string.dart';
 
 export 'annotations/basic.dart';
 export 'annotations/choice.dart';
+export 'annotations/class_level.dart';
 export 'annotations/collection.dart';
 export 'annotations/comparison.dart';
 export 'annotations/date.dart';

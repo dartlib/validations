@@ -7,7 +7,7 @@ class ValidValidator extends ConstraintValidatorContainer {
   ValidValidator(Validator validator) : super(validator);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     if (value == null) return true;
 
     // TODO
@@ -23,11 +23,11 @@ class ValidValidator extends ConstraintValidatorContainer {
 
       return valid;
     } else {
-      return _validateObject(value);
+      return _validateObject(value, context);
     }
   }
 
-  bool _validateObject(dynamic value, [ValueContext context]) {
+  bool _validateObject(dynamic value, ValueContext context) {
     final violations = validator.validate(value, context);
 
     validator.validationContext.constraintViolations.addAll(violations);

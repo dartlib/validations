@@ -15,6 +15,16 @@ class Driver {
 
 class CarWithMixin extends Car with ValidatorMixin<TestCarValidator> {}
 
+@FieldMatch(
+  baseField: 'frontWheelCoverLeft',
+  matchField: 'frontWheelCoverRight',
+  message: r'Left and Right front wheel covers should match!',
+)
+@FieldMatch(
+  baseField: 'rearWheelCoverLeft',
+  matchField: 'rearWheelCoverRight',
+  message: r'Left and Right rear wheel covers should match!',
+)
 class Car {
   @NotNull()
   String manufacturer;
@@ -46,6 +56,11 @@ class Car {
     message: r'The top speed $validatedValue is higher than $value',
   )
   int topSpeed;
+
+  String frontWheelCoverLeft;
+  String frontWheelCoverRight;
+  String rearWheelCoverLeft;
+  String rearWheelCoverRight;
 
   // Validations are declared in GenValidator
   Decimal price;

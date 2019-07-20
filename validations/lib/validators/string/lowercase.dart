@@ -5,7 +5,7 @@ part of validators.string;
 /// Supported types: [String]
 class LowercaseValidator extends ConstraintValidator {
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value is String && isLowercase(value);
   }
 

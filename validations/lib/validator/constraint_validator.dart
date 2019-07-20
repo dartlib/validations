@@ -38,7 +38,7 @@ abstract class ConstraintValidator<ValueType> {
   // Called each time before an isValid check.
   void initialize() {}
 
-  bool validate(Object value, [ValueContext context]) {
+  bool validate(ValueType value, [ValueContext context]) {
     initialize();
 
     if (allowNull && value == null) return true;
@@ -46,7 +46,7 @@ abstract class ConstraintValidator<ValueType> {
     return isValid(value, context);
   }
 
-  bool isValid(Object value, [ValueContext context]);
+  bool isValid(ValueType value, ValueContext context);
 
   Function get message;
 }

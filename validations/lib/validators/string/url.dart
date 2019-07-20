@@ -37,7 +37,7 @@ class UrlValidator extends ConstraintValidator {
           blacklist,
         ]);
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     return value is String &&
         isURL(
           value,

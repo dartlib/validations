@@ -12,7 +12,7 @@ class ByteLengthValidator extends ConstraintValidator {
   })  : assert(min != null),
         super([min, max]);
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value is String && isByteLength(value, min, max);
   }
 
