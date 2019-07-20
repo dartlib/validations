@@ -236,7 +236,7 @@ class ValidatedElement {
 
               if (classField == null) {
                 throw Exception(
-                    '@property: `${classAnnotation.constantValue.type.name}.${field.name}` refers to a field which does not exist: ${element.name}.${value}');
+                    '@property: `${classAnnotation.constantValue.type.name}.${field.name}` refers to a field which does not exist: ${element.name}.$value');
               }
 
               extraProperties.add(value);
