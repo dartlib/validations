@@ -2,6 +2,7 @@ library validator;
 
 import 'package:meta/meta.dart';
 
+part 'validator/class_validator.dart';
 part 'validator/constraint_validator.dart';
 part 'validator/constraint_validator_container.dart';
 part 'validator/constraint_violation.dart';

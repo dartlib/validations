@@ -9,7 +9,7 @@ part of validators.collection;
 /// Supported types: [Iterable] and [Map]
 class UniqueValidator extends ConstraintValidator {
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     if (value == null) return true;
 
     if (value is Set) return true;

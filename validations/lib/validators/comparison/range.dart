@@ -15,7 +15,7 @@ class RangeValidator extends ConstraintValidator {
         super([min, max]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     if (value is Iterable) {
       return _compare(value.length);
     }

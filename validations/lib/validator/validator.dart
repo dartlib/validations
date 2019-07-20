@@ -32,12 +32,15 @@ part of validator;
 ///
 abstract class Validator<T> {
   Map<String, FieldValidator> _fieldValidatorMap;
+  ClassValidator _classValidator;
   List<FieldValidator> _fieldValidators;
-  List<FieldValidator> getFieldValidators();
+  List<FieldValidator> getFieldValidators() => [];
+  ClassValidator getClassValidator() => null;
   Map<String, dynamic> props(T props);
   ValidationContext validationContext = ValidationContext();
 
   Validator() {
+    _classValidator = getClassValidator();
     _fieldValidators = getFieldValidators();
     _fieldValidatorMap = Map.fromIterable(
       _fieldValidators,
@@ -59,6 +62,20 @@ abstract class Validator<T> {
 
       if (propertyViolations.isNotEmpty) {
         violations.addAll(propertyViolations);
+      }
+    }
+
+    if (_classValidator != null) {
+      final classViolations = _applyValidators(
+        _classValidator.getType(),
+        object,
+        _classValidator.validators,
+        object,
+        context,
+      );
+
+      if (classViolations.isNotEmpty) {
+        violations.addAll(classViolations);
       }
     }
 
@@ -128,6 +145,7 @@ abstract class Validator<T> {
       final valueContext = ValueContext(
         node: valueNode,
         value: propertyValue,
+        validator: this,
       );
 
       return _validateValue(name, propertyValue, object, valueContext);
@@ -142,17 +160,28 @@ abstract class Validator<T> {
       throw Exception('No validator found for `$name`');
     }
 
+    final validators = _fieldValidatorMap[name].validators;
+
+    return _applyValidators(
+      name,
+      value,
+      validators,
+      validatedObject,
+      valueContext,
+    );
+  }
+
+  Set<ConstraintViolation> _applyValidators(
+      String name, Object value, List<ConstraintValidator> validators,
+      [validatedObject, ValueContext valueContext]) {
     valueContext ??= _createRootValueContext(
       value.runtimeType.toString(),
       value,
     );
 
-    final validators = _fieldValidatorMap[name].validators.iterator;
     final violations = <ConstraintViolation>{};
 
-    while (validators.moveNext()) {
-      final validator = validators.current;
-
+    for (var validator in validators) {
       if (validator.allowNull && value == null) continue;
 
       if (!validator.validate(value, valueContext)) {
@@ -182,6 +211,7 @@ abstract class Validator<T> {
     return ValueContext(
       node: Node(name: type),
       value: value,
+      validator: this,
     );
   }
 }

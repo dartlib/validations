@@ -5,7 +5,7 @@ part of validators.number;
 /// Supported types: [num], [String]
 class NegativeOrZeroValidator extends ConstraintValidator {
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     try {
       final number = parseNum(value);
       return number <= 0;

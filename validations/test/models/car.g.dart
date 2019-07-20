@@ -7,6 +7,28 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class _$TestCarValidator implements Validator<Car> {
+  static String carFieldMatchMessage(
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Left and Right front wheel covers should match!',
+          name: 'carFieldMatchMessage',
+          args: [baseField, matchField, validatedValue]);
+  static String carFieldMatchMessage2(
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Left and Right rear wheel covers should match!',
+          name: 'carFieldMatchMessage2',
+          args: [baseField, matchField, validatedValue]);
+  @override
+  ClassValidator getClassValidator() {
+    return ClassValidator<Car>(validators: [
+      FieldMatchValidator(
+          baseField: 'frontWheelCoverLeft', matchField: 'frontWheelCoverRight')
+        ..message = carFieldMatchMessage,
+      FieldMatchValidator(
+          baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
+        ..message = carFieldMatchMessage2
+    ]);
+  }
+
   static String driverValidMessage(Object validatedValue) =>
       Intl.message('There should be a valid driver!',
           name: 'driverValidMessage', args: [validatedValue]);
@@ -30,10 +52,10 @@ abstract class _$TestCarValidator implements Validator<Car> {
       Intl.message('Price must not be higher than $value',
           name: 'priceDecimalMaxMessage',
           args: [value, inclusive, validatedValue]);
-  static String priceDecimalMinMessage(
+  static String priceDecimalMinMessage2(
           String value, bool inclusive, Object validatedValue) =>
       Intl.message('Price must not be lower than $value',
-          name: 'priceDecimalMinMessage',
+          name: 'priceDecimalMinMessage2',
           args: [value, inclusive, validatedValue]);
   static String isRegisteredIsTrueMessage(Object validatedValue) =>
       Intl.message('Car must be registered!',
@@ -63,25 +85,12 @@ abstract class _$TestCarValidator implements Validator<Car> {
         DecimalMaxValidator(value: '100.00', inclusive: true)
           ..message = priceDecimalMaxMessage,
         DecimalMinValidator(value: '49.99', inclusive: true)
-          ..message = priceDecimalMinMessage
+          ..message = priceDecimalMinMessage2
       ]),
       FieldValidator<bool>(
           name: 'isRegistered',
           validators: [IsTrueValidator()..message = isRegisteredIsTrueMessage])
     ];
-  }
-
-  @override
-  Map<String, dynamic> props(Car instance) {
-    return {
-      'manufacturer': instance.manufacturer,
-      'driver': instance.driver,
-      'licensePlate': instance.licensePlate,
-      'seatCount': instance.seatCount,
-      'topSpeed': instance.topSpeed,
-      'price': instance.price,
-      'isRegistered': instance.isRegistered
-    };
   }
 
   String validateManufacturer(Object value) =>
@@ -94,6 +103,23 @@ abstract class _$TestCarValidator implements Validator<Car> {
   String validatePrice(Object value) => errorCheck('price', value);
   String validateIsRegistered(Object value) =>
       errorCheck('isRegistered', value);
+  String validateCar(Object value) => errorCheck('Car', value);
+  @override
+  Map<String, dynamic> props(Car instance) {
+    return {
+      'manufacturer': instance.manufacturer,
+      'driver': instance.driver,
+      'licensePlate': instance.licensePlate,
+      'seatCount': instance.seatCount,
+      'topSpeed': instance.topSpeed,
+      'price': instance.price,
+      'isRegistered': instance.isRegistered,
+      'frontWheelCoverLeft': instance.frontWheelCoverLeft,
+      'frontWheelCoverRight': instance.frontWheelCoverRight,
+      'rearWheelCoverLeft': instance.rearWheelCoverLeft,
+      'rearWheelCoverRight': instance.rearWheelCoverRight
+    };
+  }
 }
 
 abstract class _$TestDriverValidator implements Validator<Driver> {
@@ -104,10 +130,10 @@ abstract class _$TestDriverValidator implements Validator<Driver> {
     ];
   }
 
+  String validateName(Object value) => errorCheck('name', value);
+  String validateDriver(Object value) => errorCheck('Driver', value);
   @override
   Map<String, dynamic> props(Driver instance) {
     return {'name': instance.name};
   }
-
-  String validateName(Object value) => errorCheck('name', value);
 }

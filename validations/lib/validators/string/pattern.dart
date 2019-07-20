@@ -6,7 +6,7 @@ class PatternValidator extends ConstraintValidator {
     this.regexp,
   }) : super([regexp]);
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value is String && RegExp(regexp).hasMatch(value);
   }
 

@@ -14,7 +14,7 @@ class NotEqualToValidator extends ConstraintValidator {
         super([value]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value != this.value;
   }
 

@@ -10,7 +10,7 @@ class IpValidator extends ConstraintValidator {
     this.version,
   }) : super([version]);
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     return value is String && isIP(value, version);
   }
 

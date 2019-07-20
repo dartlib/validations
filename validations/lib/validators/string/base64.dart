@@ -5,7 +5,7 @@ part of validators.string;
 /// Supported types: [String]
 class Base64Validator extends ConstraintValidator {
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value is String && isBase64(value);
   }
 

@@ -4,7 +4,7 @@ class TypeValidator<T> extends ConstraintValidator {
   TypeValidator() : super([T]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value is T;
   }
 

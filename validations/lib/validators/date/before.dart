@@ -31,7 +31,7 @@ class BeforeValidator extends DateTimeBaseValidator {
   }
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     try {
       return compare(value).isNegative;
     } catch (_) {

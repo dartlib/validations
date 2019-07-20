@@ -6,7 +6,7 @@ class NotNullValidator extends ConstraintValidator {
   bool allowNull = false;
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return value != null;
   }
 

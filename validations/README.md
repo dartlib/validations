@@ -8,7 +8,7 @@
 
 ## Validator setup
 
-You should add `validations_generator` as a dependency:
+You should add [validations_generator](https://pub.dev/packages/validations_generator) as a dependency:
 ```dart
 dev_dependencies:
   build_runner:

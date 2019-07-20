@@ -15,7 +15,7 @@ class DecimalMinValidator extends ConstraintValidator {
         super([value, inclusive]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     Decimal decimal;
 
     if (value is String) {

@@ -12,7 +12,7 @@ class GreaterThanOrEqualValidator extends ConstraintValidator {
         super([value]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     try {
       return value >= this.value as bool;
     } catch (_) {

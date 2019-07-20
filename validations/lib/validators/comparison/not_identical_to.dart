@@ -14,7 +14,7 @@ class NotIdenticalToValidator extends ConstraintValidator {
         super([value]);
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     return !identical(value, this.value);
   }
 

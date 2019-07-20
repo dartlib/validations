@@ -14,7 +14,7 @@ class FqdnValidator extends ConstraintValidator {
     this.allowUnderscores = false,
   }) : super([requireTld, allowUnderscores]);
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     return value is String &&
         isFQDN(
           value,

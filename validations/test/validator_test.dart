@@ -23,6 +23,10 @@ void main() {
           ..isRegistered = true
           ..licensePlate = 'DY28-38'
           ..manufacturer = 'VEB Sachsenring'
+          ..frontWheelCoverLeft = 'Black'
+          ..frontWheelCoverRight = 'Black'
+          ..rearWheelCoverLeft = 'Red'
+          ..rearWheelCoverRight = 'Red'
           ..seatCount = 2
           ..topSpeed = 100;
 
@@ -39,7 +43,11 @@ void main() {
           ..licensePlate = 'D'
           ..manufacturer = null
           ..seatCount = 3
-          ..topSpeed = 500;
+          ..topSpeed = 500
+          ..frontWheelCoverLeft = 'Red'
+          ..frontWheelCoverRight = 'Green'
+          ..rearWheelCoverLeft = 'Blue'
+          ..rearWheelCoverRight = 'Purple';
 
         final violations = validator.validate(car);
 
@@ -63,7 +71,7 @@ void main() {
 
         expect(
           violations.elementAt(1).propertyPath,
-          equals('Driver.name'),
+          equals('Car.driver.name'),
         );
 
         expect(
@@ -125,6 +133,25 @@ void main() {
         expect(
           violations.elementAt(7).propertyPath,
           equals('Car.isRegistered'),
+        );
+
+        expect(
+          violations.elementAt(8).message,
+          equals('Left and Right front wheel covers should match!'),
+        );
+
+        // how... because two fields are validated..
+        // property path is the class itself.
+        /*
+        expect(
+          violations.elementAt(8).propertyPath,
+          equals('Car.isRegistered'),
+        );
+        */
+
+        expect(
+          violations.elementAt(9).message,
+          equals('Left and Right rear wheel covers should match!'),
         );
       });
     });

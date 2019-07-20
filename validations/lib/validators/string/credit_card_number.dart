@@ -5,7 +5,7 @@ part of validators.string;
 /// Supported types: [String]
 class CreditCardNumberValidator extends ConstraintValidator {
   @override
-  bool isValid(Object value, [ValueContext context]) {
+  bool isValid(Object value, ValueContext context) {
     return value is String && isCreditCard(value);
   }
 

@@ -1,3 +1,8 @@
+## 0.7.0
+- add support for class level validators
+- add a FieldMatch class level validator
+- introduce @property to support constructing class level validators.
+
 ## 0.6.0
 - make internationalization of messages optional.
 - generate to shared part files

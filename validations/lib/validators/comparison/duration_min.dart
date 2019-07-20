@@ -39,7 +39,7 @@ class DurationMinValidator extends ConstraintValidator {
   }
 
   @override
-  bool isValid(dynamic value, [ValueContext context]) {
+  bool isValid(dynamic value, ValueContext context) {
     if (value is Duration) {
       final result = value.compareTo(duration);
 
