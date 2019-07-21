@@ -54,6 +54,8 @@ void main() {
         // direct cleanup
         expect(validator.validationContext.constraintViolations, isEmpty);
 
+        expect(violations.length, 10);
+
         expect(
           violations.elementAt(0).message,
           equals('Value cannot be null'),

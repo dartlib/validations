@@ -267,19 +267,24 @@ class ModelParser {
     List<ValidatedElement> annotatedFields,
     ClassBuilder classBuilder,
   ) {
-    final fieldNames = annotatedFields.fold(
-      <Expression, Expression>{},
-      (Map<Expression, Expression> properties, ValidatedElement field) {
-        if (field.elementType == ElementType.CLASS) {
-          if (field.extraProperties.isNotEmpty) {
-            for (var propertyName in field.extraProperties) {
-              properties[literal(propertyName)] =
-                  refer('instance.$propertyName');
-            }
+    final properties = <String>{};
+
+    for (var field in annotatedFields) {
+      if (field.elementType == ElementType.CLASS) {
+        if (field.extraProperties.isNotEmpty) {
+          for (var propertyName in field.extraProperties) {
+            properties.add(propertyName);
           }
-        } else {
-          properties[literal(field.name)] = refer('instance.${field.name}');
         }
+      } else {
+        properties.add(field.name);
+      }
+    }
+
+    final fieldNames = properties.fold(
+      <Expression, Expression>{},
+      (Map<Expression, Expression> properties, String name) {
+        properties[literal(name)] = refer('instance.$name');
 
         return properties;
       },
