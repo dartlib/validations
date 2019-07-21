@@ -81,6 +81,14 @@ abstract class _$TestCarValidator implements Validator<Car> {
       FieldValidator<int>(
           name: 'topSpeed',
           validators: [MaxValidator(value: 350)..message = topSpeedMaxMessage]),
+      FieldValidator<String>(
+          name: 'frontWheelCoverLeft', validators: [NotEmptyValidator()]),
+      FieldValidator<String>(
+          name: 'frontWheelCoverRight', validators: [NotEmptyValidator()]),
+      FieldValidator<String>(
+          name: 'rearWheelCoverLeft', validators: [NotEmptyValidator()]),
+      FieldValidator<String>(
+          name: 'rearWheelCoverRight', validators: [NotEmptyValidator()]),
       FieldValidator<Decimal>(name: 'price', validators: [
         DecimalMaxValidator(value: '100.00', inclusive: true)
           ..message = priceDecimalMaxMessage,
@@ -100,6 +108,14 @@ abstract class _$TestCarValidator implements Validator<Car> {
       errorCheck('licensePlate', value);
   String validateSeatCount(Object value) => errorCheck('seatCount', value);
   String validateTopSpeed(Object value) => errorCheck('topSpeed', value);
+  String validateFrontWheelCoverLeft(Object value) =>
+      errorCheck('frontWheelCoverLeft', value);
+  String validateFrontWheelCoverRight(Object value) =>
+      errorCheck('frontWheelCoverRight', value);
+  String validateRearWheelCoverLeft(Object value) =>
+      errorCheck('rearWheelCoverLeft', value);
+  String validateRearWheelCoverRight(Object value) =>
+      errorCheck('rearWheelCoverRight', value);
   String validatePrice(Object value) => errorCheck('price', value);
   String validateIsRegistered(Object value) =>
       errorCheck('isRegistered', value);
@@ -112,12 +128,12 @@ abstract class _$TestCarValidator implements Validator<Car> {
       'licensePlate': instance.licensePlate,
       'seatCount': instance.seatCount,
       'topSpeed': instance.topSpeed,
-      'price': instance.price,
-      'isRegistered': instance.isRegistered,
       'frontWheelCoverLeft': instance.frontWheelCoverLeft,
       'frontWheelCoverRight': instance.frontWheelCoverRight,
       'rearWheelCoverLeft': instance.rearWheelCoverLeft,
-      'rearWheelCoverRight': instance.rearWheelCoverRight
+      'rearWheelCoverRight': instance.rearWheelCoverRight,
+      'price': instance.price,
+      'isRegistered': instance.isRegistered
     };
   }
 }

@@ -57,9 +57,13 @@ class Car {
   )
   int topSpeed;
 
+  @NotEmpty()
   String frontWheelCoverLeft;
+  @NotEmpty()
   String frontWheelCoverRight;
+  @NotEmpty()
   String rearWheelCoverLeft;
+  @NotEmpty()
   String rearWheelCoverRight;
 
   // Validations are declared in GenValidator
