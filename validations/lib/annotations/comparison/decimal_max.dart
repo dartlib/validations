@@ -6,6 +6,7 @@ part of annotations.comparison;
 /// the max value.
 @immutable
 @Constraint(validatedBy: DecimalMaxValidator)
+@Target({ElementType.FIELD})
 class DecimalMax extends ValidatorAnnotation {
   final String value;
   final bool inclusive;

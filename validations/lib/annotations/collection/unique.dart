@@ -7,6 +7,7 @@ part of annotations.collection;
 /// dynamic payload of the constraint violation.
 @immutable
 @Constraint(validatedBy: UniqueValidator)
+@Target({ElementType.FIELD})
 class Unique extends ValidatorAnnotation {
   const Unique({
     String message,

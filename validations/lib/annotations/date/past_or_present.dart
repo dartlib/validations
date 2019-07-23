@@ -3,6 +3,7 @@ part of annotations.date;
 /// Checks whether the annotated date is in the past or in the present
 @immutable
 @Constraint(validatedBy: PastOrPresentValidator)
+@Target({ElementType.FIELD})
 class PastOrPresent extends ValidatorAnnotation {
   final Object timeUnit;
   const PastOrPresent({

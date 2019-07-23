@@ -1,6 +1,7 @@
 part of annotations.class_level;
 
 @immutable
+@Constraint(validatedBy: FieldMatchValidator)
 @Target({ElementType.CLASS})
 class FieldMatch extends ValidatorAnnotation {
   @property

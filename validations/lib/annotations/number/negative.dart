@@ -4,6 +4,7 @@ part of annotations.number;
 /// invalid.
 @immutable
 @Constraint(validatedBy: NegativeValidator)
+@Target({ElementType.FIELD})
 class Negative extends ValidatorAnnotation {
   const Negative({
     String message,

@@ -4,6 +4,7 @@ part of annotations.basic;
 /// length is not greater than 0.
 @immutable
 @Constraint(validatedBy: BlankValidator)
+@Target({ElementType.FIELD})
 class Blank extends ValidatorAnnotation {
   const Blank({
     String message,

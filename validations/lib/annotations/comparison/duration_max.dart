@@ -6,6 +6,7 @@ part of annotations.comparison;
 ///
 @immutable
 @Constraint(validatedBy: DurationMaxValidator)
+@Target({ElementType.FIELD})
 class DurationMax extends ValidatorAnnotation {
   final int days;
   final int hours;

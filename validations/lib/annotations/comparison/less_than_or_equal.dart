@@ -4,6 +4,7 @@ part of annotations.comparison;
 /// maximum.
 @immutable
 @Constraint(validatedBy: LessThanOrEqualValidator)
+@Target({ElementType.FIELD})
 class LessThanOrEqual extends ValidatorAnnotation {
   final num value;
   const LessThanOrEqual({

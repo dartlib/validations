@@ -4,6 +4,7 @@ part of annotations.mixed;
 /// and [fraction] fractional digits.
 @immutable
 @Constraint(validatedBy: DigitsValidator)
+@Target({ElementType.FIELD})
 class Digits extends ValidatorAnnotation {
   /// maximum number of integral digits accepted for this number
   final int integer;

@@ -5,6 +5,7 @@ part of annotations.comparison;
 /// flag is set to true.
 @immutable
 @Constraint(validatedBy: DurationMinValidator)
+@Target({ElementType.FIELD})
 class DurationMin extends ValidatorAnnotation {
   final int days;
   final int hours;

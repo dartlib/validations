@@ -4,6 +4,7 @@ part of annotations.comparison;
 /// minimum and maximum
 @immutable
 @Constraint(validatedBy: RangeValidator)
+@Target({ElementType.FIELD})
 class Range extends ValidatorAnnotation {
   final num min;
   final num max;
