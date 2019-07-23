@@ -1,0 +1,86 @@
+@startuml
+set namespaceSeparator ::
+
+class "validations_generator::src::parser::model.dart::ModelParser" {
+  +ClassElement generatorClass
+  +DartType model
+  +DartObject genValidatorAnnotation
+  +LibraryReader library
+  +bool useIntl
+  +String parse()
+  -null _buildValidatorClass()
+  -List _getGenValidatorFields()
+  -ValidatedElement _getClassAnnotation()
+  -List _getValidatedElements()
+  -List _buildValidatorMethods()
+  -Method _buildValidatorMethod()
+  -Method _buildPropsMethod()
+  +bool isValidatorAnnotation()
+  -List _getMessageMethodParameters()
+  -Map _getNamedParameters()
+  -List _buildPositionalArguments()
+  -List _buildFieldValidator()
+  -Method _buildGetClassValidator()
+  -Method _buildGetFieldValidators()
+  -Method _buildMessageMethod()
+  -Code _buildIntlMethod()
+  -void _findModel()
+  -ClassElement _getValidatorForModel()
+  -DartType _getModelFromFirstGenericTypeArgument()
+}
+
+"validations_generator::src::parser::model.dart::ModelParser" o-- "analyzer::dart::element::element.dart::ClassElement"
+"validations_generator::src::parser::model.dart::ModelParser" o-- "analyzer::dart::element::type.dart::DartType"
+"validations_generator::src::parser::model.dart::ModelParser" o-- "analyzer::dart::constant::value.dart::DartObject"
+"validations_generator::src::parser::model.dart::ModelParser" o-- "source_gen::src::library.dart::LibraryReader"
+
+class "validations_generator::src::parser::validated_element.dart::AnnotationParameter" {
+  +String name
+  +String type
+  +Object value
+  +bool isNull
+}
+
+class "validations_generator::src::parser::validated_element.dart::ElementValidationAnnotation" {
+  +String type
+  +String message
+  +String messageMethod
+  +bool isContainerAnnotation
+  +List<AnnotationParameter> parameters
+}
+
+class "validations_generator::src::parser::validated_element.dart::ValidatedElement" {
+  +String name
+  +ClassElement element
+  +ClassElement modelClass
+  +String type
+  +ElementType elementType
+  +Set<String> extraProperties
+  +Map<String, String> errorMessages
+  +bool usedAtClassLevel
+  +List<ElementValidationAnnotation> annotations
+  +bool isValidatorAnnotation()
+  +void parseElementsProperties()
+  +ElementValidationAnnotation parseElementProperty()
+  +void parseClassAnnotations()
+  +void parseFieldAnnotations()
+  -void _parseAnnotation()
+  -ElementValidationAnnotation _createElementAnnotation()
+  -void _parseClassAnnotationDirectives()
+}
+
+"validations_generator::src::parser::validated_element.dart::ValidatedElement" o-- "analyzer::dart::element::element.dart::ClassElement"
+"validations_generator::src::parser::validated_element.dart::ValidatedElement" o-- "validations::annotation.dart::ElementType"
+
+class "validations_generator::src::generator.dart::ValidatorGenerator" {
+  +bool useIntl
+  +LibraryReader library
+  +FutureOr generate()
+  +FutureOr generateForAnnotatedElement()
+}
+
+"validations_generator::src::generator.dart::ValidatorGenerator" o-- "source_gen::src::library.dart::LibraryReader"
+"source_gen::src::generator_for_annotation.dart::GeneratorForAnnotation<T>" <|-- "validations_generator::src::generator.dart::ValidatorGenerator"
+
+
+@enduml

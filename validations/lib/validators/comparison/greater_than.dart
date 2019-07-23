@@ -4,7 +4,7 @@ part of validators.comparison;
 ///
 /// Supported types: All values implementing the `>` operator.
 class GreaterThanValidator extends ConstraintValidator {
-  final num value;
+  final dynamic value;
 
   GreaterThanValidator({
     @required this.value,
@@ -21,6 +21,6 @@ class GreaterThanValidator extends ConstraintValidator {
   }
 
   @override
-  Function message = (num value, Object validatedValue) =>
+  Function message = (dynamic value, Object validatedValue) =>
       '$validatedValue should be greater than $value';
 }

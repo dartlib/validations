@@ -8,23 +8,55 @@ part of 'car.dart';
 
 abstract class _$TestCarValidator implements Validator<Car> {
   static String carFieldMatchMessage(
-          String baseField, String matchField, Object validatedValue) =>
+          String baseField,
+          String matchField,
+          String baseFieldMessage,
+          String matchFieldMessage,
+          Object validatedValue) =>
       Intl.message('Left and Right front wheel covers should match!',
           name: 'carFieldMatchMessage',
-          args: [baseField, matchField, validatedValue]);
+          args: [
+            baseField,
+            matchField,
+            baseFieldMessage,
+            matchFieldMessage,
+            validatedValue
+          ]);
   static String carFieldMatchMessage2(
-          String baseField, String matchField, Object validatedValue) =>
+          String baseField,
+          String matchField,
+          String baseFieldMessage,
+          String matchFieldMessage,
+          Object validatedValue) =>
       Intl.message('Left and Right rear wheel covers should match!',
           name: 'carFieldMatchMessage2',
-          args: [baseField, matchField, validatedValue]);
+          args: [
+            baseField,
+            matchField,
+            baseFieldMessage,
+            matchFieldMessage,
+            validatedValue
+          ]);
   @override
   ClassValidator getClassValidator() {
     return ClassValidator<Car>(validators: [
       FieldMatchValidator(
           baseField: 'frontWheelCoverLeft', matchField: 'frontWheelCoverRight')
+        ..affectedFields = [
+          'frontWheelCoverLeft',
+          'frontWheelCoverRight',
+          'rearWheelCoverLeft',
+          'rearWheelCoverRight'
+        ]
         ..message = carFieldMatchMessage,
       FieldMatchValidator(
           baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
+        ..affectedFields = [
+          'frontWheelCoverLeft',
+          'frontWheelCoverRight',
+          'rearWheelCoverLeft',
+          'rearWheelCoverRight'
+        ]
         ..message = carFieldMatchMessage2
     ]);
   }
@@ -82,13 +114,21 @@ abstract class _$TestCarValidator implements Validator<Car> {
           name: 'topSpeed',
           validators: [MaxValidator(value: 350)..message = topSpeedMaxMessage]),
       FieldValidator<String>(
-          name: 'frontWheelCoverLeft', validators: [NotEmptyValidator()]),
+          name: 'frontWheelCoverLeft',
+          validators: [NotEmptyValidator()],
+          validateClass: true),
       FieldValidator<String>(
-          name: 'frontWheelCoverRight', validators: [NotEmptyValidator()]),
+          name: 'frontWheelCoverRight',
+          validators: [NotEmptyValidator()],
+          validateClass: true),
       FieldValidator<String>(
-          name: 'rearWheelCoverLeft', validators: [NotEmptyValidator()]),
+          name: 'rearWheelCoverLeft',
+          validators: [NotEmptyValidator()],
+          validateClass: true),
       FieldValidator<String>(
-          name: 'rearWheelCoverRight', validators: [NotEmptyValidator()]),
+          name: 'rearWheelCoverRight',
+          validators: [NotEmptyValidator()],
+          validateClass: true),
       FieldValidator<Decimal>(name: 'price', validators: [
         DecimalMaxValidator(value: '100.00', inclusive: true)
           ..message = priceDecimalMaxMessage,
@@ -108,21 +148,20 @@ abstract class _$TestCarValidator implements Validator<Car> {
       errorCheck('licensePlate', value);
   String validateSeatCount(Object value) => errorCheck('seatCount', value);
   String validateTopSpeed(Object value) => errorCheck('topSpeed', value);
-  String validateFrontWheelCoverLeft(Object value) =>
-      errorCheck('frontWheelCoverLeft', value);
-  String validateFrontWheelCoverRight(Object value) =>
-      errorCheck('frontWheelCoverRight', value);
-  String validateRearWheelCoverLeft(Object value) =>
-      errorCheck('rearWheelCoverLeft', value);
-  String validateRearWheelCoverRight(Object value) =>
-      errorCheck('rearWheelCoverRight', value);
+  String validateFrontWheelCoverLeft(Object value, Car object) =>
+      crossErrorCheck(object, 'frontWheelCoverLeft', value);
+  String validateFrontWheelCoverRight(Object value, Car object) =>
+      crossErrorCheck(object, 'frontWheelCoverRight', value);
+  String validateRearWheelCoverLeft(Object value, Car object) =>
+      crossErrorCheck(object, 'rearWheelCoverLeft', value);
+  String validateRearWheelCoverRight(Object value, Car object) =>
+      crossErrorCheck(object, 'rearWheelCoverRight', value);
   String validatePrice(Object value) => errorCheck('price', value);
   String validateIsRegistered(Object value) =>
       errorCheck('isRegistered', value);
-  String validateCar(Object value) => errorCheck('Car', value);
   @override
-  Map<String, dynamic> props(Car instance) {
-    return {
+  PropertyMap<Car> props(Car instance) {
+    return PropertyMap<Car>({
       'manufacturer': instance.manufacturer,
       'driver': instance.driver,
       'licensePlate': instance.licensePlate,
@@ -134,7 +173,7 @@ abstract class _$TestCarValidator implements Validator<Car> {
       'rearWheelCoverRight': instance.rearWheelCoverRight,
       'price': instance.price,
       'isRegistered': instance.isRegistered
-    };
+    });
   }
 }
 
@@ -147,9 +186,8 @@ abstract class _$TestDriverValidator implements Validator<Driver> {
   }
 
   String validateName(Object value) => errorCheck('name', value);
-  String validateDriver(Object value) => errorCheck('Driver', value);
   @override
-  Map<String, dynamic> props(Driver instance) {
-    return {'name': instance.name};
+  PropertyMap<Driver> props(Driver instance) {
+    return PropertyMap<Driver>({'name': instance.name});
   }
 }

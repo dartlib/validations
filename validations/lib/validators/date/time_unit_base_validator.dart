@@ -20,7 +20,8 @@ abstract class TimeUnitBaseValidator extends ConstraintValidator {
   }) : super([]) {
     setTimeUnit(timeUnit);
 
-    argumentValues.add(this.timeUnit);
+    defaultArgumentValues = [this.timeUnit];
+    argumentValues = List.of(defaultArgumentValues);
   }
 
   @override

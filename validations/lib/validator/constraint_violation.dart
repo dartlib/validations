@@ -9,12 +9,14 @@ class ConstraintViolation<T> {
   T rootModel;
   Type rootModelType;
   String propertyPath;
+  List parameters;
 
   ConstraintViolation({
     this.name,
     this.message,
     this.validatedObject,
     this.invalidValue,
+    this.parameters,
     this.rootModel,
     this.propertyPath,
   }) {
@@ -27,6 +29,7 @@ class ConstraintViolation<T> {
       message: message,
       validatedObject: validatedObject,
       invalidValue: invalidValue,
+      parameters: parameters,
       rootModel: rootModel,
       propertyPath: propertyPath,
     );

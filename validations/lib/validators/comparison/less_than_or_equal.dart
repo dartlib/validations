@@ -21,6 +21,6 @@ class LessThanOrEqualValidator extends ConstraintValidator {
   }
 
   @override
-  Function message = (num value, Object validatedValue) =>
+  Function message = (dynamic value, Object validatedValue) =>
       '$validatedValue should be less than or equal to $value';
 }

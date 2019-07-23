@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:validations/validations.dart';
 
-part 'login_screen.gval.dart';
+part 'login_screen.g.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +10,12 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
+@FieldMatch(
+  baseField: 'password',
+  matchField: 'passwordConfirm',
+  baseFieldMessage: 'Password should match password confirmation.',
+  matchFieldMessage: 'Password confirmation should match password.',
+)
 class FormData {
   @NotBlank(
     message: 'You must fill in an email address',
@@ -27,10 +32,12 @@ class FormData {
       message:
           r'Password must be at least be between $min and $max characters long')
   String password;
+  @NotEmpty()
+  String passwordConfirm;
 }
 
 @GenValidator()
-class LoginFormValidator extends Validator<FormData> with $_LoginFormValidator {
+class LoginFormValidator extends Validator<FormData> with _$LoginFormValidator {
 }
 
 // class LoginScreenState extends State<LoginScreen> with ValidationMixin {
@@ -53,6 +60,7 @@ class LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             emailField(),
             passwordField(),
+            passwordConfirmField(),
             Container(margin: const EdgeInsets.only(top: 25.0)),
             submitButton(),
           ],
@@ -64,6 +72,7 @@ class LoginScreenState extends State<LoginScreen> {
   Widget emailField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
+      autovalidate: true,
       decoration: InputDecoration(
         labelText: 'Email Address',
         hintText: 'you@example.com',
@@ -78,14 +87,26 @@ class LoginScreenState extends State<LoginScreen> {
   Widget passwordField() {
     return TextFormField(
       obscureText: true,
+      autovalidate: true,
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: 'Password',
       ),
-      validator: validator.validatePassword,
-      onSaved: (String value) {
-        data.password = value;
-      },
+      onChanged: (value) => data.password = value,
+      validator: (value) => validator.validatePassword(value, data),
+    );
+  }
+
+  Widget passwordConfirmField() {
+    return TextFormField(
+      obscureText: true,
+      autovalidate: true,
+      decoration: InputDecoration(
+        labelText: 'Confirm Password',
+        hintText: 'Re-type password',
+      ),
+      onChanged: (value) => data.passwordConfirm = value,
+      validator: (value) => validator.validatePasswordConfirm(value, data),
     );
   }
 
