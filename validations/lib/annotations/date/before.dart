@@ -2,6 +2,7 @@ part of annotations.date;
 
 /// Checks whether the annotated date is before the specified date.
 @immutable
+@Constraint(validatedBy: BeforeValidator)
 class Before extends ValidatorAnnotation {
   final int year;
   final int month;

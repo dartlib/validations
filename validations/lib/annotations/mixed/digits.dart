@@ -3,6 +3,7 @@ part of annotations.mixed;
 /// Checks whether the annotated value is a number having up to [integer] digits
 /// and [fraction] fractional digits.
 @immutable
+@Constraint(validatedBy: DigitsValidator)
 class Digits extends ValidatorAnnotation {
   /// maximum number of integral digits accepted for this number
   final int integer;

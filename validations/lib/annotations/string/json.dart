@@ -2,6 +2,7 @@ part of annotations.string;
 
 /// Checks that the annotated string is valid JSON.
 @immutable
+@Constraint(validatedBy: JsonValidator)
 class Json extends ValidatorAnnotation {
   const Json({
     String message,

@@ -2,6 +2,7 @@ part of annotations.date;
 
 /// Checks whether the annotated date is in the present or in the future
 @immutable
+@Constraint(validatedBy: FutureOrPresentValidator)
 class FutureOrPresent extends ValidatorAnnotation {
   final Object timeUnit;
   const FutureOrPresent({

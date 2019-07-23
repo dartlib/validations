@@ -2,6 +2,7 @@ part of annotations.basic;
 
 /// The annotated element must be true
 @immutable
+@Constraint(validatedBy: IsTrueValidator)
 class IsTrue extends ValidatorAnnotation {
   const IsTrue({
     String message,

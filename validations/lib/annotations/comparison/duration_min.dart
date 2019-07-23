@@ -4,6 +4,7 @@ part of annotations.comparison;
 /// constructed from annotation parameters. Equality is allowed if inclusive
 /// flag is set to true.
 @immutable
+@Constraint(validatedBy: DurationMinValidator)
 class DurationMin extends ValidatorAnnotation {
   final int days;
   final int hours;

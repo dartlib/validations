@@ -3,6 +3,7 @@ part of annotations.string;
 /// Checks that the annotated string is a valid ISBN.
 /// type determines the type of ISBN. The default is ISBN-13.
 @immutable
+@Constraint(validatedBy: ISBNValidator)
 class ISBN extends ValidatorAnnotation {
   final String type;
   const ISBN({

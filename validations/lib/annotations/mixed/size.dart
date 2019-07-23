@@ -2,6 +2,7 @@ part of annotations.mixed;
 
 /// Checks if the annotated element’s size is between [min] and [max] (inclusive)
 @immutable
+@Constraint(validatedBy: SizeValidator)
 class Size extends ValidatorAnnotation {
   final int min;
   final int max;

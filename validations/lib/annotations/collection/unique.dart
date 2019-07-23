@@ -6,6 +6,7 @@ part of annotations.collection;
 /// message parameter. The list of duplicate elements is also included in the
 /// dynamic payload of the constraint violation.
 @immutable
+@Constraint(validatedBy: UniqueValidator)
 class Unique extends ValidatorAnnotation {
   const Unique({
     String message,

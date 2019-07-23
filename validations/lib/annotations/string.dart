@@ -4,21 +4,19 @@ library annotations.string;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'string/alpha.dart';
 part 'string/credit_card_number.dart';
-part 'string/ean.dart';
 part 'string/email.dart';
 part 'string/hex_color.dart';
 part 'string/hexadecimal.dart';
 part 'string/isbn.dart';
 part 'string/json.dart';
-part 'string/length.dart';
 part 'string/lowercase.dart';
 part 'string/mongo_id.dart';
 part 'string/numeric.dart';
 part 'string/pattern.dart';
-part 'string/safe_html.dart';
 part 'string/uppercase.dart';
 part 'string/url.dart';
 part 'string/uuid.dart';
@@ -28,9 +26,6 @@ const alpha = Alpha();
 
 /// [CreditCardNumber] annotation using default values
 const creditCardNumber = CreditCardNumber();
-
-/// [EAN] annotation using default values
-const ean = EAN();
 
 /// [Email] annotation using default values
 const email = Email();
@@ -56,9 +51,6 @@ const mongoId = MongoId();
 /// [Numeric] annotation using default values
 const numeric = Numeric();
 
-/// [SafeHtml] annotation using default values
-const safeHtml = SafeHtml();
-
 /// [URL] annotation using default values
 const url = URL();
 
@@ -71,24 +63,20 @@ const uuid = Uuid();
 final stringAnnotations = [
   Alpha,
   CreditCardNumber,
-  EAN,
   Email,
   HexColor,
   Hexadecimal,
   ISBN,
   Json,
-  Length,
   Lowercase,
   MongoId,
   Numeric,
   Pattern,
-  SafeHtml,
   URL,
   Uppercase,
   Uuid,
   alpha,
   creditCardNumber,
-  ean,
   email,
   hexadecimal,
   hexcolor,
@@ -97,7 +85,6 @@ final stringAnnotations = [
   lowercase,
   mongoId,
   numeric,
-  safeHtml,
   uppercase,
   url,
   uuid,

@@ -4,6 +4,7 @@ part of annotations.collection;
 ///
 /// It's expected this annotation [Type] contains validation annotations itself.
 @immutable
+@Constraint(validatedBy: ValidValidator)
 class Valid extends ContainerAnnotation {
   const Valid({
     String message,

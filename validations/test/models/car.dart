@@ -18,12 +18,12 @@ class CarWithMixin extends Car with ValidatorMixin<TestCarValidator> {}
 @FieldMatch(
   baseField: 'frontWheelCoverLeft',
   matchField: 'frontWheelCoverRight',
-  message: r'Left and Right front wheel covers should match!',
+  baseFieldMessage: r'Left and Right front wheel covers should match!',
 )
 @FieldMatch(
   baseField: 'rearWheelCoverLeft',
   matchField: 'rearWheelCoverRight',
-  message: r'Left and Right rear wheel covers should match!',
+  matchFieldMessage: r'Left and Right rear wheel covers should match!',
 )
 class Car {
   @NotNull()

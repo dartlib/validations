@@ -7,34 +7,34 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class _$TestCarValidator implements Validator<Car> {
-  static String carFieldMatchMessage(
+  static String carFieldMatchBaseFieldMessage(
           String baseField,
           String matchField,
-          String baseFieldMessage,
           String matchFieldMessage,
+          String message,
           Object validatedValue) =>
       Intl.message('Left and Right front wheel covers should match!',
-          name: 'carFieldMatchMessage',
+          name: 'carFieldMatchBaseFieldMessage',
           args: [
             baseField,
             matchField,
-            baseFieldMessage,
             matchFieldMessage,
+            message,
             validatedValue
           ]);
-  static String carFieldMatchMessage2(
+  static String carFieldMatchMatchFieldMessage2(
           String baseField,
           String matchField,
           String baseFieldMessage,
-          String matchFieldMessage,
+          String message,
           Object validatedValue) =>
       Intl.message('Left and Right rear wheel covers should match!',
-          name: 'carFieldMatchMessage2',
+          name: 'carFieldMatchMatchFieldMessage2',
           args: [
             baseField,
             matchField,
             baseFieldMessage,
-            matchFieldMessage,
+            message,
             validatedValue
           ]);
   @override
@@ -48,7 +48,7 @@ abstract class _$TestCarValidator implements Validator<Car> {
           'rearWheelCoverLeft',
           'rearWheelCoverRight'
         ]
-        ..message = carFieldMatchMessage,
+        ..baseFieldMessage = carFieldMatchBaseFieldMessage,
       FieldMatchValidator(
           baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
         ..affectedFields = [
@@ -57,7 +57,7 @@ abstract class _$TestCarValidator implements Validator<Car> {
           'rearWheelCoverLeft',
           'rearWheelCoverRight'
         ]
-        ..message = carFieldMatchMessage2
+        ..matchFieldMessage = carFieldMatchMatchFieldMessage2
     ]);
   }
 

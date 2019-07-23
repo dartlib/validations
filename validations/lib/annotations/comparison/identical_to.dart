@@ -2,6 +2,7 @@ part of annotations.comparison;
 
 /// Checks whether the annotated value is [identical] to another value.
 @immutable
+@Constraint(validatedBy: IdenticalToValidator)
 class IdenticalTo extends ValidatorAnnotation {
   final Object value;
 

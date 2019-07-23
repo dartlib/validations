@@ -4,6 +4,7 @@ library annotations.number;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'number/negative.dart';
 part 'number/negative_or_zero.dart';

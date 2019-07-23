@@ -3,6 +3,7 @@ part of annotations.comparison;
 /// Checks whether the annotated value is higher than or equal to the specified
 /// minimum.
 @immutable
+@Constraint(validatedBy: GreaterThanOrEqualValidator)
 class GreaterThanOrEqual extends ValidatorAnnotation {
   final num value;
   const GreaterThanOrEqual({

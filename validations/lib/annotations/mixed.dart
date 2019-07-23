@@ -4,6 +4,7 @@ library annotations.mixed;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'mixed/digits.dart';
 part 'mixed/size.dart';
