@@ -145,7 +145,7 @@ void main() {
         expect(
           violations.elementAt(8).message,
           equals(
-            'Fields frontWheelCoverLeft and frontWheelCoverRight should match',
+            'Left and Right front wheel covers should match!',
           ),
         );
 
@@ -181,7 +181,7 @@ void main() {
         expect(
           violations.elementAt(11).message,
           equals(
-            'Fields rearWheelCoverLeft and rearWheelCoverRight should match',
+            'Left and Right rear wheel covers should match!',
           ),
         );
 
@@ -264,7 +264,7 @@ void main() {
         expect(
           validator.validateProperty(car, 'frontWheelCoverLeft').first.message,
           equals(
-            'Fields frontWheelCoverLeft and frontWheelCoverRight should match',
+            'Left and Right front wheel covers should match!',
           ),
         );
 
@@ -285,7 +285,7 @@ void main() {
         expect(
           validator.validateProperty(car, 'rearWheelCoverRight').first.message,
           equals(
-            'Fields rearWheelCoverLeft and rearWheelCoverRight should match',
+            'Left and Right rear wheel covers should match!',
           ),
         );
 
