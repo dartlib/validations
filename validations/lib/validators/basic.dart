@@ -11,3 +11,15 @@ part 'basic/not_empty.dart';
 part 'basic/not_null.dart';
 part 'basic/null.dart';
 part 'basic/type.dart';
+
+final basicValidators = [
+  BlankValidator,
+  IsEmptyValidator,
+  IsFalseValidator,
+  IsTrueValidator,
+  NotBlankValidator,
+  NotEmptyValidator,
+  NotNullValidator,
+  NullValidator,
+  TypeValidator,
+];

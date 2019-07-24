@@ -4,6 +4,7 @@ library annotations.comparison;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'comparison/decimal_max.dart';
 part 'comparison/decimal_min.dart';

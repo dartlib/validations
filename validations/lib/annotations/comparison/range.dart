@@ -3,6 +3,8 @@ part of annotations.comparison;
 /// Checks whether the annotated value lies between (inclusive) the specified
 /// minimum and maximum
 @immutable
+@Constraint(validatedBy: RangeValidator)
+@Target({ElementType.FIELD})
 class Range extends ValidatorAnnotation {
   final num min;
   final num max;

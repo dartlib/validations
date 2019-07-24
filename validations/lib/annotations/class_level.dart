@@ -4,6 +4,7 @@ library annotations.class_level;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'class_level/field_match.dart';
 

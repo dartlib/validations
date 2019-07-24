@@ -1,11 +1,16 @@
 import 'package:decimal/decimal.dart';
 import 'package:test/test.dart';
+import 'package:validations/validator.dart';
 
 import 'models/car.dart';
 
-void printViolations(violations) {
-  violations.forEach((violation) => print(
-      '${violation.message} ${violation.invalidValue} ${violation.validatedObject.runtimeType} ${violation.name} ${violation.propertyPath}'));
+void printViolations(Set<ConstraintViolation> violations) {
+  for (var index = 0; index < violations.length; index++) {
+    final violation = violations.elementAt(index);
+    print(
+      '$index(${violation.propertyPath}): ${violation.message}',
+    );
+  }
 }
 
 void main() {
@@ -54,7 +59,7 @@ void main() {
         // direct cleanup
         expect(validator.validationContext.constraintViolations, isEmpty);
 
-        expect(violations.length, 10);
+        expect(violations.length, 12);
 
         expect(
           violations.elementAt(0).message,
@@ -139,21 +144,50 @@ void main() {
 
         expect(
           violations.elementAt(8).message,
-          equals('Left and Right front wheel covers should match!'),
+          equals(
+            'Left and Right front wheel covers should match!',
+          ),
         );
 
-        // how... because two fields are validated..
-        // property path is the class itself.
-        /*
         expect(
           violations.elementAt(8).propertyPath,
-          equals('Car.isRegistered'),
+          equals('Car.frontWheelCoverLeft'),
         );
-        */
 
         expect(
           violations.elementAt(9).message,
-          equals('Left and Right rear wheel covers should match!'),
+          equals(
+            'Fields frontWheelCoverLeft and frontWheelCoverRight should match',
+          ),
+        );
+
+        expect(
+          violations.elementAt(9).propertyPath,
+          equals('Car.frontWheelCoverRight'),
+        );
+
+        expect(
+          violations.elementAt(10).message,
+          equals(
+            'Fields rearWheelCoverLeft and rearWheelCoverRight should match',
+          ),
+        );
+
+        expect(
+          violations.elementAt(10).propertyPath,
+          equals('Car.rearWheelCoverLeft'),
+        );
+
+        expect(
+          violations.elementAt(11).message,
+          equals(
+            'Left and Right rear wheel covers should match!',
+          ),
+        );
+
+        expect(
+          violations.elementAt(11).propertyPath,
+          equals('Car.rearWheelCoverRight'),
         );
       });
     });
@@ -190,7 +224,11 @@ void main() {
           ..licensePlate = 'D'
           ..manufacturer = null
           ..seatCount = 3
-          ..topSpeed = 500;
+          ..topSpeed = 500
+          ..frontWheelCoverLeft = 'Red'
+          ..frontWheelCoverRight = 'Blue'
+          ..rearWheelCoverLeft = 'Pink'
+          ..rearWheelCoverRight = 'Purple';
 
         expect(
           validator.validateProperty(car, 'manufacturer').first.message,
@@ -221,6 +259,34 @@ void main() {
         expect(
           validator.validateProperty(car, 'isRegistered').first.message,
           equals('Car must be registered!'),
+        );
+
+        expect(
+          validator.validateProperty(car, 'frontWheelCoverLeft').first.message,
+          equals(
+            'Left and Right front wheel covers should match!',
+          ),
+        );
+
+        expect(
+          validator.validateProperty(car, 'frontWheelCoverRight').first.message,
+          equals(
+            'Fields frontWheelCoverLeft and frontWheelCoverRight should match',
+          ),
+        );
+
+        expect(
+          validator.validateProperty(car, 'rearWheelCoverLeft').first.message,
+          equals(
+            'Fields rearWheelCoverLeft and rearWheelCoverRight should match',
+          ),
+        );
+
+        expect(
+          validator.validateProperty(car, 'rearWheelCoverRight').first.message,
+          equals(
+            'Left and Right rear wheel covers should match!',
+          ),
         );
 
         expect(validator.validationContext.constraintViolations, isEmpty);

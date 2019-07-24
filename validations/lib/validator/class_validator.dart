@@ -2,7 +2,7 @@ part of validator;
 
 class ClassValidator<T> {
   final String name;
-  final List<ConstraintValidator> validators;
+  final List<ClassConstraintValidator> validators;
   const ClassValidator({
     this.name,
     this.validators,

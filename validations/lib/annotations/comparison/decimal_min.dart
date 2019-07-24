@@ -5,6 +5,8 @@ part of annotations.comparison;
 /// the specified minimum. The parameter value is the string representation of
 /// the min value.
 @immutable
+@Constraint(validatedBy: DecimalMinValidator)
+@Target({ElementType.FIELD})
 class DecimalMin extends ValidatorAnnotation {
   final String value;
   final bool inclusive;

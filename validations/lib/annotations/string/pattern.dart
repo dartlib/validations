@@ -2,6 +2,8 @@ part of annotations.string;
 
 /// Checks if the annotated string matches the regular expression [RegExp] pattern.
 @immutable
+@Constraint(validatedBy: PatternValidator)
+@Target({ElementType.FIELD})
 class Pattern extends ValidatorAnnotation {
   final String regexp;
   const Pattern({

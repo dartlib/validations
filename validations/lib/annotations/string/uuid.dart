@@ -6,6 +6,8 @@ part of annotations.string;
 ///
 /// If version is omitted all versions are valid.
 @immutable
+@Constraint(validatedBy: UuidValidator)
+@Target({ElementType.FIELD})
 class Uuid extends ValidatorAnnotation {
   final int version;
   const Uuid({

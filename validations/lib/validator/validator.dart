@@ -1,5 +1,13 @@
 part of validator;
 
+typedef ValidationMethod = Set<ConstraintViolation> Function();
+
+enum ValidationMode {
+  full,
+  property,
+  value,
+}
+
 /// This is the base validator class.
 ///
 /// Extend this class to create a Validator for your model.
@@ -36,8 +44,9 @@ abstract class Validator<T> {
   List<FieldValidator> _fieldValidators;
   List<FieldValidator> getFieldValidators() => [];
   ClassValidator getClassValidator() => null;
-  Map<String, dynamic> props(T props);
+  PropertyMap<T> props(T props);
   ValidationContext validationContext = ValidationContext();
+  ValidationMode mode;
 
   Validator() {
     _classValidator = getClassValidator();
@@ -50,60 +59,29 @@ abstract class Validator<T> {
   }
 
   Set<ConstraintViolation> validate(T object, [ValueContext context]) {
-    context ??= _createRootValueContext(
-      object.runtimeType.toString(),
-      object,
-    );
-    final violations = <ConstraintViolation>{};
+    context ??= _createRootValueContext(object);
 
-    for (var fieldValidator in _fieldValidators) {
-      final propertyViolations =
-          _validateProperty(object, fieldValidator.name, context);
+    mode = ValidationMode.full;
 
-      if (propertyViolations.isNotEmpty) {
-        violations.addAll(propertyViolations);
-      }
-    }
-
-    if (_classValidator != null) {
-      final classViolations = _applyValidators(
-        _classValidator.getType(),
-        object,
-        _classValidator.validators,
-        object,
-        context,
-      );
-
-      if (classViolations.isNotEmpty) {
-        violations.addAll(classViolations);
-      }
-    }
-
-    assert(validationContext.constraintViolations != violations);
-
-    validationContext.reset();
-
-    return violations;
+    return _runAndReset(() => _validate(props(object), context));
   }
 
   Set<ConstraintViolation> validateProperty(T object, String name) {
-    final violations = _validateProperty(object, name);
+    final context = _createRootValueContext(object);
 
-    assert(validationContext.constraintViolations != violations);
+    mode = ValidationMode.property;
 
-    validationContext.reset();
-
-    return violations;
+    return _runAndReset(() => _validateProperty(props(object), name, context));
   }
 
   Set<ConstraintViolation> validateValue(String name, Object value) {
-    final violations = _validateValue(name, value);
+    final context = _createRootValueContext(null);
 
-    assert(validationContext.constraintViolations != violations);
+    mode = ValidationMode.value;
 
-    validationContext.reset();
-
-    return violations;
+    return _runAndReset(
+      () => _validateValue(name, value, null, context),
+    );
   }
 
   /// Does a simple error check.
@@ -113,11 +91,10 @@ abstract class Validator<T> {
   /// Otherwise returns null.
   ///
   String errorCheck(String name, Object value) {
-    final violations = _validateValue(name, value);
+    final context = _createRootValueContext(null);
 
-    assert(validationContext.constraintViolations != violations);
-
-    validationContext.reset();
+    final violations =
+        _runAndReset(() => _validateValue(name, value, null, context));
 
     if (violations.isNotEmpty) {
       return violations.first.message;
@@ -126,15 +103,68 @@ abstract class Validator<T> {
     return null;
   }
 
-  Set<ConstraintViolation> _validateProperty(T object, String name,
-      [ValueContext context]) {
-    context ??= _createRootValueContext(
-      object.runtimeType.toString(),
-      object,
-    );
+  /// Error check in case there are class level annotations referencing
+  /// the field.
+  ///
+  /// In contrast to [errorCheck] this method requires an [object]
+  /// to be passed in order to perform the class level validation.
+  ///
+  /// Returns the first error if there are any [ConstraintViolation]s.
+  ///
+  /// Otherwise returns null.
+  ///
+  String crossErrorCheck(T object, String name, Object value) {
+    final properties = props(object).add(name, value);
 
-    final properties = props(object);
+    final context = _createRootValueContext(object);
 
+    final violations =
+        _runAndReset(() => _validateValue(name, value, properties, context));
+
+    if (violations.isNotEmpty) {
+      return violations.first.message;
+    }
+
+    return null;
+  }
+
+  Set<ConstraintViolation> _validate(
+    PropertyMap<T> props,
+    ValueContext context,
+  ) {
+    final violations = <ConstraintViolation>{};
+
+    for (var fieldValidator in _fieldValidators) {
+      final propertyViolations =
+          _validateProperty(props, fieldValidator.name, context);
+
+      if (propertyViolations.isNotEmpty) {
+        violations.addAll(propertyViolations);
+      }
+    }
+
+    if (_classValidator != null) {
+      final classViolations = _applyValidators(
+        _classValidator.getType(),
+        props,
+        _classValidator.validators,
+        props,
+        context,
+      );
+
+      if (classViolations.isNotEmpty) {
+        violations.addAll(classViolations);
+      }
+    }
+
+    return violations;
+  }
+
+  Set<ConstraintViolation> _validateProperty(
+    PropertyMap<T> properties,
+    String name,
+    ValueContext context,
+  ) {
     if (properties.containsKey(name)) {
       final propertyValue = properties[name];
 
@@ -144,60 +174,104 @@ abstract class Validator<T> {
 
       final valueContext = ValueContext(
         node: valueNode,
+        baseNode: context.node,
         value: propertyValue,
+        validatedObject: context.validatedObject,
         validator: this,
       );
 
-      return _validateValue(name, propertyValue, object, valueContext);
+      return _validateValue(
+        name,
+        propertyValue,
+        properties,
+        valueContext,
+      );
     }
 
     return <ConstraintViolation>{};
   }
 
-  Set<ConstraintViolation> _validateValue(String name, Object value,
-      [validatedObject, ValueContext valueContext]) {
+  Set<ConstraintViolation> _validateValue(
+    String name,
+    Object value,
+    PropertyMap<T> properties,
+    ValueContext valueContext,
+  ) {
     if (!_fieldValidatorMap.containsKey(name)) {
       throw Exception('No validator found for `$name`');
     }
 
-    final validators = _fieldValidatorMap[name].validators;
+    final fieldValidator = _fieldValidatorMap[name];
+    final violations = <ConstraintViolation>{};
 
-    return _applyValidators(
-      name,
-      value,
-      validators,
-      validatedObject,
-      valueContext,
+    if (fieldValidator.validateClass && mode != ValidationMode.full) {
+      final props = this.props(valueContext.validatedObject as T);
+
+      final validators = _classValidator.validators
+        ..retainWhere((validator) {
+          return validator.affectedFields.contains(name);
+        });
+
+      // Populate baseNode with it's children as we are not in full mode.
+      for (var name in properties.keys) {
+        final valueNode = Node(name: name);
+
+        valueContext.baseNode.append(valueNode);
+      }
+
+      final classViolations = _applyValidators(
+        _classValidator.getType(),
+        props,
+        validators,
+        props,
+        valueContext,
+      );
+
+      // Note affected fields is incorrect at the moment.
+      // it includes all affected fields by all class annotations.
+      // thus need to retain only the violations for this property.
+      final fieldViolations = classViolations
+        ..retainWhere(
+            (violation) => violation.propertyPath == valueContext.node.path);
+
+      violations.addAll(fieldViolations);
+    }
+
+    final validators = fieldValidator.validators;
+
+    violations.addAll(
+      _applyValidators(
+        name,
+        value,
+        validators,
+        properties,
+        valueContext,
+      ),
     );
+
+    return violations;
   }
 
   Set<ConstraintViolation> _applyValidators(
-      String name, Object value, List<ConstraintValidator> validators,
-      [validatedObject, ValueContext valueContext]) {
-    valueContext ??= _createRootValueContext(
-      value.runtimeType.toString(),
-      value,
-    );
-
+    String name,
+    Object value,
+    List<ConstraintValidator> validators,
+    validatedObject,
+    ValueContext valueContext,
+  ) {
     final violations = <ConstraintViolation>{};
 
     for (var validator in validators) {
       if (validator.allowNull && value == null) continue;
 
       if (!validator.validate(value, valueContext)) {
-        final arguments = List.from(validator.argumentValues)..add(value);
-        violations.add(
-          ConstraintViolation(
-            validatedObject: validatedObject,
-            propertyPath: valueContext?.node?.path,
-            invalidValue: value,
-            name: name,
-            message: Function.apply(
-              validator.message,
-              arguments,
-            ) as String,
-          ),
-        );
+        if (valueContext.violations.isEmpty) {
+          throw Exception(
+            'Validation failed but the violations list is empty for ${validator.runtimeType}.',
+          );
+        }
+
+        violations.addAll(valueContext.violations);
       }
     }
 
@@ -207,11 +281,30 @@ abstract class Validator<T> {
     return Set.from(validationContext.constraintViolations);
   }
 
-  ValueContext _createRootValueContext(String type, Object value) {
-    return ValueContext(
-      node: Node(name: type),
+  Set<ConstraintViolation> _runAndReset(ValidationMethod func) {
+    final violations = func();
+
+    assert(validationContext.constraintViolations != violations);
+
+    validationContext.reset();
+
+    mode = null;
+
+    return violations;
+  }
+
+  ValueContext _createRootValueContext(Object value) {
+    final baseNode = Node(
+      name: value.runtimeType.toString(),
+    );
+    final context = ValueContext(
+      node: baseNode,
       value: value,
+      baseNode: baseNode,
+      validatedObject: value,
       validator: this,
     );
+
+    return context;
   }
 }

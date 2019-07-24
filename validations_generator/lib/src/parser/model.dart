@@ -8,6 +8,9 @@ import 'package:validations/annotation.dart';
 import 'package:validations/validations.dart' as validator;
 import 'package:validations_generator/src/parser/validated_element.dart';
 
+import 'annotation_parameter.dart';
+import 'element_validation_annotation.dart';
+
 const validatorType = TypeChecker.fromRuntime(validator.Validator);
 const genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
 const containerAnnotationType =
@@ -18,6 +21,8 @@ final classAnnotationTypes =
           (type) => type is Type ? TypeChecker.fromRuntime(type) : null,
         );
 // TODO: simple annotations are now still ignored.
+// This must check the super type, or else an annotation.
+// right now it doesn't support custom types.
 final annotationTypes =
     validator.fieldAnnotations.where((type) => type is Type).map(
           (type) => type is Type ? TypeChecker.fromRuntime(type) : null,
@@ -46,61 +51,79 @@ class ModelParser {
     this.library,
   });
 
-  String parse() {
+  Future<String> parse() async {
     _findModel();
 
     final modelClass = model.element as ClassElement;
 
-    final classBuilder = Class(
-      _buildValidatorClass(modelClass),
-    );
+    final classMethods = await _buildClassMethods(modelClass);
+
+    final classBuilder = Class((ClassBuilder classBuilder) {
+      final className = modelClass.displayName;
+
+      classBuilder
+        ..name = '_\$${generatorClass.displayName}'
+        ..implements.add(refer('Validator<$className>'))
+        ..abstract = true;
+
+      classBuilder.methods.addAll(classMethods);
+    });
 
     final emitter = DartEmitter();
 
     return DartFormatter().format('${classBuilder.accept(emitter)}');
   }
 
-  /// Builds the Validator class.
+  /// Builds the Validator class methods.
   ///
   /// Example:
   ///
   ///   abstract class _$TestDriverValidator implements Validator<Driver> {
   ///     ... // generatedMethods
   ///   }
-  void Function(ClassBuilder) _buildValidatorClass(ClassElement modelClass) {
-    final className = modelClass.displayName;
+  Future<List<Method>> _buildClassMethods(ClassElement modelClass) async {
     final fields = modelClass.fields;
 
-    return (ClassBuilder classBuilder) {
-      classBuilder
-        ..name = '_\$${generatorClass.displayName}'
-        ..implements.add(refer('Validator<$className>'))
-        ..abstract = true;
+    final validatedClassElement = _getClassAnnotation(modelClass);
 
-      var validatedElements = _getValidatedElements(fields);
+    var validatedElements = _getValidatedElements(fields);
 
-      validatedElements = _getGenValidatorFields(validatedElements);
+    validatedElements = _getGenValidatorFields(validatedElements);
 
-      final validatedClassElement = _getClassAnnotation(modelClass);
-
-      final annotatedElements = [
-        ...validatedElements,
-        validatedClassElement,
-      ];
-
-      final classValidator =
-          _buildGetClassValidator(validatedClassElement, classBuilder);
-
-      if (classValidator != null) {
-        classBuilder.methods.add(classValidator);
+    if (validatedClassElement.relatedFields.isNotEmpty) {
+      for (var field in validatedElements) {
+        if (validatedClassElement.relatedFields.contains(field.name)) {
+          field.usedAtClassLevel = true;
+        }
       }
+    }
 
-      classBuilder.methods.addAll([
-        _buildGetFieldValidators(validatedElements, classBuilder),
-        ..._buildValidatorMethods(annotatedElements, classBuilder),
-        _buildPropsMethod(annotatedElements, classBuilder),
-      ]);
-    };
+    final annotatedElements = [
+      ...validatedElements,
+      validatedClassElement,
+    ];
+
+    final messageMethodsForFields =
+        await _buildMessageMethodsForFields(validatedElements);
+
+    final messageMethodsForClass =
+        await _buildMessageMethodsForField(validatedClassElement);
+
+    final classMethods = [
+      ...messageMethodsForFields,
+      ...messageMethodsForClass,
+      _buildGetFieldValidators(validatedElements),
+      ..._buildValidatorMethods(validatedElements),
+      _buildPropsMethod(annotatedElements),
+    ];
+
+    final classValidator = _buildGetClassValidator(validatedClassElement);
+
+    if (classValidator != null) {
+      classMethods.add(classValidator);
+    }
+
+    return classMethods;
   }
 
   /// Reads the `fields` parameter of GenValidator
@@ -137,8 +160,10 @@ class ModelParser {
         final annotatedField = ValidatedElement(
           name: name.toStringValue(),
           element: propertyField.type.element as ClassElement,
+          modelClass: model.element as ClassElement,
           elementType: ElementType.FIELD,
           type: propertyField.type.displayName,
+          library: library,
         )..parseElementsProperties(annotations);
 
         annotatedFields
@@ -153,12 +178,16 @@ class ModelParser {
   /// Creates a ValidatedElement of type [ElementType.CLASS]
   ValidatedElement _getClassAnnotation(ClassElement clazz) {
     // TODO: actually check if this is a ElementType.CLASS annotation
-    return ValidatedElement(
+    final element = ValidatedElement(
       name: clazz.name,
       element: clazz,
       elementType: ElementType.CLASS,
+      modelClass: model.element as ClassElement,
       type: clazz.displayName,
+      library: library,
     )..parseClassAnnotations(clazz);
+
+    return element;
   }
 
   /// Filters a list of [FieldElement]s based on whether they are annotated
@@ -182,7 +211,9 @@ class ModelParser {
           name: field.name,
           element: field.type.element as ClassElement,
           elementType: ElementType.FIELD,
+          modelClass: model.element as ClassElement,
           type: field.type.displayName,
+          library: library,
         )..parseFieldAnnotations(field);
 
         annotatedFields.add(annotatedField);
@@ -201,10 +232,7 @@ class ModelParser {
   ///  String validateDriver(Object value) => errorCheck('driver', value);
   ///  ...
   ///
-  List<Method> _buildValidatorMethods(
-    List<ValidatedElement> annotatedFields,
-    ClassBuilder classBuilder,
-  ) {
+  List<Method> _buildValidatorMethods(List<ValidatedElement> annotatedFields) {
     final methods = <Method>[];
 
     for (var field in annotatedFields) {
@@ -216,30 +244,64 @@ class ModelParser {
 
   /// Builds a validatorMethod
   ///
+  /// Depending on whether the property is affected by any class level
+  /// validations. The generated method either calls `errorCheck` or
+  /// `crossErrorCheck`.
+  ///
+  /// Whenever class level validations are involved the current state
+  /// of the model must be supplied in order to enable cross error checking.
+  ///
   /// Example:
   ///
   ///   String validateDriver(Object value) => errorCheck('driver', value);
+  ///   String validateDriver(Object value, Object object) => crossErrorCheck(object, 'driver', value);
   ///
   Method _buildValidatorMethod(ValidatedElement field) {
-    final statement = refer('errorCheck').newInstance(
-      [
-        literalString(field.name),
-        refer('value'),
-      ],
-    );
+    Expression statement;
+    final parameters = <Parameter>[];
+
+    if (field.usedAtClassLevel) {
+      statement = refer('crossErrorCheck').newInstance(
+        [
+          refer('object'),
+          literalString(field.name),
+          refer('value'),
+        ],
+      );
+
+      parameters.addAll([
+        Parameter(
+          (parameter) => parameter
+            ..name = 'value'
+            ..type = refer('Object'),
+        ),
+        Parameter(
+          (parameter) => parameter
+            ..name = 'object'
+            ..type = refer(model.name),
+        )
+      ]);
+    } else {
+      statement = refer('errorCheck').newInstance(
+        [
+          literalString(field.name),
+          refer('value'),
+        ],
+      );
+
+      parameters.add(Parameter(
+        (parameter) => parameter
+          ..name = 'value'
+          ..type = refer('Object'),
+      ));
+    }
 
     return Method((MethodBuilder builder) {
       builder
         ..name = 'validate${capitalize(field.name)}'
         ..body = statement.code
         ..returns = refer('String')
-        ..requiredParameters.add(
-          Parameter(
-            (parameter) => parameter
-              ..name = 'value'
-              ..type = refer('Object'),
-          ),
-        );
+        ..requiredParameters.addAll(parameters);
     });
   }
 
@@ -251,8 +313,8 @@ class ModelParser {
   /// example:
   ///
   ///  @override
-  ///  Map<String, dynamic> props(Car instance) {
-  ///    return {
+  ///  PropertyMap<Car> props(Car instance) {
+  ///    return PropertyMap<Car>({
   ///      'manufacturer': instance.manufacturer,
   ///      'driver': instance.driver,
   ///      'licensePlate': instance.licensePlate,
@@ -260,19 +322,16 @@ class ModelParser {
   ///      'topSpeed': instance.topSpeed,
   ///      'price': instance.price,
   ///     'isRegistered': instance.isRegistered
-  ///    };
+  ///    });
   ///  }
   ///
-  Method _buildPropsMethod(
-    List<ValidatedElement> annotatedFields,
-    ClassBuilder classBuilder,
-  ) {
+  Method _buildPropsMethod(List<ValidatedElement> annotatedFields) {
     final properties = <String>{};
 
     for (var field in annotatedFields) {
       if (field.elementType == ElementType.CLASS) {
-        if (field.extraProperties.isNotEmpty) {
-          for (var propertyName in field.extraProperties) {
+        if (field.relatedFields.isNotEmpty) {
+          for (var propertyName in field.relatedFields) {
             properties.add(propertyName);
           }
         }
@@ -290,7 +349,14 @@ class ModelParser {
       },
     );
 
-    final body = literalMap(fieldNames).returned.statement;
+    final body = refer('PropertyMap<${model.name}>')
+        .newInstance(
+          [
+            literalMap(fieldNames),
+          ],
+        )
+        .returned
+        .statement;
 
     return Method(
       (MethodBuilder builder) {
@@ -298,7 +364,7 @@ class ModelParser {
           ..name = 'props'
           ..body = body
           ..annotations.add(refer('override'))
-          ..returns = refer('Map<String, dynamic>')
+          ..returns = refer('PropertyMap<${model.name}>')
           ..requiredParameters.add(
             Parameter(
               (parameter) => parameter
@@ -341,22 +407,6 @@ class ModelParser {
   ///  }
   ///
 
-  List<Parameter> _getMessageMethodParameters(
-      List<AnnotationParameter> parameters) {
-    final messageMethodParameters = <Parameter>[];
-    for (var parameter in parameters) {
-      messageMethodParameters.add(
-        Parameter((builder) {
-          builder
-            ..name = parameter.name
-            ..type = refer(parameter.type);
-        }),
-      );
-    }
-
-    return messageMethodParameters;
-  }
-
   Map<String, Expression> _getNamedParameters(
       List<AnnotationParameter> parameters) {
     final namedParams = <String, Expression>{};
@@ -388,23 +438,49 @@ class ModelParser {
     return positionalArguments;
   }
 
-  List _buildFieldValidator(ValidatedElement field, ClassBuilder classBuilder) {
+  Future<List<Method>> _buildMessageMethodsForFields(
+    List<ValidatedElement> fields,
+  ) async {
+    final messageMethods = <Method>[];
+
+    for (var field in fields) {
+      messageMethods.addAll(
+        await _buildMessageMethodsForField(field),
+      );
+    }
+
+    return messageMethods;
+  }
+
+  Future<List<Method>> _buildMessageMethodsForField(
+    ValidatedElement field,
+  ) async {
+    final messageMethods = <Method>[];
+
+    for (var annotation in field.annotations) {
+      if (annotation.messageMethods.isNotEmpty) {
+        for (var messageMethod in annotation.messageMethods) {
+          final parameters = await messageMethod.getParameters();
+
+          messageMethods.add(
+            _buildMessageMethod(
+              messageMethod.generatedMethodName,
+              parameters,
+              messageMethod.message,
+            ),
+          );
+        }
+      }
+    }
+
+    return messageMethods;
+  }
+
+  List _buildFieldValidator(ValidatedElement field) {
     final list = [];
 
     for (var annotation in field.annotations) {
-      final messageMethodParameters =
-          _getMessageMethodParameters(annotation.parameters);
       final namedParams = _getNamedParameters(annotation.parameters);
-
-      if (annotation.messageMethod != null) {
-        classBuilder.methods.add(
-          _buildMessageMethod(
-            annotation.messageMethod,
-            messageMethodParameters,
-            annotation.message,
-          ),
-        );
-      }
 
       final positionalArguments =
           _buildPositionalArguments(annotation, field.element);
@@ -414,29 +490,46 @@ class ModelParser {
         namedParams,
       );
 
-      if (annotation.messageMethod != null) {
-        list.add(
-          Block.of(
-            [
-              statement.code,
-              const Code('..'),
-              refer('message').assign(refer(annotation.messageMethod)).code,
-            ],
-          ),
+      final block = <Code>[
+        statement.code,
+      ];
+
+      if (field.relatedFields.isNotEmpty) {
+        block.addAll(
+          [
+            const Code('..'),
+            refer('affectedFields')
+                .assign(
+                  literal(
+                    field.relatedFields.toList(),
+                  ),
+                )
+                .code,
+          ],
         );
-      } else {
-        list.add(statement);
       }
+
+      if (annotation.messageMethods.isNotEmpty) {
+        for (var messageMethod in annotation.messageMethods) {
+          block.addAll(
+            [
+              const Code('..'),
+              refer(messageMethod.name)
+                  .assign(refer(messageMethod.generatedMethodName))
+                  .code,
+            ],
+          );
+        }
+      }
+
+      list.add(Block.of(block));
     }
 
     return list;
   }
 
-  Method _buildGetClassValidator(
-    ValidatedElement field,
-    ClassBuilder classBuilder,
-  ) {
-    final list = _buildFieldValidator(field, classBuilder);
+  Method _buildGetClassValidator(ValidatedElement field) {
+    final list = _buildFieldValidator(field);
 
     if (list.isNotEmpty) {
       final validators = literalList(list);
@@ -463,23 +556,26 @@ class ModelParser {
     return null;
   }
 
-  Method _buildGetFieldValidators(
-    List<ValidatedElement> fields,
-    ClassBuilder classBuilder,
-  ) {
+  Method _buildGetFieldValidators(List<ValidatedElement> fields) {
     final fieldValidators = [];
 
     for (var field in fields) {
-      final list = _buildFieldValidator(field, classBuilder);
+      final list = _buildFieldValidator(field);
 
       if (field.elementType == ElementType.FIELD) {
+        final namedParameters = {
+          'name': literalString(field.name),
+          'validators': literalList(list),
+        };
+
+        if (field.usedAtClassLevel) {
+          namedParameters['validateClass'] = literalBool(true);
+        }
+
         fieldValidators.add(
           refer('FieldValidator').newInstance(
             [],
-            {
-              'name': literalString(field.name),
-              'validators': literalList(list),
-            },
+            namedParameters,
             // [refer(field.type.name)],
             [refer(field.type)],
           ),
@@ -524,14 +620,6 @@ class ModelParser {
     List<Parameter> messageMethodParameters,
     String message,
   ) {
-    final validatedValue = Parameter(
-      (builder) {
-        builder
-          ..name = 'validatedValue'
-          ..type = refer('Object');
-      },
-    );
-
     Code body;
 
     if (useIntl) {
@@ -551,8 +639,7 @@ class ModelParser {
           ..name = messageMethod
           ..body = body
           ..returns = refer('String')
-          ..requiredParameters.addAll(messageMethodParameters)
-          ..requiredParameters.add(validatedValue);
+          ..requiredParameters.addAll(messageMethodParameters);
       },
     );
   }
@@ -580,7 +667,6 @@ class ModelParser {
         ...messageMethodParameters.map(
           (Parameter parameter) => refer(parameter.name),
         ),
-        refer('validatedValue'),
       ])
     };
 

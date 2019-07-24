@@ -4,6 +4,7 @@ library annotations.basic;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part './basic/blank.dart';
 part './basic/is_empty.dart';

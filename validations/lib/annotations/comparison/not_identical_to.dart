@@ -2,6 +2,8 @@ part of annotations.comparison;
 
 /// Checks whether the annotated value is not identical to another value.
 @immutable
+@Constraint(validatedBy: NotIdenticalToValidator)
+@Target({ElementType.FIELD})
 class NotIdenticalTo extends ValidatorAnnotation {
   final Object value;
 

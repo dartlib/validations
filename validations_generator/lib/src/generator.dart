@@ -27,11 +27,11 @@ class ValidatorGenerator
   }
 
   @override
-  FutureOr<String> generateForAnnotatedElement(
+  Future<String> generateForAnnotatedElement(
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  ) {
+  ) async {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
         'GenValidator can only be defined on a class.',
@@ -46,7 +46,7 @@ class ValidatorGenerator
     print('Generating validator for $className');
 
     try {
-      return ModelParser(
+      return await ModelParser(
         generatorClass: element as ClassElement,
         useIntl: useIntl,
         library: library,

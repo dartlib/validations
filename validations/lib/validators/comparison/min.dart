@@ -10,4 +10,8 @@ class MinValidator extends GreaterThanOrEqualValidator {
     @required num value,
   })  : assert(value != null),
         super(value: value);
+
+  @override
+  Function message =
+      (dynamic value, Object validatedValue) => 'The minimum value is $value';
 }
