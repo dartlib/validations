@@ -10,4 +10,8 @@ class MaxValidator extends LessThanOrEqualValidator {
     @required num value,
   })  : assert(value != null),
         super(value: value);
+
+  @override
+  Function message =
+      (dynamic value, Object validatedValue) => 'The maximum value is $value';
 }

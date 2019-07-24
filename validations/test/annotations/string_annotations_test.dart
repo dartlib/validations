@@ -5,16 +5,13 @@ import '../test_annotation.dart';
 final commonAnnotations = [
   Alpha,
   CreditCardNumber,
-  EAN,
   Email,
   HexColor,
   Hexadecimal,
   Json,
-  Length,
   Lowercase,
   MongoId,
   Numeric,
-  SafeHtml,
   Uppercase,
 ];
 

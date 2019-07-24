@@ -22,6 +22,7 @@ part of validator;
 ///
 abstract class ConstraintValidator<ValueType> {
   List argumentValues = [];
+  List defaultArgumentValues = [];
 
   /// `null` is allowed by default for every [ConstraintValidator].
   ///
@@ -33,17 +34,61 @@ abstract class ConstraintValidator<ValueType> {
   ]) {
     if (argumentValues != null) {
       this.argumentValues = argumentValues;
+      defaultArgumentValues = List.of(argumentValues);
     }
   }
   // Called each time before an isValid check.
   void initialize() {}
 
+  void resetArgumentValues() {
+    argumentValues = List.of(defaultArgumentValues);
+  }
+
   bool validate(ValueType value, [ValueContext context]) {
     initialize();
 
-    if (allowNull && value == null) return true;
+    if (allowNull && value == null) {
+      resetArgumentValues();
 
-    return isValid(value, context);
+      return true;
+    }
+
+    // in case a constraint validator is called directly without context.
+    context ??= ValueContext(
+      node: null,
+      value: value,
+      baseNode: null,
+      validatedObject: null,
+      validator: null,
+    );
+
+    final valid = isValid(value, context);
+
+    if (!valid) {
+      if (this is! ClassConstraintValidator && message != null) {
+        // builds the default error message, if message is not null.
+        final arguments = List.from(argumentValues)..add(value);
+
+        context.violations.add(
+          ConstraintViolation(
+            validatedObject: context.validatedObject,
+            propertyPath: context.node?.path,
+            invalidValue: value,
+            // name: name,
+            name: context?.node?.name,
+            message: Function.apply(
+              message,
+              arguments,
+            ) as String,
+          ),
+        );
+      }
+    }
+
+    // clear any argument values set during initialize.
+    resetArgumentValues();
+
+    return valid;
   }
 
   bool isValid(ValueType value, ValueContext context);

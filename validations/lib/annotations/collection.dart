@@ -4,6 +4,7 @@ library annotations.collection;
 import 'package:meta/meta.dart';
 
 import '../annotation.dart';
+import '../validators.dart';
 
 part 'collection/unique.dart';
 part 'collection/valid.dart';

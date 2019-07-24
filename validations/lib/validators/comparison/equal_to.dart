@@ -19,6 +19,6 @@ class EqualToValidator extends ConstraintValidator {
   }
 
   @override
-  Function message = (num value, Object validatedValue) =>
+  Function message = (dynamic value, Object validatedValue) =>
       '$validatedValue should be equal to $value';
 }

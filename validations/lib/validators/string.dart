@@ -45,3 +45,26 @@ part 'string/pattern.dart';
 part 'string/uppercase.dart';
 part 'string/url.dart';
 part 'string/uuid.dart';
+
+final stringValidators = [
+  AlphaValidator,
+  AlphaNumericValidator,
+  AsciiValidator,
+  Base64Validator,
+  ByteLengthValidator,
+  CreditCardNumberValidator,
+  EmailValidator,
+  FqdnValidator,
+  HexColorValidator,
+  HexadecimalValidator,
+  IpValidator,
+  ISBNValidator,
+  JsonValidator,
+  LowercaseValidator,
+  MongoIdValidator,
+  NumericValidator,
+  PatternValidator,
+  UppercaseValidator,
+  UrlValidator,
+  UuidValidator,
+];

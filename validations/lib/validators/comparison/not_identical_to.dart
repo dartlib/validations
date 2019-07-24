@@ -19,6 +19,6 @@ class NotIdenticalToValidator extends ConstraintValidator {
   }
 
   @override
-  Function message = (num value, Object validatedValue) =>
+  Function message = (dynamic value, Object validatedValue) =>
       '$validatedValue should not be identical to $value';
 }

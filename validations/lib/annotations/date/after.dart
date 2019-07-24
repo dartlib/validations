@@ -2,6 +2,8 @@ part of annotations.date;
 
 /// Checks whether the annotated date is after the specified date.
 @immutable
+@Constraint(validatedBy: AfterValidator)
+@Target({ElementType.FIELD})
 class After extends ValidatorAnnotation {
   final int year;
   final int month;

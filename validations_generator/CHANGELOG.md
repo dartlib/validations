@@ -1,3 +1,10 @@
+## 0.8.0
+
+ - add @Target to field annotations
+ - add @Constraint to field annotations
+ - fix time unit validator
+ - improve class level validations and error messages
+
 ## 0.7.0
 - add support for class level validators
 - add a FieldMatch class level validator
