@@ -56,6 +56,8 @@ abstract class TimeUnitBaseValidator extends ConstraintValidator {
     final timeUnitString = enumItemToString(timeUnit);
 
     var result = false;
+
+    // iterate from year, months, days etc.
     for (var unit in timeUnits) {
       if (unit == timeUnitString) {
         if (inclusive) {
@@ -75,15 +77,25 @@ abstract class TimeUnitBaseValidator extends ConstraintValidator {
   }
 
   Map<String, int> _dateToMap(DateTime date) {
+    final maxDaysInMonth = 31;
+    final year = date.year;
+    final monthsAD = date.month + (date.year * 12);
+    final daysAD = date.day + (date.month * maxDaysInMonth);
+    final hourOfDay = date.hour;
+    final minuteOfDay = date.minute + (hourOfDay * 60);
+    final secondOfDay = date.second + (minuteOfDay * 60);
+    final millisecondOfDay = date.millisecond + (secondOfDay * 1000);
+    final microsecondOfDay = date.microsecond + (millisecondOfDay * 1000);
+
     return {
-      'year': date.year,
-      'month': date.month,
-      'day': date.day,
-      'hour': date.hour,
-      'minute': date.minute,
-      'second': date.second,
-      'millisecond': date.millisecond,
-      'microsecond': date.microsecond,
+      'year': year,
+      'month': monthsAD,
+      'day': daysAD,
+      'hour': hourOfDay,
+      'minute': minuteOfDay,
+      'second': secondOfDay,
+      'millisecond': millisecondOfDay,
+      'microsecond': microsecondOfDay,
     };
   }
 
