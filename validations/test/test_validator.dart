@@ -25,12 +25,15 @@ class TestValidator {
 
   void _testValidator<T>(Iterable input, bool expected, [String name]) {
     t.test(name ?? validator.runtimeType, () {
+      var index = 0;
       for (var data in input) {
         t.expect(
           validator.validate(data),
           expected,
-          reason: 'Expected `$data` to be ${expected ? 'valid' : 'invalid'}',
+          reason:
+              '$runtimeType: Expected `$data` to be ${expected ? 'valid' : 'invalid'} [$index]',
         );
+        index++;
       }
     });
   }
