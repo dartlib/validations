@@ -1,15 +1,13 @@
 import 'annotation_parameter.dart';
+import 'message_method.dart';
 
 /// Represent a validations annotation.
 class ElementValidationAnnotation {
   // The ... type
   final String type;
 
-  /// The message
-  String message;
-
-  /// The generated message method
-  String messageMethod;
+  /// The generated message methods
+  List<MessageMethod> messageMethods = [];
 
   /// Whether this is a container annotation.
   bool isContainerAnnotation = false;

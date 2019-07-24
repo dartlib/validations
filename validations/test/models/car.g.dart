@@ -7,60 +7,6 @@ part of 'car.dart';
 // **************************************************************************
 
 abstract class _$TestCarValidator implements Validator<Car> {
-  static String carFieldMatchBaseFieldMessage(
-          String baseField,
-          String matchField,
-          String matchFieldMessage,
-          String message,
-          Object validatedValue) =>
-      Intl.message('Left and Right front wheel covers should match!',
-          name: 'carFieldMatchBaseFieldMessage',
-          args: [
-            baseField,
-            matchField,
-            matchFieldMessage,
-            message,
-            validatedValue
-          ]);
-  static String carFieldMatchMatchFieldMessage2(
-          String baseField,
-          String matchField,
-          String baseFieldMessage,
-          String message,
-          Object validatedValue) =>
-      Intl.message('Left and Right rear wheel covers should match!',
-          name: 'carFieldMatchMatchFieldMessage2',
-          args: [
-            baseField,
-            matchField,
-            baseFieldMessage,
-            message,
-            validatedValue
-          ]);
-  @override
-  ClassValidator getClassValidator() {
-    return ClassValidator<Car>(validators: [
-      FieldMatchValidator(
-          baseField: 'frontWheelCoverLeft', matchField: 'frontWheelCoverRight')
-        ..affectedFields = [
-          'frontWheelCoverLeft',
-          'frontWheelCoverRight',
-          'rearWheelCoverLeft',
-          'rearWheelCoverRight'
-        ]
-        ..baseFieldMessage = carFieldMatchBaseFieldMessage,
-      FieldMatchValidator(
-          baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
-        ..affectedFields = [
-          'frontWheelCoverLeft',
-          'frontWheelCoverRight',
-          'rearWheelCoverLeft',
-          'rearWheelCoverRight'
-        ]
-        ..matchFieldMessage = carFieldMatchMatchFieldMessage2
-    ]);
-  }
-
   static String driverValidMessage(Object validatedValue) =>
       Intl.message('There should be a valid driver!',
           name: 'driverValidMessage', args: [validatedValue]);
@@ -70,13 +16,13 @@ abstract class _$TestCarValidator implements Validator<Car> {
           'The license plate $validatedValue must be between $min and $max characters long',
           name: 'licensePlateSizeMessage',
           args: [min, max, validatedValue]);
-  static String seatCountMinMessage(num value, Object validatedValue) =>
+  static String seatCountMinMessage(dynamic value, Object validatedValue) =>
       Intl.message('Car must at least have $value seats available',
           name: 'seatCountMinMessage', args: [value, validatedValue]);
-  static String seatCountMaxMessage(num value, Object validatedValue) =>
+  static String seatCountMaxMessage(dynamic value, Object validatedValue) =>
       Intl.message('Car cannot have more than $value seats',
           name: 'seatCountMaxMessage', args: [value, validatedValue]);
-  static String topSpeedMaxMessage(num value, Object validatedValue) =>
+  static String topSpeedMaxMessage(dynamic value, Object validatedValue) =>
       Intl.message('The top speed $validatedValue is higher than $value',
           name: 'topSpeedMaxMessage', args: [value, validatedValue]);
   static String priceDecimalMaxMessage(
@@ -84,14 +30,24 @@ abstract class _$TestCarValidator implements Validator<Car> {
       Intl.message('Price must not be higher than $value',
           name: 'priceDecimalMaxMessage',
           args: [value, inclusive, validatedValue]);
-  static String priceDecimalMinMessage2(
+  static String priceDecimalMinMessage(
           String value, bool inclusive, Object validatedValue) =>
       Intl.message('Price must not be lower than $value',
-          name: 'priceDecimalMinMessage2',
+          name: 'priceDecimalMinMessage',
           args: [value, inclusive, validatedValue]);
   static String isRegisteredIsTrueMessage(Object validatedValue) =>
       Intl.message('Car must be registered!',
           name: 'isRegisteredIsTrueMessage', args: [validatedValue]);
+  static String carFieldMatchBaseFieldMessage(
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Left and Right front wheel covers should match!',
+          name: 'carFieldMatchBaseFieldMessage',
+          args: [baseField, matchField, validatedValue]);
+  static String carFieldMatchMatchFieldMessage(
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Left and Right rear wheel covers should match!',
+          name: 'carFieldMatchMatchFieldMessage',
+          args: [baseField, matchField, validatedValue]);
   @override
   List<FieldValidator> getFieldValidators() {
     return [
@@ -133,7 +89,7 @@ abstract class _$TestCarValidator implements Validator<Car> {
         DecimalMaxValidator(value: '100.00', inclusive: true)
           ..message = priceDecimalMaxMessage,
         DecimalMinValidator(value: '49.99', inclusive: true)
-          ..message = priceDecimalMinMessage2
+          ..message = priceDecimalMinMessage
       ]),
       FieldValidator<bool>(
           name: 'isRegistered',
@@ -174,6 +130,30 @@ abstract class _$TestCarValidator implements Validator<Car> {
       'price': instance.price,
       'isRegistered': instance.isRegistered
     });
+  }
+
+  @override
+  ClassValidator getClassValidator() {
+    return ClassValidator<Car>(validators: [
+      FieldMatchValidator(
+          baseField: 'frontWheelCoverLeft', matchField: 'frontWheelCoverRight')
+        ..affectedFields = [
+          'frontWheelCoverLeft',
+          'frontWheelCoverRight',
+          'rearWheelCoverLeft',
+          'rearWheelCoverRight'
+        ]
+        ..baseFieldMessage = carFieldMatchBaseFieldMessage,
+      FieldMatchValidator(
+          baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
+        ..affectedFields = [
+          'frontWheelCoverLeft',
+          'frontWheelCoverRight',
+          'rearWheelCoverLeft',
+          'rearWheelCoverRight'
+        ]
+        ..matchFieldMessage = carFieldMatchMatchFieldMessage
+    ]);
   }
 }
 

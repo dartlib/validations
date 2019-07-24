@@ -1,22 +1,10 @@
 part of validators.class_level;
 
-abstract class ClassConstraintValidator<ValueType>
-    extends ConstraintValidator<PropertyMap<ValueType>> {
-  ClassConstraintValidator(List argumentValues) : super(argumentValues);
-
-  /// For class level constraint validators the message
-  /// function defaults to `null`;
-  @override
-  Function message;
-
-  /// Tracks the fields affected by this class level validator.
-  ///
-  /// Is used when validating at the property level and determine
-  /// whether any class level validations have to be taken into concern.
-  ///
-  /// If not the class level checks can be skipped.
-  List<String> affectedFields;
-}
+typedef _FieldMatchMessage = String Function(
+  String baseField,
+  String matchField,
+  Object validatedValue,
+);
 
 /// Check that the [baseField] matches the [matchField].
 ///
@@ -58,11 +46,11 @@ class FieldMatchValidator<ValueType>
     return result;
   }
 
-  Function baseFieldMessage =
+  _FieldMatchMessage baseFieldMessage =
       (String baseField, String matchField, Object validatedValue) =>
           'Fields $baseField and $matchField should match';
 
-  Function matchFieldMessage =
+  _FieldMatchMessage matchFieldMessage =
       (String baseField, String matchField, Object validatedValue) =>
           'Fields $baseField and $matchField should match';
 }

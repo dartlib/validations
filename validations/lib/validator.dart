@@ -3,8 +3,8 @@ library validator;
 import 'dart:collection';
 
 import 'package:meta/meta.dart';
-import 'package:validations/validators/class_level.dart';
 
+part 'validator/class_constraint_validator.dart';
 part 'validator/class_validator.dart';
 part 'validator/constraint_validator.dart';
 part 'validator/constraint_validator_container.dart';

@@ -21,3 +21,22 @@ part 'comparison/min.dart';
 part 'comparison/not_equal_to.dart';
 part 'comparison/not_identical_to.dart';
 part 'comparison/range.dart';
+
+final comparisonValidators = [
+  DecimalMaxValidator,
+  DecimalMinValidator,
+  DivisibleByValidator,
+  DurationMaxValidator,
+  DurationMinValidator,
+  EqualToValidator,
+  GreaterThanValidator,
+  GreaterThanOrEqualValidator,
+  IdenticalToValidator,
+  LessThanValidator,
+  LessThanOrEqualValidator,
+  MaxValidator,
+  MinValidator,
+  NotEqualToValidator,
+  NotIdenticalToValidator,
+  RangeValidator,
+];

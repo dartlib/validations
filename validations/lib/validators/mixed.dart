@@ -7,3 +7,8 @@ import '../validator.dart';
 
 part 'mixed/digits.dart';
 part 'mixed/size.dart';
+
+final mixedValidators = [
+  DigitsValidator,
+  SizeValidator,
+];
