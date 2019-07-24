@@ -7,18 +7,6 @@ part of 'login_screen.dart';
 // **************************************************************************
 
 abstract class _$LoginFormValidator implements Validator<FormData> {
-  @override
-  ClassValidator getClassValidator() {
-    return ClassValidator<FormData>(validators: [
-      FieldMatchValidator(
-          baseField: 'password',
-          matchField: 'passwordConfirm',
-          baseFieldMessage: 'Password should match password confirmation.',
-          matchFieldMessage: 'Password confirmation should match password.')
-        ..affectedFields = ['password', 'passwordConfirm']
-    ]);
-  }
-
   static String emailNotBlankMessage(Object validatedValue) {
     return 'You must fill in an email address';
   }
@@ -29,6 +17,16 @@ abstract class _$LoginFormValidator implements Validator<FormData> {
 
   static String passwordSizeMessage(int min, int max, Object validatedValue) {
     return 'Password must be at least be between $min and $max characters long';
+  }
+
+  static String formDataFieldMatchBaseFieldMessage(
+      String baseField, String matchField, Object validatedValue) {
+    return 'Password should match password confirmation.';
+  }
+
+  static String formDataFieldMatchMatchFieldMessage(
+      String baseField, String matchField, Object validatedValue) {
+    return 'Password confirmation should match password.';
   }
 
   @override
@@ -64,5 +62,15 @@ abstract class _$LoginFormValidator implements Validator<FormData> {
       'password': instance.password,
       'passwordConfirm': instance.passwordConfirm
     });
+  }
+
+  @override
+  ClassValidator getClassValidator() {
+    return ClassValidator<FormData>(validators: [
+      FieldMatchValidator(baseField: 'password', matchField: 'passwordConfirm')
+        ..affectedFields = ['password', 'passwordConfirm']
+        ..baseFieldMessage = formDataFieldMatchBaseFieldMessage
+        ..matchFieldMessage = formDataFieldMatchMatchFieldMessage
+    ]);
   }
 }

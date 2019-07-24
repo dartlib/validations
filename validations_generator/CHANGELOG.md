@@ -1,5 +1,7 @@
-## 0.8.0
+## 0.8.1
+ -  fix getAnnotation failing to detect @Constraint annotation
 
+## 0.8.0
  - add @Target to field annotations
  - add @Constraint to field annotations
  - fix time unit validator
