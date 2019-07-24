@@ -208,13 +208,17 @@ class ValidatedElement {
   }
 
   ElementAnnotation getAnnotation(Element field, String name) {
-    return field?.metadata?.firstWhere(
+    final result = field?.metadata?.firstWhere(
       (annotation) {
+        annotation.computeConstantValue();
+
         return annotation.element.name == name ||
             annotation.constantValue?.type?.name == name;
       },
       orElse: () => null,
     );
+
+    return result;
   }
 
   bool hasAnnotation(Element field, String name) {
