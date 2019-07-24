@@ -47,7 +47,11 @@ abstract class ConstraintValidator<ValueType> {
   bool validate(ValueType value, [ValueContext context]) {
     initialize();
 
-    if (allowNull && value == null) return true;
+    if (allowNull && value == null) {
+      resetArgumentValues();
+
+      return true;
+    }
 
     // in case a constraint validator is called directly without context.
     context ??= ValueContext(
