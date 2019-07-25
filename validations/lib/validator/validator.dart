@@ -207,14 +207,15 @@ abstract class Validator<T> {
     if (fieldValidator.validateClass && mode != ValidationMode.full) {
       final props = this.props(valueContext.validatedObject as T);
 
-      final validators = _classValidator.validators
-        ..retainWhere((validator) {
-          return validator.affectedFields.contains(name);
-        });
+      final validators =
+          List<ClassConstraintValidator>.from(_classValidator.validators)
+            ..retainWhere((validator) {
+              return validator.affectedFields.contains(name);
+            });
 
       // Populate baseNode with it's children as we are not in full mode.
-      for (var name in properties.keys) {
-        final valueNode = Node(name: name);
+      for (var propertyName in properties.keys) {
+        final valueNode = Node(name: propertyName);
 
         valueContext.baseNode.append(valueNode);
       }
