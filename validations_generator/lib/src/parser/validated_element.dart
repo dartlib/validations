@@ -6,8 +6,11 @@ import 'package:validations/annotation.dart';
 
 import 'annotation_parameter.dart';
 import 'element_validation_annotation.dart';
+import 'helpers/index.dart';
 import 'message_method.dart';
 import 'model.dart';
+
+const containerAnnotationType = TypeChecker.fromRuntime(ContainerAnnotation);
 
 /// Represents an element which is annotated with a validation.
 ///
@@ -27,12 +30,6 @@ class ValidatedElement {
 
   final ElementType elementType;
 
-  final Set<String> relatedFields = <String>{};
-
-  // A Map of error messages in order to generate methods for these.
-  // Key is the relevant property, value is the message itself.
-  final errorMessages = <String, String>{};
-
   /// whether this field is (also) referenced at the class level.
   bool usedAtClassLevel = false;
 
@@ -40,6 +37,7 @@ class ValidatedElement {
 
   /// A list of validation annotations.
   List<ElementValidationAnnotation> annotations = [];
+
   ValidatedElement({
     @required this.name,
     @required this.element,
@@ -51,14 +49,6 @@ class ValidatedElement {
         assert(type != null),
         assert(elementType != null),
         assert(type != 'null');
-
-  /// Checks whether the annotation is a validator annotation.
-  ///
-  bool isValidatorAnnotation(ElementAnnotation annotation) {
-    return annotationTypes.any(
-      (typeChecker) => typeChecker.isExactlyType(annotation.constantValue.type),
-    );
-  }
 
   /// Iterates all annotations and parses them into [ElementValidationAnnotation]s.
   void parseElementsProperties(List<DartObject> annotations) {
@@ -86,7 +76,8 @@ class ValidatedElement {
 
   void parseClassAnnotations(ClassElement field) {
     for (var annotation in field.metadata) {
-      // if (!isValidatorAnnotation(annotation)) continue;
+      if (!isValidatorAnnotation(annotation, ElementType.CLASS)) continue;
+
       annotations.add(
         _parseAnnotation(
           annotation,
@@ -99,7 +90,7 @@ class ValidatedElement {
   /// Iterates the metadata (ElementAnnotations) of a ClassElement or FieldElement.
   void parseFieldAnnotations(FieldElement field) {
     for (var annotation in field.metadata) {
-      if (!isValidatorAnnotation(annotation)) continue;
+      if (!isValidatorAnnotation(annotation, ElementType.FIELD)) continue;
 
       annotations.add(
         _parseAnnotation(
@@ -146,8 +137,25 @@ class ValidatedElement {
     for (var parameter in parameters) {
       final param = reader.read(parameter.name);
 
-      final hasErrorMessageAnnotation = hasAnnotation(
-          annotationClass.getField(parameter.name), 'errorMessage');
+      final field = annotationClass.getField(parameter.name);
+
+      final hasErrorMessageAnnotation = hasAnnotation(field, 'errorMessage');
+
+      final hasPropertyAnnotation = hasAnnotation(field, 'property');
+
+      if (hasPropertyAnnotation) {
+        final value = constantValue.getField(field.name).toStringValue();
+
+        final classField = element.getField(value);
+
+        if (classField == null) {
+          throw Exception(
+            '@property: `${constantValue.type.name}.${field.name}` refers to a field which does not exist: ${element.name}.$value',
+          );
+        }
+
+        fieldAnnotation.relatedFields.add(value);
+      }
 
       if (hasErrorMessageAnnotation && !param.isNull) {
         fieldAnnotation.messageMethods.add(
@@ -181,9 +189,15 @@ class ValidatedElement {
       }
     }
 
-    _parseClassAnnotationDirectives();
-
     return fieldAnnotation;
+  }
+
+  Set<String> getAllRelatedFields() {
+    return annotations.fold(
+      <String>{},
+      (Set<String> relatedFields, ElementValidationAnnotation annotation) =>
+          relatedFields..addAll(annotation.relatedFields),
+    );
   }
 
   ClassElement _getValidatedBy(ClassElement annotationClass) {
@@ -205,89 +219,5 @@ class ValidatedElement {
     }
 
     return validatedBy.toTypeValue().element as ClassElement;
-  }
-
-  ElementAnnotation getAnnotation(Element field, String name) {
-    final result = field?.metadata?.firstWhere(
-      (annotation) {
-        annotation.computeConstantValue();
-
-        return annotation.element.name == name ||
-            annotation.constantValue?.type?.name == name;
-      },
-      orElse: () => null,
-    );
-
-    return result;
-  }
-
-  bool hasAnnotation(Element field, String name) {
-    return getAnnotation(field, name) != null;
-  }
-
-  /// Does an extra sweep to parse annotations specific to
-  /// the annotation classes themselves.
-  ///
-  /// Currently it processes:
-  ///
-  ///   - @property: marks the parameter value to be a field reference.
-  ///   - @errorMessage: marks a parameter to be a errorMessage.
-  ///
-  /// TODO: integrate this a bit better instead of parsing it separately.
-  ///
-
-  void _parseClassAnnotationDirectives() {
-    if (elementType == ElementType.CLASS) {
-      final classAnnotations = element.metadata;
-
-      for (var classAnnotation in classAnnotations) {
-        classAnnotation.computeConstantValue();
-
-        final classElement =
-            classAnnotation.constantValue.type.element as ClassElement;
-
-        final trackedProperties = <String>{};
-        for (var field in classElement.fields) {
-          for (var fieldAnnotation in field.metadata) {
-            final name = fieldAnnotation.element.name;
-
-            if (name == 'property') {
-              final value = classAnnotation.constantValue
-                  .getField(field.name)
-                  .toStringValue();
-
-              final classField = element.getField(value);
-
-              if (classField == null) {
-                throw Exception(
-                    '@property: `${classAnnotation.constantValue.type.name}.${field.name}` refers to a field which does not exist: ${element.name}.$value');
-              }
-
-              trackedProperties.add(value);
-            }
-
-            if (name == 'errorMessage') {
-              final message = classAnnotation.constantValue
-                  .getField(field.name)
-                  .toStringValue();
-
-              // field.name: e.g. matchFieldMessage
-              // message: the message
-              final fieldName = field.name.replaceRange(
-                field.name.indexOf('Message'),
-                field.name.length,
-                '',
-              );
-
-              errorMessages[fieldName] = message;
-            }
-          }
-        }
-
-        // if (trackedProperties.contains(name)) {
-        relatedFields.addAll(trackedProperties);
-        // }
-      }
-    }
   }
 }
