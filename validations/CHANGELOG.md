@@ -1,3 +1,6 @@
+## 0.8.3
+ - fix unintended modification of class validator map.
+
 ## 0.8.2
  - bump version to match the generator version.
 
