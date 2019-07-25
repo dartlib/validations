@@ -1,3 +1,6 @@
+## 0.8.3
+ - update validations dependency to 0.8.3
+
 ## 0.8.2
  - fix affectFields to only contain fields referenced by the validator
  - statically determine whether an annotation is a validation annotation,
