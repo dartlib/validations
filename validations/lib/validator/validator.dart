@@ -226,16 +226,11 @@ abstract class Validator<T> {
         validators,
         props,
         valueContext,
-      );
+      )..retainWhere(
+          // Filter out the model level violation message (if any)
+          (violation) => violation.propertyPath == valueContext.node.path);
 
-      // Note affected fields is incorrect at the moment.
-      // it includes all affected fields by all class annotations.
-      // thus need to retain only the violations for this property.
-      final fieldViolations = classViolations
-        ..retainWhere(
-            (violation) => violation.propertyPath == valueContext.node.path);
-
-      violations.addAll(fieldViolations);
+      violations.addAll(classViolations);
     }
 
     final validators = fieldValidator.validators;
