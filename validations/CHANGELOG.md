@@ -1,3 +1,6 @@
+## 0.8.2
+ - bump version to match the generator version.
+
 ## 0.8.0
 
  - add @Target to field annotations

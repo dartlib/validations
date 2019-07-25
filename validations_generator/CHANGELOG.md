@@ -1,5 +1,10 @@
+## 0.8.2
+ - fix affectFields to only contain fields referenced by the validator
+ - statically determine whether an annotation is a validation annotation,
+   instead of testing against known runtime types.
+
 ## 0.8.1
- -  fix getAnnotation failing to detect @Constraint annotation
+ - fix getAnnotation failing to detect @Constraint annotation
 
 ## 0.8.0
  - add @Target to field annotations
