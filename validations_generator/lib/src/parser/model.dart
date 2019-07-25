@@ -10,23 +10,10 @@ import 'package:validations_generator/src/parser/validated_element.dart';
 
 import 'annotation_parameter.dart';
 import 'element_validation_annotation.dart';
+import 'helpers/is_validator_annotation.dart';
 
 const validatorType = TypeChecker.fromRuntime(validator.Validator);
 const genValidatorType = TypeChecker.fromRuntime(validator.GenValidator);
-const containerAnnotationType =
-    TypeChecker.fromRuntime(validator.ContainerAnnotation);
-
-final classAnnotationTypes =
-    validator.classLevelAnnotations.where((type) => type is Type).map(
-          (type) => type is Type ? TypeChecker.fromRuntime(type) : null,
-        );
-// TODO: simple annotations are now still ignored.
-// This must check the super type, or else an annotation.
-// right now it doesn't support custom types.
-final annotationTypes =
-    validator.fieldAnnotations.where((type) => type is Type).map(
-          (type) => type is Type ? TypeChecker.fromRuntime(type) : null,
-        );
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 String deCapitalize(String s) => s[0].toLowerCase() + s.substring(1);
@@ -90,9 +77,11 @@ class ModelParser {
 
     validatedElements = _getGenValidatorFields(validatedElements);
 
-    if (validatedClassElement.relatedFields.isNotEmpty) {
+    final relatedFields = validatedClassElement.getAllRelatedFields();
+
+    if (relatedFields.isNotEmpty) {
       for (var field in validatedElements) {
-        if (validatedClassElement.relatedFields.contains(field.name)) {
+        if (relatedFields.contains(field.name)) {
           field.usedAtClassLevel = true;
         }
       }
@@ -200,9 +189,7 @@ class ModelParser {
     final annotatedFields = <ValidatedElement>[];
 
     for (var field in fields) {
-      final hasValidatorAnnotations = annotationTypes.any(
-        (TypeChecker typeChecker) => typeChecker.hasAnnotationOf(field),
-      );
+      final hasValidatorAnnotations = _hasValidatorAnnotations(field);
 
       if (hasValidatorAnnotations) {
         // TODO: actually check if this is a ElementType.FIELD annotation
@@ -221,6 +208,10 @@ class ModelParser {
     }
 
     return annotatedFields;
+  }
+
+  bool _hasValidatorAnnotations(FieldElement field) {
+    return field.metadata.any(isValidatorAnnotation);
   }
 
   /// Builds the validator methods
@@ -330,11 +321,7 @@ class ModelParser {
 
     for (var field in annotatedFields) {
       if (field.elementType == ElementType.CLASS) {
-        if (field.relatedFields.isNotEmpty) {
-          for (var propertyName in field.relatedFields) {
-            properties.add(propertyName);
-          }
-        }
+        properties.addAll(field.getAllRelatedFields());
       } else {
         properties.add(field.name);
       }
@@ -373,13 +360,6 @@ class ModelParser {
             ),
           );
       },
-    );
-  }
-
-  /// Determine if the annotation is one of our validation annotations.
-  bool isValidatorAnnotation(ElementAnnotation annotation) {
-    return annotationTypes.any(
-      (typeChecker) => typeChecker.isExactlyType(annotation.constantValue.type),
     );
   }
 
@@ -494,14 +474,14 @@ class ModelParser {
         statement.code,
       ];
 
-      if (field.relatedFields.isNotEmpty) {
+      if (annotation.relatedFields.isNotEmpty) {
         block.addAll(
           [
             const Code('..'),
             refer('affectedFields')
                 .assign(
                   literal(
-                    field.relatedFields.toList(),
+                    annotation.relatedFields.toList(),
                   ),
                 )
                 .code,

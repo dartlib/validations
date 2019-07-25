@@ -13,9 +13,11 @@ class ElementValidationAnnotation {
   bool isContainerAnnotation = false;
 
   /// The list of parameters which is used
-  /// for both the message method an construction of
+  /// for both the message method and construction of
   /// the constraint validator.
   List<AnnotationParameter> parameters = [];
+
+  Set<String> relatedFields = {};
   ElementValidationAnnotation({
     this.type,
   });

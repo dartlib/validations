@@ -137,21 +137,11 @@ abstract class _$TestCarValidator implements Validator<Car> {
     return ClassValidator<Car>(validators: [
       FieldMatchValidator(
           baseField: 'frontWheelCoverLeft', matchField: 'frontWheelCoverRight')
-        ..affectedFields = [
-          'frontWheelCoverLeft',
-          'frontWheelCoverRight',
-          'rearWheelCoverLeft',
-          'rearWheelCoverRight'
-        ]
+        ..affectedFields = ['frontWheelCoverLeft', 'frontWheelCoverRight']
         ..baseFieldMessage = carFieldMatchBaseFieldMessage,
       FieldMatchValidator(
           baseField: 'rearWheelCoverLeft', matchField: 'rearWheelCoverRight')
-        ..affectedFields = [
-          'frontWheelCoverLeft',
-          'frontWheelCoverRight',
-          'rearWheelCoverLeft',
-          'rearWheelCoverRight'
-        ]
+        ..affectedFields = ['rearWheelCoverLeft', 'rearWheelCoverRight']
         ..matchFieldMessage = carFieldMatchMatchFieldMessage
     ]);
   }
