@@ -1,0 +1,72 @@
+{
+  "@@last_modified": "2019-07-26T18:16:46.029775",
+  "emailNotBlankMessage": "You must fill in an email address",
+  "@emailNotBlankMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    },
+    "source_text": "You must fill in an email address"
+  },
+  "emailEmailMessage": "Email address is not valid",
+  "@emailEmailMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    },
+    "source_text": "Email address is not valid"
+  },
+  "passwordNotBlankMessage": "Password cannot be blank",
+  "@passwordNotBlankMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    },
+    "source_text": "Password cannot be blank"
+  },
+  "passwordSizeMessage": "Password must be at least be between {min} and {max} characters long",
+  "@passwordSizeMessage": {
+    "type": "text",
+    "placeholders": {
+      "min": {},
+      "max": {},
+      "validatedValue": {}
+    },
+    "source_text": "Password must be at least be between {min} and {max} characters long"
+  },
+  "passwordConfirmNotEmptyMessage": "Password confirmation cannot be empty",
+  "@passwordConfirmNotEmptyMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    },
+    "source_text": "Password confirmation cannot be empty"
+  },
+  "formDataFieldMatchBaseFieldMessage": "Password should match password confirmation.",
+  "@formDataFieldMatchBaseFieldMessage": {
+    "type": "text",
+    "placeholders": {
+      "baseField": {},
+      "matchField": {},
+      "validatedValue": {}
+    },
+    "source_text": "Password should match password confirmation."
+  },
+  "formDataFieldMatchMatchFieldMessage": "Password confirmation should match password.",
+  "@formDataFieldMatchMatchFieldMessage": {
+    "type": "text",
+    "placeholders": {
+      "baseField": {},
+      "matchField": {},
+      "validatedValue": {}
+    },
+    "source_text": "Password confirmation should match password."
+  },
+  "title": "Hello World",
+  "@title": {
+    "description": "Title for the App application",
+    "type": "text",
+    "placeholders": {},
+    "source_text": "Hello World"
+  }
+}
