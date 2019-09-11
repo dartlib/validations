@@ -6,5 +6,3 @@ abstract class ValidatorAnnotation {
   final List<String> groups;
   const ValidatorAnnotation(this.message, this.groups);
 }
-
-mixin Alias {}
