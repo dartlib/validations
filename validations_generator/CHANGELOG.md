@@ -1,3 +1,6 @@
+## 0.8.4
+ - Return early in case foreign annotation cannot be computed. 
+ 
 ## 0.8.3
  - update validations dependency to 0.8.3
 

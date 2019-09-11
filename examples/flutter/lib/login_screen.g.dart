@@ -7,34 +7,39 @@ part of 'login_screen.dart';
 // **************************************************************************
 
 abstract class _$LoginFormValidator implements Validator<FormData> {
-  static String emailNotBlankMessage(Object validatedValue) {
-    return 'You must fill in an email address';
-  }
-
-  static String passwordNotBlankMessage(Object validatedValue) {
-    return 'Password cannot be blank';
-  }
-
-  static String passwordSizeMessage(int min, int max, Object validatedValue) {
-    return 'Password must be at least be between $min and $max characters long';
-  }
-
+  static String emailNotBlankMessage(Object validatedValue) =>
+      Intl.message('You must fill in an email address',
+          name: 'emailNotBlankMessage', args: [validatedValue]);
+  static String emailEmailMessage(Object validatedValue) =>
+      Intl.message('Email address is not valid',
+          name: 'emailEmailMessage', args: [validatedValue]);
+  static String passwordNotBlankMessage(Object validatedValue) =>
+      Intl.message('Password cannot be blank',
+          name: 'passwordNotBlankMessage', args: [validatedValue]);
+  static String passwordSizeMessage(int min, int max, Object validatedValue) =>
+      Intl.message(
+          'Password must be at least be between $min and $max characters long',
+          name: 'passwordSizeMessage',
+          args: [min, max, validatedValue]);
+  static String passwordConfirmNotEmptyMessage(Object validatedValue) =>
+      Intl.message('Password confirmation cannot be empty',
+          name: 'passwordConfirmNotEmptyMessage', args: [validatedValue]);
   static String formDataFieldMatchBaseFieldMessage(
-      String baseField, String matchField, Object validatedValue) {
-    return 'Password should match password confirmation.';
-  }
-
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Password should match password confirmation.',
+          name: 'formDataFieldMatchBaseFieldMessage',
+          args: [baseField, matchField, validatedValue]);
   static String formDataFieldMatchMatchFieldMessage(
-      String baseField, String matchField, Object validatedValue) {
-    return 'Password confirmation should match password.';
-  }
-
+          String baseField, String matchField, Object validatedValue) =>
+      Intl.message('Password confirmation should match password.',
+          name: 'formDataFieldMatchMatchFieldMessage',
+          args: [baseField, matchField, validatedValue]);
   @override
   List<FieldValidator> getFieldValidators() {
     return [
       FieldValidator<String>(name: 'email', validators: [
         NotBlankValidator()..message = emailNotBlankMessage,
-        EmailValidator()
+        EmailValidator()..message = emailEmailMessage
       ]),
       FieldValidator<String>(
           name: 'password',
@@ -45,7 +50,9 @@ abstract class _$LoginFormValidator implements Validator<FormData> {
           validateClass: true),
       FieldValidator<String>(
           name: 'passwordConfirm',
-          validators: [NotEmptyValidator()],
+          validators: [
+            NotEmptyValidator()..message = passwordConfirmNotEmptyMessage
+          ],
           validateClass: true)
     ];
   }

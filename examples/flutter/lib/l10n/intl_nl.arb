@@ -1,0 +1,51 @@
+{
+  "@@locale": "nl",
+  "@@last_modified": "2019-07-26T02:12:53.528065",
+  "emailNotBlankMessage": "Je moet een email address invullen",
+  "@emailNotBlankMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    }
+  },
+  "passwordNotBlankMessage": "Wachtwoord moet ingevuld worden",
+  "@passwordNotBlankMessage": {
+    "type": "text",
+    "placeholders": {
+      "validatedValue": {}
+    }
+  },
+  "passwordSizeMessage": "Watchwoord moet tussen {min} en {max} tekens lang zijn",
+  "@passwordSizeMessage": {
+    "type": "text",
+    "placeholders": {
+      "min": {},
+      "max": {},
+      "validatedValue": {}
+    }
+  },
+  "formDataFieldMatchBaseFieldMessage": "Wachtwoorden moeten overeenkomen.",
+  "@formDataFieldMatchBaseFieldMessage": {
+    "type": "text",
+    "placeholders": {
+      "baseField": {},
+      "matchField": {},
+      "validatedValue": {}
+    }
+  },
+  "formDataFieldMatchMatchFieldMessage": "Wachtwoorden moeten overeenkomen.",
+  "@formDataFieldMatchMatchFieldMessage": {
+    "type": "text",
+    "placeholders": {
+      "baseField": {},
+      "matchField": {},
+      "validatedValue": {}
+    }
+  },
+  "title": "Validations Demo",
+  "@title": {
+    "description": "Title for the App application",
+    "type": "text",
+    "placeholders": {}
+  }
+}

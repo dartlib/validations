@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: pkg.name pkg.version
+"
+"Report-Msgid-Bugs-To: support@test.com 
+"
+"Last-Translator: Tester <test@test.com>
+"
+"MIME-Version: 1.0
+"
+"Content-Type: text/plain; charset=UTF-8
+"
+"Content-Transfer-Encoding: 8bit
+"
+"Plural-Forms: nplurals=2; plural=(n != 1);
+"
+  
+#: lib/login_screen.g.dart:390
+# intl_translation:params validatedValue
+msgid "You must fill in an email address"
+msgstr ""
+
+#: lib/login_screen.g.dart:571
+# intl_translation:params validatedValue
+msgid "Email address is not valid"
+msgstr ""
+
+#: lib/login_screen.g.dart:748
+# intl_translation:params validatedValue
+msgid "Password cannot be blank"
+msgstr ""
+
+#: lib/login_screen.g.dart:943
+# intl_translation:params min,max,validatedValue
+msgid "Password must be at least be between {min} and {max} characters long"
+msgstr ""
+
+#: lib/login_screen.g.dart:1200
+# intl_translation:params validatedValue
+msgid "Password confirmation cannot be empty"
+msgstr ""
+
+#: lib/login_screen.g.dart:1460
+# intl_translation:params baseField,matchField,validatedValue
+msgid "Password should match password confirmation."
+msgstr ""
+
+#: lib/login_screen.g.dart:1765
+# intl_translation:params baseField,matchField,validatedValue
+msgid "Password confirmation should match password."
+msgstr ""
+
+#: lib/main.dart:767
+msgid "Hello World"
+msgstr ""

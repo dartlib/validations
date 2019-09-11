@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:validations/validations.dart';
 
 part 'login_screen.g.dart';
@@ -20,19 +21,24 @@ class FormData {
   @NotBlank(
     message: 'You must fill in an email address',
   )
-  @Email()
+  @Email(
+    message: 'Email address is not valid',
+  )
   String email;
 
   @NotBlank(
     message: 'Password cannot be blank',
   )
   @Size(
-      min: 8,
-      max: 12,
-      message:
-          r'Password must be at least be between $min and $max characters long')
+    min: 8,
+    max: 12,
+    message:
+        r'Password must be at least be between $min and $max characters long',
+  )
   String password;
-  @NotEmpty()
+  @NotEmpty(
+    message: 'Password confirmation cannot be empty',
+  )
   String passwordConfirm;
 }
 
