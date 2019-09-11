@@ -1,3 +1,6 @@
+## 0.8.5
+ - Be more permissive about dependency versions.
+ 
 ## 0.8.4
  - Remove unused and unintentionally exported Alias mixin.
  

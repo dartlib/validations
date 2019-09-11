@@ -1,6 +1,6 @@
 name: validations
 description: Validations for dart models.
-version: 0.8.4
+version: 0.8.5
 homepage: https://github.com/dartlib/validations.git
 author: Rob Halff <rob.halff@gmail.com>
 
@@ -8,10 +8,10 @@ environment:
   sdk: '>=2.2.2 <3.0.0'
 
 dependencies:
-  decimal: ^0.3.3
-  meta: ^1.0.0
-  intl: ^0.15.8
-  validators: ^2.0.0
+  decimal: '>=0.3.3'
+  meta: '>=1.0.0'
+  intl: '>=0.15.8'
+  validators: '>=2.0.0'
 
 dev_dependencies:
   coverage: ^0.12.2
