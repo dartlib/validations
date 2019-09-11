@@ -1,6 +1,6 @@
 name: validations
 description: Validations for dart models.
-version: 0.8.3
+version: 0.8.4
 homepage: https://github.com/dartlib/validations.git
 author: Rob Halff <rob.halff@gmail.com>
 
@@ -16,8 +16,7 @@ dependencies:
 dev_dependencies:
   coverage: ^0.12.2
   build_runner:
-  validations_generator:
-    path: ../validations_generator
+  validations_generator: ^0.8.4
   pedantic: ^1.0.0
   test: ^1.0.0
   test_coverage: ^0.3.0
