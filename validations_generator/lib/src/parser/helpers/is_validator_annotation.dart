@@ -14,7 +14,11 @@ import 'has_annotation.dart';
 bool isValidatorAnnotation(ElementAnnotation annotation, [ElementType type]) {
   annotation.computeConstantValue();
 
-  final element = annotation.constantValue.type.element;
+  final constantValue = annotation.constantValue;
+
+  if (constantValue == null) return false;
+
+  final element = constantValue.type.element;
 
   final result =
       hasAnnotation(element, 'Constraint') && hasAnnotation(element, 'Target');
